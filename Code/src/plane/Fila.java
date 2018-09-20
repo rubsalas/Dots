@@ -4,7 +4,7 @@ package plane;
  * Representación de una Fila
  *
  * @author Rubén Salas
- * @version 1.0
+ * @version 1.1
  * @since 09/11/18
  */
 public class Fila {
@@ -106,7 +106,59 @@ public class Fila {
     public void print(){
         Dot temp = getHead();
         while (temp != null){
-            System.out.print(temp.getName() + "   ");
+            System.out.print(temp.getName() + ":(" + temp.getPosX() + "," + temp.getPosY() + ")" + "   ");
+            temp = temp.getNext();
+        }
+    }
+
+    /**
+     * Asigna su coordenada en y
+     * @param num - numero de fila
+     */
+    public void setY(int num){
+        Dot temp = this.getHead();
+
+        while(temp != null) { //Recorre la lista hasta llegar al ultimo Dot
+
+            if (num == 1){
+                temp.setPosY(100);
+            } else if (num == 2) {
+                temp.setPosY(200);
+            } else if (num == 3) {
+                temp.setPosY(300);
+            } else if (num == 4) {
+                temp.setPosY(400);
+            } else if (num == 5) {
+                temp.setPosY(500);
+            }
+
+            temp = temp.getNext();
+
+        }
+    }
+
+    public void setX() {
+        Dot temp = this.getHead();
+        int count = 0;
+
+        while (temp != null) { //Recorre la lista hasta llegar al ultimo Dot
+            temp.setPosX(75 + 100*count);
+
+            temp = temp.getNext();
+            count += 1;
+        }
+
+    }
+
+    public void show(){
+        Dot temp = this.getHead();
+
+        while (temp != null){
+            temp.getImage().setFitHeight(25);
+            temp.getImage().setFitWidth(25);
+            temp.getImage().setLayoutX(temp.getPosX());
+            temp.getImage().setLayoutY(temp.getPosY());
+
             temp = temp.getNext();
         }
     }

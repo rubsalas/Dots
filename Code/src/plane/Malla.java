@@ -87,6 +87,18 @@ public class Malla {
         }
     }
 
+    public void show(){
+        Fila temp = getHead();
+
+        System.out.print("Showing Malla");
+
+        while (temp != null){
+
+            temp.show(); //Imprime la Fila
+            temp = temp.getNext();
+        }
+    }
+
 
 
 

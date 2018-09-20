@@ -1,5 +1,7 @@
 package plane;
 
+import javafx.scene.image.ImageView;
+
 /**
  * Representación de un Dot
  *
@@ -15,14 +17,16 @@ public class Dot {
     private double posX; //posicion en X
     private double posY; //posicion en Y
     private String name;
+    private ImageView image;
 
-    public Dot(String name){
+    public Dot(String name, ImageView image){
         this.next = null;
         this.prev = null;
         this.diametro = 50;
         this.posX = 0;
         this.posY = 0;
         this.name = name;
+        this.image = image;
     }
 
     public Dot(double x, double y){
@@ -78,4 +82,11 @@ public class Dot {
 
     public void setName(String name) { this.name = name; }
 
+    public ImageView getImage() {
+        return image;
+    }
+
+    public void setImage(ImageView image) {
+        this.image = image;
+    }
 }

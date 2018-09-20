@@ -1,5 +1,6 @@
 package game;
 
+import javafx.scene.image.ImageView;
 import server.*;
 import colas.Jugador;
 import javafx.application.Application;
@@ -28,8 +29,8 @@ public class Main extends Application {
 
     //Variables de interfaz
 
-    private int width = 500; //largo en pixeles
-    private int height = 500; //alto en pixeles
+    private int width = 575; //largo en pixeles
+    private int height = 625; //alto en pixeles
 
     private String[] args; //variable para iniciar el cliente
 
@@ -40,6 +41,38 @@ public class Main extends Application {
 
     private Scene sceneConnection;
     private Scene sceneGame;
+
+    Image imageDot = new Image(getClass().getResourceAsStream("/images/dot1.png"));;
+
+    static ImageView imageDot11;
+    static ImageView imageDot12;
+    static ImageView imageDot13;
+    static ImageView imageDot14;
+    static ImageView imageDot15;
+
+    static ImageView imageDot21;
+    static ImageView imageDot22;
+    static ImageView imageDot23;
+    static ImageView imageDot24;
+    static ImageView imageDot25;
+
+    static ImageView imageDot31;
+    static ImageView imageDot32;
+    static ImageView imageDot33;
+    static ImageView imageDot34;
+    static ImageView imageDot35;
+
+    static ImageView imageDot41;
+    static ImageView imageDot42;
+    static ImageView imageDot43;
+    static ImageView imageDot44;
+    static ImageView imageDot45;
+
+    static ImageView imageDot51;
+    static ImageView imageDot52;
+    static ImageView imageDot53;
+    static ImageView imageDot54;
+    static ImageView imageDot55;
 
     private BackgroundImage backgroundConnection;
 
@@ -53,6 +86,8 @@ public class Main extends Application {
         player.setIngame(true); //Flag si está en cola o no
 
         stage = primaryStage; //Redefine el primary stage
+
+
 
         //SceneConnection
 
@@ -95,8 +130,8 @@ public class Main extends Application {
 
         //Scene Game
 
-        GameWindow gameWindow = new GameWindow();
-        gameWindow.buildPlane();
+
+
 
         Button gameTestButton = new Button("Close"); //Botón de prueba para cerrar el programa en la ventana del juego.
         connectButton.setMinSize(50,50);
@@ -109,9 +144,47 @@ public class Main extends Application {
             stage.close(); //Cierra la ventana del juego
         });
 
+        imageDot11 = new ImageView(imageDot);
+        imageDot12 = new ImageView(imageDot);
+        imageDot13 = new ImageView(imageDot);
+        imageDot14 = new ImageView(imageDot);
+        imageDot15 = new ImageView(imageDot);
+
+        imageDot21 = new ImageView(imageDot);
+        imageDot22 = new ImageView(imageDot);
+        imageDot23 = new ImageView(imageDot);
+        imageDot24 = new ImageView(imageDot);
+        imageDot25 = new ImageView(imageDot);
+
+        imageDot31 = new ImageView(imageDot);
+        imageDot32 = new ImageView(imageDot);
+        imageDot33 = new ImageView(imageDot);
+        imageDot34 = new ImageView(imageDot);
+        imageDot35 = new ImageView(imageDot);
+
+        imageDot41 = new ImageView(imageDot);
+        imageDot42 = new ImageView(imageDot);
+        imageDot43 = new ImageView(imageDot);
+        imageDot44 = new ImageView(imageDot);
+        imageDot45 = new ImageView(imageDot);
+
+        imageDot51 = new ImageView(imageDot);
+        imageDot52 = new ImageView(imageDot);
+        imageDot53 = new ImageView(imageDot);
+        imageDot54 = new ImageView(imageDot);
+        imageDot55 = new ImageView(imageDot);
+
 
         Pane paneGame = new Pane(); //Crea un Pane para la ventana del juego
-        paneGame.getChildren().addAll(gameTestButton); //Ingresa el botón
+        paneGame.getChildren().addAll(/*gameTestButton,*/
+                imageDot11, imageDot12, imageDot13, imageDot14, imageDot15,
+                imageDot21, imageDot22, imageDot23, imageDot24, imageDot25,
+                imageDot31, imageDot32, imageDot33, imageDot34, imageDot35,
+                imageDot41, imageDot42, imageDot43, imageDot44, imageDot45,
+                imageDot51, imageDot52, imageDot53, imageDot54, imageDot55); //Ingresa el botón
+
+        MallaCreator mallaCreator = new MallaCreator(); //Creador de la malla
+        mallaCreator.buildPlane(); //Llama a su función para crear la malla
 
         sceneGame = new Scene(paneGame, width, height); //Crea un scene para la ventana del juego
 
@@ -191,6 +264,10 @@ public class Main extends Application {
         stageInQueue.setWidth(300);
         stageInQueue.setResizable(false);
         stageInQueue.show();
+    }
+
+    public void showMalla(){
+
     }
 
 }
