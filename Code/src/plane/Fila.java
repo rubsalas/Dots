@@ -1,5 +1,11 @@
 package plane;
 
+
+
+import javafx.scene.image.ImageView;
+
+import static game.Main.draw;
+
 /**
  * Representación de una Fila
  *
@@ -158,6 +164,12 @@ public class Fila {
             temp.getImage().setFitWidth(25);
             temp.getImage().setLayoutX(temp.getPosX());
             temp.getImage().setLayoutY(temp.getPosY());
+
+            final ImageView img = temp.getImage();
+
+            temp.getImage().setOnMousePressed(event ->{
+                draw(img.getLayoutX(),img.getLayoutY());
+            });
 
             temp = temp.getNext();
         }

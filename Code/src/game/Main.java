@@ -12,13 +12,17 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import org.json.JSONException;
+
+import java.awt.*;
+import java.awt.geom.Line2D;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Main, tiene la interfaz del juego.
  *
  * @author Rubén Salas
- * @version 1.4
+ * @version 2.0
  * @since 09/11/18
  */
 public class Main extends Application {
@@ -76,18 +80,24 @@ public class Main extends Application {
 
     private BackgroundImage backgroundConnection;
 
+    //Coordenadas para dibujar los segmentos
+    static double point1X;
+    static double point1Y;
+    static double point2X;
+    static double point2Y;
+
+    static boolean dosPuntos = false; //Flag que verifica si se han oprimido ambos puntos para dibujar la linea
+
     //Corre la interfaz
     @Override
     public void start(Stage primaryStage) throws IOException, JSONException {
 
-        Cliente client = new Cliente();
+        Cliente1 client = new Cliente1();
         //client.main(args); //Corre el cliente
         Jugador player = new Jugador(); //Objeto jugador
         player.setIngame(true); //Flag si está en cola o no
 
         stage = primaryStage; //Redefine el primary stage
-
-
 
         //SceneConnection
 
@@ -130,9 +140,6 @@ public class Main extends Application {
 
         //Scene Game
 
-
-
-
         Button gameTestButton = new Button("Close"); //Botón de prueba para cerrar el programa en la ventana del juego.
         connectButton.setMinSize(50,50);
         connectButton.setMaxSize(50,50);
@@ -144,6 +151,7 @@ public class Main extends Application {
             stage.close(); //Cierra la ventana del juego
         });
 
+        //Instancia los ImageViews de los Dots
         imageDot11 = new ImageView(imageDot);
         imageDot12 = new ImageView(imageDot);
         imageDot13 = new ImageView(imageDot);
@@ -173,7 +181,6 @@ public class Main extends Application {
         imageDot53 = new ImageView(imageDot);
         imageDot54 = new ImageView(imageDot);
         imageDot55 = new ImageView(imageDot);
-
 
         Pane paneGame = new Pane(); //Crea un Pane para la ventana del juego
         paneGame.getChildren().addAll(/*gameTestButton,*/
@@ -206,10 +213,8 @@ public class Main extends Application {
         System.out.println("Ready to play");
 
         Button connectButton = new Button("Play");
-        connectButton.setMinSize(50,50);
-        connectButton.setMaxSize(50,50);
         connectButton.setLayoutX(125);
-        connectButton.setLayoutY(112);
+        connectButton.setLayoutY(125);
 
         connectButton.setOnAction(event -> {
             stageInGame.close();
@@ -223,8 +228,6 @@ public class Main extends Application {
         Scene sceneConnection = new Scene(paneConnection, width, height);
 
         stageInGame.setScene(sceneConnection);
-
-
 
         stageInGame.setTitle("Game");
         stageInGame.setHeight(300);
@@ -252,6 +255,10 @@ public class Main extends Application {
             stage.show();
         });
 
+        connectButton.setOnMouseEntered(event -> {
+            System.out.println("Mouse");
+        });
+
         Pane paneConnection = new Pane();
         paneConnection.getChildren().addAll(connectButton);
 
@@ -266,7 +273,40 @@ public class Main extends Application {
         stageInQueue.show();
     }
 
-    public void showMalla(){
+    /**
+     * DIBUJARÁ los segmentos entre Dots mientras verifica si es posible dibujarlos.
+     * @param x
+     * @param y
+     */
+    public static void draw(double x, double y){
+
+        if(!dosPuntos){
+            point1X = x;
+            point1Y = y;
+            dosPuntos = true;
+            System.out.println(point1X + "  " + point1Y);
+        } else{
+
+            //Hacer if que si x y y son iguales a x y y del 1 se quite la seleccion del punto 1
+
+            point2X = x;
+            point2Y = y;
+            System.out.println(point2X + "  " + point2Y);
+
+            double x1 = point1X;
+            double y1 = point1Y;
+            double x2 = point2X;
+            double y2 = point2Y;
+
+            if (Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1)) <= 150) {
+                System.out.println("Segment Drawn");
+                dosPuntos = false;
+
+            }else{
+                System.out.println("Segment Not Drawn");
+                dosPuntos = false;
+            }
+        }
 
     }
 

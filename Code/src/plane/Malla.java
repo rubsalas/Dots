@@ -1,5 +1,13 @@
 package plane;
 
+import game.DibujarTest;
+
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+
 /**
  * Representación de la Malla
  *
@@ -98,8 +106,5 @@ public class Malla {
             temp = temp.getNext();
         }
     }
-
-
-
 
 }

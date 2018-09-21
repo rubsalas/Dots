@@ -1,11 +1,7 @@
 package game;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
 import plane.*;
 public class MallaCreator {
-
-    Main main = new Main();
 
     public void buildPlane(){
 
