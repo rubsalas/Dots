@@ -1,6 +1,7 @@
 package game;
 
 import javafx.scene.image.ImageView;
+import plane.Dot;
 import server.*;
 import colas.Jugador;
 import javafx.application.Application;
@@ -273,24 +274,27 @@ public class Main extends Application {
         stageInQueue.show();
     }
 
+    static Dot dot0;
+
     /**
      * DIBUJARÁ los segmentos entre Dots mientras verifica si es posible dibujarlos.
-     * @param x
-     * @param y
+     * @param dot
      */
-    public static void draw(double x, double y){
+    public static void draw(Dot dot){
 
         if(!dosPuntos){
-            point1X = x;
-            point1Y = y;
+            dot0 = dot;
+            point1X = dot.getPosX();
+            point1Y = dot.getPosY();
+            dot0.setCountSegments(dot.getCountSegments() - 1);
             dosPuntos = true;
             System.out.println(point1X + "  " + point1Y);
-        } else{
 
-            //Hacer if que si x y y son iguales a x y y del 1 se quite la seleccion del punto 1
+        } else {
 
-            point2X = x;
-            point2Y = y;
+            point2X = dot.getPosX();
+            point2Y = dot.getPosY();
+
             System.out.println(point2X + "  " + point2Y);
 
             double x1 = point1X;
@@ -298,15 +302,31 @@ public class Main extends Application {
             double x2 = point2X;
             double y2 = point2Y;
 
-            if (Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1)) <= 150) {
+            double distance = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+            if (distance <= 150 && distance > 0) {
+                dot.setCountSegments(dot.getCountSegments() - 1);
                 System.out.println("Segment Drawn");
                 dosPuntos = false;
 
+                System.out.println(dot0.getName() + "'s segments left: " + dot0.getCountSegments());
+                System.out.println(dot.getName() + "'s segments left: " + dot.getCountSegments());
+
+            } else if(distance == 0){
+                dot0.setCountSegments(dot0.getCountSegments() + 1);
+                System.out.println("Unselected");
+                dosPuntos = false;
+
             }else{
+                dot0.setCountSegments(dot0.getCountSegments() + 1);
                 System.out.println("Segment Not Drawn");
                 dosPuntos = false;
             }
         }
+
+    }
+
+    public void checkAbility(double x, double y){
 
     }
 

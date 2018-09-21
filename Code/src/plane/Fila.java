@@ -165,10 +165,10 @@ public class Fila {
             temp.getImage().setLayoutX(temp.getPosX());
             temp.getImage().setLayoutY(temp.getPosY());
 
-            final ImageView img = temp.getImage();
+            final Dot dot = temp;
 
             temp.getImage().setOnMousePressed(event ->{
-                draw(img.getLayoutX(),img.getLayoutY());
+                draw(dot);
             });
 
             temp = temp.getNext();

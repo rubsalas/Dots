@@ -15,7 +15,7 @@ import javax.swing.JTextArea;
 
 import server.LaminaMarcoCliente.PaqueteEnvio;
 
-public class Serv1 {
+public class Serv1{
 	
 	public static void main(String[] args){
 		
@@ -58,6 +58,8 @@ class MarcoServidor extends JFrame implements Runnable{
 		//System.out.println("Sirve");
 		
 		try {
+			
+				final String HOST = "localhost";
 		
 				ServerSocket servidor = new ServerSocket(9900);
 				
@@ -82,7 +84,7 @@ class MarcoServidor extends JFrame implements Runnable{
 				
 				
 				//DataInputStream flujo_entrada = new DataInputStream(misocket.getInputStream());
-				areatexto.append("\n" + nickname + ": " + mensaje + " para" + IP);
+				areatexto.append("\n" + nickname + ": " + mensaje + " para" );
 				
 				Socket enviaDestinatario = new Socket(IP, 9090);
 				

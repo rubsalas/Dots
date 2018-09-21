@@ -18,8 +18,9 @@ public class Dot {
     private double posY; //posicion en Y
     private String name;
     private ImageView image;
+    private int countSegments;
 
-    public Dot(String name, ImageView image){
+    public Dot(String name, ImageView image, int count){
         this.next = null;
         this.prev = null;
         this.diametro = 50;
@@ -27,14 +28,7 @@ public class Dot {
         this.posY = 0;
         this.name = name;
         this.image = image;
-    }
-
-    public Dot(double x, double y){
-        this.next = null;
-        this.prev = null;
-        this.diametro = 50;
-        this.posX = x;
-        this.posY = y;
+        this.countSegments = count;
     }
 
 
@@ -88,5 +82,13 @@ public class Dot {
 
     public void setImage(ImageView image) {
         this.image = image;
+    }
+
+    public int getCountSegments() {
+        return countSegments;
+    }
+
+    public void setCountSegments(int countSegments) {
+        this.countSegments = countSegments;
     }
 }

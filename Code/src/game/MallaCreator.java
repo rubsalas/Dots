@@ -19,11 +19,11 @@ public class MallaCreator {
         malla.add(fila4);
         malla.add(fila5);
 
-        Dot dot11 = new Dot("dot11", Main.imageDot11);
-        Dot dot12 = new Dot("dot12", Main.imageDot12);
-        Dot dot13 = new Dot("dot13", Main.imageDot13);
-        Dot dot14 = new Dot("dot14", Main.imageDot14);
-        Dot dot15 = new Dot("dot15", Main.imageDot15);
+        Dot dot11 = new Dot("dot11", Main.imageDot11, 3);
+        Dot dot12 = new Dot("dot12", Main.imageDot12, 5);
+        Dot dot13 = new Dot("dot13", Main.imageDot13, 5);
+        Dot dot14 = new Dot("dot14", Main.imageDot14, 5);
+        Dot dot15 = new Dot("dot15", Main.imageDot15, 3);
 
         fila1.add(dot11);
         fila1.add(dot12);
@@ -34,11 +34,11 @@ public class MallaCreator {
         fila1.setY(1);
         fila1.setX();
 
-        Dot dot21 = new Dot("dot21", Main.imageDot21);
-        Dot dot22 = new Dot("dot22", Main.imageDot22);
-        Dot dot23 = new Dot("dot23", Main.imageDot23);
-        Dot dot24 = new Dot("dot24", Main.imageDot24);
-        Dot dot25 = new Dot("dot25", Main.imageDot25);
+        Dot dot21 = new Dot("dot21", Main.imageDot21, 5);
+        Dot dot22 = new Dot("dot22", Main.imageDot22, 8);
+        Dot dot23 = new Dot("dot23", Main.imageDot23, 8);
+        Dot dot24 = new Dot("dot24", Main.imageDot24, 8);
+        Dot dot25 = new Dot("dot25", Main.imageDot25, 5);
 
         fila2.add(dot21);
         fila2.add(dot22);
@@ -49,11 +49,11 @@ public class MallaCreator {
         fila2.setY(2);
         fila2.setX();
 
-        Dot dot31 = new Dot("dot31", Main.imageDot31);
-        Dot dot32 = new Dot("dot32", Main.imageDot32);
-        Dot dot33 = new Dot("dot33", Main.imageDot33);
-        Dot dot34 = new Dot("dot34", Main.imageDot34);
-        Dot dot35 = new Dot("dot35", Main.imageDot35);
+        Dot dot31 = new Dot("dot31", Main.imageDot31, 5);
+        Dot dot32 = new Dot("dot32", Main.imageDot32, 8);
+        Dot dot33 = new Dot("dot33", Main.imageDot33, 8);
+        Dot dot34 = new Dot("dot34", Main.imageDot34, 8);
+        Dot dot35 = new Dot("dot35", Main.imageDot35, 5);
 
         fila3.add(dot31);
         fila3.add(dot32);
@@ -64,11 +64,11 @@ public class MallaCreator {
         fila3.setY(3);
         fila3.setX();
 
-        Dot dot41 = new Dot("dot41", Main.imageDot41);
-        Dot dot42 = new Dot("dot42", Main.imageDot42);
-        Dot dot43 = new Dot("dot43", Main.imageDot43);
-        Dot dot44 = new Dot("dot44", Main.imageDot44);
-        Dot dot45 = new Dot("dot45", Main.imageDot45);
+        Dot dot41 = new Dot("dot41", Main.imageDot41, 5);
+        Dot dot42 = new Dot("dot42", Main.imageDot42, 8);
+        Dot dot43 = new Dot("dot43", Main.imageDot43, 8);
+        Dot dot44 = new Dot("dot44", Main.imageDot44, 8);
+        Dot dot45 = new Dot("dot45", Main.imageDot45, 5);
 
         fila4.add(dot41);
         fila4.add(dot42);
@@ -79,11 +79,11 @@ public class MallaCreator {
         fila4.setY(4);
         fila4.setX();
 
-        Dot dot51 = new Dot("dot51", Main.imageDot51);
-        Dot dot52 = new Dot("dot52", Main.imageDot52);
-        Dot dot53 = new Dot("dot53", Main.imageDot53);
-        Dot dot54 = new Dot("dot54", Main.imageDot54);
-        Dot dot55 = new Dot("dot55", Main.imageDot55);
+        Dot dot51 = new Dot("dot51", Main.imageDot51, 3);
+        Dot dot52 = new Dot("dot52", Main.imageDot52, 5);
+        Dot dot53 = new Dot("dot53", Main.imageDot53, 5);
+        Dot dot54 = new Dot("dot54", Main.imageDot54, 5);
+        Dot dot55 = new Dot("dot55", Main.imageDot55, 3);
 
         fila5.add(dot51);
         fila5.add(dot52);

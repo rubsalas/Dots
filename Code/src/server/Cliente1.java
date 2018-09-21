@@ -1,8 +1,5 @@
 package server;
 
-//192.168.0.20
-
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.DataOutputStream;
@@ -82,20 +79,19 @@ class LaminaMarcoCliente extends JPanel implements Runnable{
 	}
 	
 
-	
-	
 	private class EnviarTexto implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			
+			final String HOST = "localhost";
+
 			//System.out.println(campo1.getText());
 			
 			campochat.append("\n" + campo1.getText());
 			
 			try {
-				String ip = null;
-				Socket misocket = new Socket(ip,9900);
+				Socket misocket = new Socket(HOST,9900);
 				
 				PaqueteEnvio datos = new PaqueteEnvio();
 				
