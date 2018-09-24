@@ -85,7 +85,10 @@ class LaminaMarcoCliente extends JPanel implements Runnable {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			try {
-				Socket misocket = new Socket("172.19.13.176", 9999);
+
+
+
+				Socket misocket = new Socket("10.10.10.252", 9999);
 
 				PaqueteEnvio datos = new PaqueteEnvio();
 
@@ -106,7 +109,7 @@ class LaminaMarcoCliente extends JPanel implements Runnable {
 				 * DataOutputStream salida = new
 				 * DataOutputStream(misocket.getOutputStream());
 				 * salida.writeUTF(campo1.getText());;
-				 * 
+				 *
 				 * salida.close();
 				 */
 
@@ -187,6 +190,3 @@ class PaqueteEnvio implements Serializable {
 	}
 
 }
-
-// 192.168.0.20
-// Video 192

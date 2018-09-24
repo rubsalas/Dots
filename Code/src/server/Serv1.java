@@ -9,8 +9,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-
 public class Serv1 {
+
+
+
+
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -74,7 +77,7 @@ class MarcoServidor extends JFrame implements Runnable {
 				 * DataInputStream entrada = new
 				 * DataInputStream(misocket.getInputStream()); String mensaje =
 				 * entrada.readUTF();
-				 * 
+				 *
 				 * areatexto.append("\n" + mensaje);
 				 */
 
