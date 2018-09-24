@@ -1,4 +1,4 @@
-package serv;
+package server;
 
 import javax.swing.*;
 
@@ -9,105 +9,100 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+
 public class Serv1 {
-	
 
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
 
+		MarcoServidor mimarco = new MarcoServidor();
 
+		mimarco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		public static void main(String[] args) {
-			// TODO Auto-generated method stub
+	}
+}
 
-			MarcoServidor mimarco = new MarcoServidor();
+class MarcoServidor extends JFrame implements Runnable {
 
-			mimarco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public MarcoServidor() {
 
-		}
+		setBounds(1200, 300, 280, 350);
+
+		JPanel milamina = new JPanel();
+
+		milamina.setLayout(new BorderLayout());
+
+		areatexto = new JTextArea();
+
+		milamina.add(areatexto, BorderLayout.CENTER);
+
+		add(milamina);
+
+		setVisible(true);
+
+		Thread hilo = new Thread(this);
+
+		hilo.start();
+
 	}
 
-	class MarcoServidor extends JFrame implements Runnable {
+	private JTextArea areatexto;
 
-		public MarcoServidor() {
+	@Override
+	public void run() {
 
-			setBounds(1200, 300, 280, 350);
+		try {
+			ServerSocket servidor = new ServerSocket(9999);
 
-			JPanel milamina = new JPanel();
+			String nick, ip, mensaje;
 
-			milamina.setLayout(new BorderLayout());
+			PaqueteEnvio recibido;
 
-			areatexto = new JTextArea();
+			while (true) {
 
-			milamina.add(areatexto, BorderLayout.CENTER);
+				Socket misocket = servidor.accept();
 
-			add(milamina);
+				ObjectInputStream paquete_datos = new ObjectInputStream(misocket.getInputStream());
 
-			setVisible(true);
+				recibido = (PaqueteEnvio) paquete_datos.readObject();
 
-			Thread hilo = new Thread(this);
+				nick = recibido.getNick();
+				ip = recibido.getIp();
+				mensaje = recibido.getMensaje();
 
-			hilo.start();
+				/*
+				 * DataInputStream entrada = new
+				 * DataInputStream(misocket.getInputStream()); String mensaje =
+				 * entrada.readUTF();
+				 * 
+				 * areatexto.append("\n" + mensaje);
+				 */
 
-		}
+				areatexto.append("\n" + nick + ": " + mensaje + " para " + ip);
 
-		private JTextArea areatexto;
+				// Socket para enviar a destinatario
+				Socket Destinatario = new Socket(ip, 9002);
 
-		@Override
-		public void run() {
+				ObjectOutputStream Reenvio = new ObjectOutputStream(Destinatario.getOutputStream());
 
-			try {
-				ServerSocket servidor = new ServerSocket(9999);
+				Reenvio.writeObject(recibido);
 
-				String nick, ip, mensaje;
+				Reenvio.close();
 
-				PaqueteEnvio recibido;
+				Destinatario.close();
 
-				while (true) {
+				misocket.close();
 
-					Socket misocket = servidor.accept();
-
-					ObjectInputStream paquete_datos = new ObjectInputStream(misocket.getInputStream());
-
-					recibido = (PaqueteEnvio) paquete_datos.readObject();
-
-					nick = recibido.getNick();
-					ip = recibido.getIp();
-					mensaje = recibido.getMensaje();
-
-					/*
-					 * DataInputStream entrada = new
-					 * DataInputStream(misocket.getInputStream()); String mensaje =
-					 * entrada.readUTF();
-					 * 
-					 * areatexto.append("\n" + mensaje);
-					 */
-
-					areatexto.append("\n" + nick + ": " + mensaje + " para " + ip);
-
-					// Socket para enviar a destinatario
-					Socket Destinatario = new Socket(ip, 9002);
-
-					ObjectOutputStream Reenvio = new ObjectOutputStream(Destinatario.getOutputStream());
-
-					Reenvio.writeObject(recibido);
-
-					Reenvio.close();
-
-					Destinatario.close();
-
-					misocket.close();
-
-				}
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 
-			// System.out.println("Hola");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+		// System.out.println("Hola");
 	}
-
-
+}

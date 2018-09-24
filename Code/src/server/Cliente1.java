@@ -1,4 +1,4 @@
-package serv;
+package server;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -85,7 +85,7 @@ class LaminaMarcoCliente extends JPanel implements Runnable {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			try {
-				Socket misocket = new Socket("172.19.51.166", 9999);
+				Socket misocket = new Socket("172.19.13.176", 9999);
 
 				PaqueteEnvio datos = new PaqueteEnvio();
 
