@@ -14,8 +14,6 @@ import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import org.json.JSONException;
 import plane.Dot;
-import plane.Lista;
-import plane.Node;
 import server.Cliente1;
 
 import java.io.IOException;
@@ -82,8 +80,6 @@ public class Main extends Application {
 
     private static Pane paneGame;
     private static Button gameTestButton;
-
-    private static Lista listaSegmentos = new Lista();
 
     private BackgroundImage backgroundConnection;
 
@@ -156,8 +152,7 @@ public class Main extends Application {
 
         //Evento al oprimir el botón
         gameTestButton.setOnAction(event -> {
-            //stage.close(); //Cierra la ventana del juego
-            testDrawSegmentList();
+            stage.close(); //Cierra la ventana del juego
         });
 
         //Instancia los ImageViews de los Dots
@@ -192,7 +187,7 @@ public class Main extends Application {
         imageDot55 = new ImageView(imageDot);
 
         paneGame = new Pane(); //Crea un Pane para la ventana del juego
-        paneGame.getChildren().addAll(gameTestButton,
+        paneGame.getChildren().addAll(/*gameTestButton,*/
                 imageDot11, imageDot12, imageDot13, imageDot14, imageDot15,
                 imageDot21, imageDot22, imageDot23, imageDot24, imageDot25,
                 imageDot31, imageDot32, imageDot33, imageDot34, imageDot35,
@@ -298,9 +293,7 @@ public class Main extends Application {
             dot0.setCountSegments(dot.getCountSegments() - 1);
             dosPuntos = true;
             System.out.println(point1X + "  " + point1Y);
-
-            //paneGame.getChildren().add(gameTestButton);
-
+            paneGame.getChildren().add(gameTestButton);
         } else {
 
             point2X = dot.getPosX();
@@ -317,34 +310,16 @@ public class Main extends Application {
 
             if (distance <= 150 && distance > 0) {
 
-                //dibuja la linea donde se especifica
                 dot.setCountSegments(dot.getCountSegments() - 1);
-                Line line = new Line(x1+12.5,y1+12.5,x2+12.5,y2+12.5);
-                line.setStroke(Color.BLACK);
-                line.setStrokeLineCap(StrokeLineCap.ROUND);
-                line.setStrokeWidth(5);
-
-                //Agrega la linea al pane
-                paneGame.getChildren().add(line);
-
-                //Pone los Dots al frente de la linea
-                dot0.getImage().toFront();
-                dot.getImage().toFront();
-
-                //Crea un nodo del segmento
-                Node segmento = new Node(dot0,dot);
-
-                //Agrega el segmento a la lista de lineas
-                listaSegmentos.add(segmento);
-                listaSegmentos.print();
-
+                Line line = new Line(x1,y1,x2,y2);
+                line.setStroke(Color.RED);
+                line.setStrokeWidth(10);
+                stage.show();
                 System.out.println("Segment Drawn");
                 dosPuntos = false;
 
                 System.out.println(dot0.getName() + "'s segments left: " + dot0.getCountSegments());
                 System.out.println(dot.getName() + "'s segments left: " + dot.getCountSegments());
-
-                checkClosed(segmento);
 
             } else if(distance == 0){
                 dot0.setCountSegments(dot0.getCountSegments() + 1);
@@ -359,88 +334,8 @@ public class Main extends Application {
         }
 
     }
-
-    public void drawFromSegment(Node segment){
-
-        double x1 = segment.getFirst().getPosX();
-        double y1 = segment.getFirst().getPosY();
-        double x2 = segment.getLast().getPosX();
-        double y2 = segment.getLast().getPosY();
-
-        //dibuja la linea donde se especifica
-
-        Line line = new Line(x1+12.5,y1+12.5,x2+12.5,y2+12.5);
-        line.setStroke(Color.BLACK);
-        line.setStrokeLineCap(StrokeLineCap.ROUND);
-        line.setStrokeWidth(5);
-
-        //Agrega la linea al pane
-        paneGame.getChildren().add(line);
-
-        //Pone los Dots al frente de la linea
-        segment.getFirst().getImage().toFront();
-        segment.getLast().getImage().toFront();
-
-        System.out.println("Segment Drawn");
-        dosPuntos = false;
-
-        System.out.println(segment.getFirst().getName() + "'s segments left: " + segment.getFirst().getCountSegments());
-        System.out.println(segment.getLast().getName() + "'s segments left: " + segment.getLast().getCountSegments());
-
-    }
-
-    public void drawFromSegmentList(Lista segmentList){
-        Node temp = segmentList.getHead(); //Crea una Fila temporal para referencia
-        while(temp != null){ //Recorre la lista hasta llegar a la ultima Fila
-            drawFromSegment(temp);
-            temp = temp.getNext();
-        }
-
-    }
-
-    public void testDrawSegmentList(){
-        drawFromSegmentList(listaSegmentos);
-    }
-
-    public static void checkClosed(Node segmento){
-
-        Dot dotLast = segmento.getLast();
-
-        Node temp = listaSegmentos.getHead();
-        Node temp2 = listaSegmentos.getHead();
-
-        boolean checkFirst = false;
-        boolean checkLast = false;
-
-                while (temp != null) {
-                    System.out.println("");
-                    System.out.println(temp.getFirst().getName());
-                    //checkFirst = dotLast.getPosX() == temp.getFirst().getPosX() && dotLast.getPosY() == temp.getFirst().getPosY();
-                    //checkLast = dotLast.getPosX() == temp.getLast().getPosX() && dotLast.getPosY() == temp.getLast().getPosY();
-
-                    checkFirst = dotLast == temp.getFirst(); //|| dotLast == temp.getLast(); //Si está conectado a alguno
-                    checkLast = dotLast == temp.getLast() && temp != segmento;
-
-                    if (checkFirst & listaSegmentos.getSize() != 1) {
-
-                        System.out.println("FIRST");
-                        break;
-
-                    } else if(checkLast & listaSegmentos.getSize() != 1){
-                        System.out.println("LAST");
-                        break;
-                    }
-
-                    temp = temp.getNext();
-                }
-
-    }
-
-    public void getLastDot(Dot first){
-
-        Node segmento = listaSegmentos.getHead();
-
-        //if ()
+    
+    public void checkAbility(double x, double y){
 
     }
 

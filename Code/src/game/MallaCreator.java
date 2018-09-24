@@ -94,7 +94,7 @@ public class MallaCreator {
         fila5.setY(5);
         fila5.setX();
 
-        malla.print(); //Imprime la malla con sus filas y puntos
+        //malla.print(); //Imprime la malla con sus filas y puntos
         malla.show();
 
     }
