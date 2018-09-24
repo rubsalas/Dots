@@ -1,4 +1,4 @@
-package server;
+package serv;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,136 +10,164 @@ import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class Cliente1 {
-	
-	public static void main(String[] args){
-	
-	MarcoCliente mimarco= new MarcoCliente();
-	mimarco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		MarcoCliente mimarco = new MarcoCliente();
+
+		mimarco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 	}
 
 }
 
-class MarcoCliente extends JFrame{
-	
-	public MarcoCliente(){
-		
-		setBounds(600,300,280,350);
-		
+class MarcoCliente extends JFrame {
+
+	public MarcoCliente() {
+
+		setBounds(600, 300, 280, 350);
+
 		LaminaMarcoCliente milamina = new LaminaMarcoCliente();
-		
-		add(milamina);
-		
-		setVisible(true);
-	}
-}
- 
-class LaminaMarcoCliente extends JPanel implements Runnable{
-	
-	public LaminaMarcoCliente(){
-		
-		nickname = new JTextField(5);
-		
-		add(nickname);
-		
-		JLabel texto = new JLabel("CHAT");
-		
-		add(texto);
-		
-		IP = new JTextField(8);
-		
-		add(IP);
-		
-		campochat = new JTextArea(12,20);
-		
-		add(campochat);
-		
-		campo1 = new JTextField(20);
-		
-		add(campo1);
-		
-		miboton = new JButton("Enviar");
-		
-		EnviarTexto mievento = new EnviarTexto();
-		miboton.addActionListener(mievento);
-		
-		add(miboton);
-		
-		Thread hilo = new Thread(this);
-		
-		hilo.start();
-	}
-	
 
-	private class EnviarTexto implements ActionListener{
+		add(milamina);
+
+		setVisible(true);
+
+	}
+
+}
+
+class LaminaMarcoCliente extends JPanel implements Runnable {
+
+	public LaminaMarcoCliente() {
+
+		nick = new JTextField(5);
+
+		add(nick);
+
+		JLabel texto = new JLabel("CHAT");
+
+		add(texto);
+
+		ip = new JTextField(8);
+
+		add(ip);
+
+		campochat = new JTextArea(12, 20);
+
+		add(campochat);
+
+		campo1 = new JTextField(20);
+
+		add(campo1);
+
+		miboton = new JButton("Enviar");
+
+		EnviaTexto mievento = new EnviaTexto();
+
+		miboton.addActionListener(mievento);
+
+		add(miboton);
+
+		Thread mihilo = new Thread(this);
+
+		mihilo.start();
+
+	}
+
+	private class EnviaTexto implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			
-			final String HOST = "localhost";
-
-			//System.out.println(campo1.getText());
-			
-			campochat.append("\n" + campo1.getText());
-			
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
 			try {
-				Socket misocket = new Socket(HOST,9900);
-				
+				Socket misocket = new Socket("172.19.51.166", 9999);
+
 				PaqueteEnvio datos = new PaqueteEnvio();
-				
-				datos.setNickname(nickname.getText());
-				
-				datos.setIp(IP.getText());
-				
+
+				datos.setNick(nick.getText());
+
+				datos.setIp(ip.getText());
+
 				datos.setMensaje(campo1.getText());
-				
+
+				// Flujo de salida
+
 				ObjectOutputStream paquete_datos = new ObjectOutputStream(misocket.getOutputStream());
-				
+
+				// Flujo esrcibe los datos
 				paquete_datos.writeObject(datos);
-			
-				misocket.close();
-				
-				
-				//DataOutputStream flujo_salida = new DataOutputStream(misocket.getOutputStream());
-				
-				//flujo_salida.writeUTF(campo1.getText());
-				
-				//flujo_salida.close();
-				
-			} catch (IOException e) {
-				System.out.println(e.getMessage());
+
+				/*
+				 * DataOutputStream salida = new
+				 * DataOutputStream(misocket.getOutputStream());
+				 * salida.writeUTF(campo1.getText());;
+				 * 
+				 * salida.close();
+				 */
+
+				paquete_datos.close();
+
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+
 		}
-		
-		
-		
+
 	}
-	
-	
-	private JTextField campo1, nickname, IP;
-	
+
+	private JTextField campo1, nick, ip;
+
 	private JTextArea campochat;
-	
-	private JButton miboton;
-	
-class PaqueteEnvio implements Serializable{
-	
-	private String nickname, ip, mensaje;
 
-	public String getNickname() {
-		return nickname;
+	private JButton miboton;
+
+	@Override
+	public void run() {
+
+		try {
+
+			ServerSocket servidorCliente = new ServerSocket(9002);
+
+			Socket cliente;
+
+			PaqueteEnvio Recibido;
+
+			while (true) {
+
+				cliente = servidorCliente.accept();
+
+				ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
+
+				Recibido = (PaqueteEnvio) entrada.readObject();
+
+				campochat.append("\n" + Recibido.getNick() + ": " + Recibido.getMensaje());
+
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
 	}
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+}
+
+class PaqueteEnvio implements Serializable {
+
+	private String nick, ip, mensaje;
+
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
 	}
 
 	public String getIp() {
@@ -157,37 +185,8 @@ class PaqueteEnvio implements Serializable{
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
 	}
-	
+
 }
 
-@Override
-public void run() {
-	
-	try{
-		
-		ServerSocket servidor_cliente = new ServerSocket(9090);
-		
-		Socket cliente;
-		PaqueteEnvio paqueteRecibido;
-		
-		while (true){
-			cliente = servidor_cliente.accept();
-			
-			ObjectInputStream flujo_entrada = new ObjectInputStream(cliente.getInputStream());
-			
-			paqueteRecibido = (PaqueteEnvio) flujo_entrada.readObject();
-			
-			campochat.append("\n" + paqueteRecibido.getNickname()+ ": " + paqueteRecibido.getMensaje());
-			
-			
-			
-		}
-		
-	}catch(Exception e){
-		
-		System.out.println(e.getMessage());
-	}
-	
-}
-	
-}
+// 192.168.0.20
+// Video 192
