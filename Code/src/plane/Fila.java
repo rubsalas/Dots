@@ -1,9 +1,5 @@
 package plane;
 
-
-
-import javafx.scene.image.ImageView;
-
 import static game.Main.draw;
 
 /**

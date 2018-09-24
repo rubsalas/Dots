@@ -1,23 +1,22 @@
 package game;
 
-import javafx.scene.image.ImageView;
-import plane.Dot;
-import server.*;
 import colas.Jugador;
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 import javafx.stage.Stage;
-
 import org.json.JSONException;
+import plane.Dot;
+import server.Cliente1;
 
-import java.awt.*;
-import java.awt.geom.Line2D;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Main, tiene la interfaz del juego.
@@ -39,13 +38,13 @@ public class Main extends Application {
 
     private String[] args; //variable para iniciar el cliente
 
-    private Stage stage;
+    private static Stage stage;
 
     private Stage stageInGame = new Stage();
     private Stage stageInQueue = new Stage();
 
     private Scene sceneConnection;
-    private Scene sceneGame;
+    private static Scene sceneGame;
 
     Image imageDot = new Image(getClass().getResourceAsStream("/images/dot1.png"));;
 
@@ -79,6 +78,9 @@ public class Main extends Application {
     static ImageView imageDot54;
     static ImageView imageDot55;
 
+    private static Pane paneGame;
+    private static Button gameTestButton;
+
     private BackgroundImage backgroundConnection;
 
     //Coordenadas para dibujar los segmentos
@@ -89,6 +91,7 @@ public class Main extends Application {
 
     static boolean dosPuntos = false; //Flag que verifica si se han oprimido ambos puntos para dibujar la linea
 
+    Group root = new Group();
     //Corre la interfaz
     @Override
     public void start(Stage primaryStage) throws IOException, JSONException {
@@ -141,7 +144,7 @@ public class Main extends Application {
 
         //Scene Game
 
-        Button gameTestButton = new Button("Close"); //Botón de prueba para cerrar el programa en la ventana del juego.
+        gameTestButton = new Button("Close"); //Botón de prueba para cerrar el programa en la ventana del juego.
         connectButton.setMinSize(50,50);
         connectButton.setMaxSize(50,50);
         connectButton.setLayoutX(225);
@@ -183,13 +186,14 @@ public class Main extends Application {
         imageDot54 = new ImageView(imageDot);
         imageDot55 = new ImageView(imageDot);
 
-        Pane paneGame = new Pane(); //Crea un Pane para la ventana del juego
+        paneGame = new Pane(); //Crea un Pane para la ventana del juego
         paneGame.getChildren().addAll(/*gameTestButton,*/
                 imageDot11, imageDot12, imageDot13, imageDot14, imageDot15,
                 imageDot21, imageDot22, imageDot23, imageDot24, imageDot25,
                 imageDot31, imageDot32, imageDot33, imageDot34, imageDot35,
                 imageDot41, imageDot42, imageDot43, imageDot44, imageDot45,
                 imageDot51, imageDot52, imageDot53, imageDot54, imageDot55); //Ingresa el botón
+
 
         MallaCreator mallaCreator = new MallaCreator(); //Creador de la malla
         mallaCreator.buildPlane(); //Llama a su función para crear la malla
@@ -199,7 +203,7 @@ public class Main extends Application {
         //Al iniciar
 
         stage.setScene(sceneConnection); //Primer scene será para establecer la conección con el servidor por medio del cliente
-        stage.setTitle("Dots"); //Titulo al borde de la ventana
+        stage.setTitle("Inicio"); //Titulo al borde de la ventana
         stage.setHeight(height); //alto
         stage.setWidth(width); //ancho
         stage.setResizable(false); //No se puede cambiar su tamaño
@@ -289,7 +293,7 @@ public class Main extends Application {
             dot0.setCountSegments(dot.getCountSegments() - 1);
             dosPuntos = true;
             System.out.println(point1X + "  " + point1Y);
-
+            paneGame.getChildren().add(gameTestButton);
         } else {
 
             point2X = dot.getPosX();
@@ -305,7 +309,12 @@ public class Main extends Application {
             double distance = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 
             if (distance <= 150 && distance > 0) {
+
                 dot.setCountSegments(dot.getCountSegments() - 1);
+                Line line = new Line(x1,y1,x2,y2);
+                line.setStroke(Color.RED);
+                line.setStrokeWidth(10);
+                stage.show();
                 System.out.println("Segment Drawn");
                 dosPuntos = false;
 
@@ -325,7 +334,7 @@ public class Main extends Application {
         }
 
     }
-
+    
     public void checkAbility(double x, double y){
 
     }
