@@ -6,29 +6,29 @@ import javafx.scene.image.ImageView;
  * Representación de un Dot
  *
  * @author Rubén Salas
- * @version 1.0
+ * @version 1.2
  * @since 09/11/18
  */
 public class Dot {
 
     private Dot next;
     private Dot prev;
-    private int diametro;
     private double posX; //posicion en X
     private double posY; //posicion en Y
     private String name;
     private ImageView image;
-    private int countSegments;
+    private int maxSegments;
+    private int actualSegments;
 
-    public Dot(String name, ImageView image, int count){
+    public Dot(String name, ImageView image, int max){
         this.next = null;
         this.prev = null;
-        this.diametro = 50;
         this.posX = 0;
         this.posY = 0;
         this.name = name;
         this.image = image;
-        this.countSegments = count;
+        this.maxSegments = max;
+        this.actualSegments = 0;
     }
 
 
@@ -46,14 +46,6 @@ public class Dot {
 
     public void setPrev(Dot prev) {
         this.prev = prev;
-    }
-
-    public int getDiametro() {
-        return diametro;
-    }
-
-    public void setDiametro(int diametro) {
-        this.diametro = diametro;
     }
 
     public double getPosX() {
@@ -84,11 +76,23 @@ public class Dot {
         this.image = image;
     }
 
-    public int getCountSegments() {
-        return countSegments;
+    public int getMaxSegments() {
+        return maxSegments;
     }
 
-    public void setCountSegments(int countSegments) {
-        this.countSegments = countSegments;
+    public void setMaxSegments(int maxSegments) {
+        this.maxSegments = maxSegments;
+    }
+
+    public int getActualSegments() {
+        return actualSegments;
+    }
+
+    public void setActualSegments(int actualSegments) {
+        this.actualSegments = actualSegments;
+    }
+
+    public boolean available(){
+        return (this.maxSegments - this.actualSegments) > 0;
     }
 }

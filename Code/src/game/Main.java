@@ -24,7 +24,7 @@ import java.io.IOException;
  * Main, tiene la interfaz del juego.
  *
  * @author Rubén Salas
- * @version 2.0
+ * @version 2.3
  * @since 09/11/18
  */
 public class Main extends Application {
@@ -88,12 +88,12 @@ public class Main extends Application {
     private BackgroundImage backgroundConnection;
 
     //Coordenadas para dibujar los segmentos
-    static double point1X;
-    static double point1Y;
-    static double point2X;
-    static double point2Y;
+    private static double point1X;
+    private static double point1Y;
+    private static double point2X;
+    private static double point2Y;
 
-    static boolean dosPuntos = false; //Flag que verifica si se han oprimido ambos puntos para dibujar la linea
+    private static boolean dosPuntos = false; //Flag que verifica si se han oprimido ambos puntos para dibujar la linea
 
     Group root = new Group();
     //Corre la interfaz
@@ -291,71 +291,87 @@ public class Main extends Application {
      */
     public static void draw(Dot dot){
 
-        if(!dosPuntos){
-            dot0 = dot;
-            point1X = dot.getPosX();
-            point1Y = dot.getPosY();
-            dot0.setCountSegments(dot.getCountSegments() - 1);
-            dosPuntos = true;
-            System.out.println(point1X + "  " + point1Y);
+        if(dot.available()) {
 
-            //paneGame.getChildren().add(gameTestButton);
+
+            if (!dosPuntos) {
+                dot0 = dot;
+                point1X = dot.getPosX();
+                point1Y = dot.getPosY();
+                dot0.setActualSegments(dot.getActualSegments() + 1);
+                dosPuntos = true;
+                System.out.println(point1X + "  " + point1Y);
+
+            } else {
+
+                point2X = dot.getPosX();
+                point2Y = dot.getPosY();
+
+                System.out.println(point2X + "  " + point2Y);
+
+                double x1 = point1X;
+                double y1 = point1Y;
+                double x2 = point2X;
+                double y2 = point2Y;
+
+                double distance = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+                if (distance <= 150 && distance > 0) {
+
+                    //dibuja la linea donde se especifica
+                    dot.setActualSegments(dot.getActualSegments() + 1);
+                    Line line = new Line(x1 + 12.5, y1 + 12.5, x2 + 12.5, y2 + 12.5);
+                    line.setStroke(Color.BLACK);
+                    line.setStrokeLineCap(StrokeLineCap.ROUND);
+                    line.setStrokeWidth(5);
+
+                    //Agrega la linea al pane
+                    paneGame.getChildren().add(line);
+
+                    //Pone los Dots al frente de la linea
+                    dot0.getImage().toFront();
+                    dot.getImage().toFront();
+
+                    //Crea un nodo del segmento
+                    Node segmento = new Node(dot0, dot);
+
+                    //Agrega el segmento a la lista de lineas
+                    listaSegmentos.add(segmento);
+                    listaSegmentos.print();
+
+                    System.out.println("Segment Drawn");
+                    dosPuntos = false;
+
+                    System.out.println(dot0.getName() + "'s segments: " + dot0.getActualSegments() + " from: " + dot0.getMaxSegments());
+                    System.out.println(dot.getName() + "'s segments: " + dot.getActualSegments() + " from : " + dot.getMaxSegments());
+
+                    //Verifica si se cierra en una figura
+                    checkClosed(segmento);
+
+                    /*
+
+                    TERMINAR TURNO Y ENVIAR POR JSON
+                    EL SEGMENTO
+
+                     */
+
+
+
+                } else if (distance == 0) {
+                    dot0.setActualSegments(dot0.getActualSegments() - 1);
+                    System.out.println("Unselected");
+                    dosPuntos = false;
+
+                } else {
+                    dot0.setActualSegments(dot0.getActualSegments() - 1);
+                    System.out.println("Segment Not Drawn");
+                    dosPuntos = false;
+                }
+            }
 
         } else {
-
-            point2X = dot.getPosX();
-            point2Y = dot.getPosY();
-
-            System.out.println(point2X + "  " + point2Y);
-
-            double x1 = point1X;
-            double y1 = point1Y;
-            double x2 = point2X;
-            double y2 = point2Y;
-
-            double distance = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-
-            if (distance <= 150 && distance > 0) {
-
-                //dibuja la linea donde se especifica
-                dot.setCountSegments(dot.getCountSegments() - 1);
-                Line line = new Line(x1+12.5,y1+12.5,x2+12.5,y2+12.5);
-                line.setStroke(Color.BLACK);
-                line.setStrokeLineCap(StrokeLineCap.ROUND);
-                line.setStrokeWidth(5);
-
-                //Agrega la linea al pane
-                paneGame.getChildren().add(line);
-
-                //Pone los Dots al frente de la linea
-                dot0.getImage().toFront();
-                dot.getImage().toFront();
-
-                //Crea un nodo del segmento
-                Node segmento = new Node(dot0,dot);
-
-                //Agrega el segmento a la lista de lineas
-                listaSegmentos.add(segmento);
-                listaSegmentos.print();
-
-                System.out.println("Segment Drawn");
-                dosPuntos = false;
-
-                System.out.println(dot0.getName() + "'s segments left: " + dot0.getCountSegments());
-                System.out.println(dot.getName() + "'s segments left: " + dot.getCountSegments());
-
-                checkClosed(segmento);
-
-            } else if(distance == 0){
-                dot0.setCountSegments(dot0.getCountSegments() + 1);
-                System.out.println("Unselected");
-                dosPuntos = false;
-
-            }else{
-                dot0.setCountSegments(dot0.getCountSegments() + 1);
-                System.out.println("Segment Not Drawn");
-                dosPuntos = false;
-            }
+            System.out.println("Dot has exceeded total drawn segments.");
+            dosPuntos = false;
         }
 
     }
@@ -384,8 +400,8 @@ public class Main extends Application {
         System.out.println("Segment Drawn");
         dosPuntos = false;
 
-        System.out.println(segment.getFirst().getName() + "'s segments left: " + segment.getFirst().getCountSegments());
-        System.out.println(segment.getLast().getName() + "'s segments left: " + segment.getLast().getCountSegments());
+        System.out.println(segment.getFirst().getName() + "'s segments: " + segment.getFirst().getActualSegments() + " from: " + segment.getFirst().getMaxSegments());
+        System.out.println(segment.getLast().getName() + "'s segments: " + segment.getLast().getActualSegments() + " from: " + segment.getLast().getMaxSegments());
 
     }
 
@@ -402,46 +418,148 @@ public class Main extends Application {
         drawFromSegmentList(listaSegmentos);
     }
 
-    public static void checkClosed(Node segmento){
+
+    public static boolean checkClosed(Node segmento){
 
         Dot dotLast = segmento.getLast();
+        Dot dotFirst = segmento.getFirst();
 
         Node temp = listaSegmentos.getHead();
         Node temp2 = listaSegmentos.getHead();
 
-        boolean checkFirst = false;
-        boolean checkLast = false;
+        boolean checkFirstLast = false;
+        boolean checkLastLast = false;
+        boolean checkFirstFirst = false;
+        boolean checkLastFirst = false;
+        boolean first = true;
 
-                while (temp != null) {
-                    System.out.println("");
-                    System.out.println(temp.getFirst().getName());
-                    //checkFirst = dotLast.getPosX() == temp.getFirst().getPosX() && dotLast.getPosY() == temp.getFirst().getPosY();
-                    //checkLast = dotLast.getPosX() == temp.getLast().getPosX() && dotLast.getPosY() == temp.getLast().getPosY();
+        while (temp != null) {
 
-                    checkFirst = dotLast == temp.getFirst(); //|| dotLast == temp.getLast(); //Si está conectado a alguno
-                    checkLast = dotLast == temp.getLast() && temp != segmento;
+            //Si está conectado a algún otro segmento
+            checkFirstLast = dotLast == temp.getFirst();
+            checkLastLast = dotLast == temp.getLast() && temp != segmento;
+            checkFirstFirst = dotFirst == temp.getFirst() && temp != segmento;
+            checkLastFirst = dotFirst == temp.getLast();
+            first = listaSegmentos.getSize() == 1;
 
-                    if (checkFirst & listaSegmentos.getSize() != 1) {
+            if ((checkFirstLast & !first) || (checkLastLast & !first)  || (checkFirstFirst & !first) || (checkLastFirst & !first)){
 
-                        System.out.println("FIRST");
-                        break;
+                System.out.println("UNITED");
+                return true;
 
-                    } else if(checkLast & listaSegmentos.getSize() != 1){
-                        System.out.println("LAST");
-                        break;
+            } else {
+
+                //System.out.println("NOT");
+                temp = temp.getNext();
+            }
+
+        }
+        return false;
+    }
+
+
+
+/*
+    public static void c(Node segmento, boolean bool){
+
+        Dot dotLast = segmento.getLast();
+        Dot dotFirst = segmento.getFirst();
+        Node temp = listaSegmentos.getHead();
+
+        boolean checkFirstLast = false;
+        boolean checkLastLast = false;
+        boolean checkFirstFirst = false;
+        boolean checkLastFirst = false;
+        boolean first = true;
+
+        while (temp != null){
+            checkFirstLast = dotLast == temp.getFirst();
+            checkLastLast = dotLast == temp.getLast() && temp != segmento;
+            checkFirstFirst = dotFirst == temp.getFirst() && temp != segmento;
+            checkLastFirst = dotFirst == temp.getLast();
+            first = listaSegmentos.getSize() == 1;
+
+            if ((checkFirstLast & !first) || (checkLastLast & !first)  || (checkFirstFirst & !first) || (checkLastFirst & !first)){
+                Node aux = listaSegmentos.getHead();
+
+            }
+        }
+    }
+    */
+
+
+/*
+    public static void checkLastDot(Dot dot0, Dot dotF){
+
+        Node temp = listaSegmentos.getHead();
+
+        while (temp != null) {
+            if (temp.getFirst() == dot0) {
+                System.out.println(dot0.getActualSegments());
+
+                Node aux = listaSegmentos.getHead();
+                while (aux != null) {
+                    if (aux.getFirst() == temp.getLast()) {
+                        checkLastDot(temp.getLast(),dotF);
+                    } else {
+                        System.out.println("Closed");
                     }
-
-                    temp = temp.getNext();
+                    aux = aux.getNext();
                 }
 
+            } else {
+                System.out.println(dot0.getActualSegments());
+
+                Node aux = listaSegmentos.getHead();
+                while (aux != null) {
+                    if (aux.getLast() == temp.getFirst()) {
+                        checkLastDot(temp.getFirst(),dotF);
+                    } else {
+                        System.out.println("Closed");
+                    }
+                    aux = aux.getNext();
+                }
+
+            }
+            temp = temp.getNext();
+        }
+
     }
+    */
 
-    public void getLastDot(Dot first){
 
-        Node segmento = listaSegmentos.getHead();
+/*
+    public static void verify(Node segment){
 
-        //if ()
+ if (checkFirstLast & !first) {
+ System.out.println("FirstLast");
 
-    }
+ checkClosed(temp);
+
+
+
+ } else if (checkLastLast & !first){
+ System.out.println("LastLast");
+
+ checkClosed(temp);
+
+
+
+ } else if(checkFirstFirst & !first) {
+ System.out.println("FirstFirst");
+
+ checkClosed(temp);
+
+
+
+ } else if(checkLastFirst & !first){
+ System.out.println("LastFirst");
+
+ checkClosed(temp);
+
+
+ }
+ */
 
 }
+
