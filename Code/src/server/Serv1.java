@@ -1,4 +1,4 @@
-package server;
+package progra;
 
 import javax.swing.*;
 
@@ -9,10 +9,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-public class Serv1 {
 
 
-
+public class Serv1{
 
 
 	public static void main(String[] args) {

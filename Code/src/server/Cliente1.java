@@ -1,4 +1,4 @@
-package server;
+package progra;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +11,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import javax.swing.*;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Cliente1 {
 
@@ -81,22 +84,28 @@ class LaminaMarcoCliente extends JPanel implements Runnable {
 
 	private class EnviaTexto implements ActionListener {
 
+		JSONObject json = new JSONObject();
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			try {
 
-
-
-				Socket misocket = new Socket("10.10.10.252", 9999);
+				Socket misocket = new Socket("172.19.13.186", 9999);
 
 				PaqueteEnvio datos = new PaqueteEnvio();
 
 				datos.setNick(nick.getText());
 
 				datos.setIp(ip.getText());
+				
+				JSONObject json = new JSONObject();
+				
+				json.put("action", campo1.getText());
 
 				datos.setMensaje(campo1.getText());
+				
+			
 
 				// Flujo de salida
 
@@ -116,6 +125,9 @@ class LaminaMarcoCliente extends JPanel implements Runnable {
 				paquete_datos.close();
 
 			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (JSONException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
