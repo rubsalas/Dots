@@ -127,15 +127,15 @@ public class Fila {
         while(temp != null) { //Recorre la lista hasta llegar al ultimo Dot
 
             if (num == 1){
-                temp.setPosY(100);
+                temp.setPosY(100.0);
             } else if (num == 2) {
-                temp.setPosY(200);
+                temp.setPosY(200.0);
             } else if (num == 3) {
-                temp.setPosY(300);
+                temp.setPosY(300.0);
             } else if (num == 4) {
-                temp.setPosY(400);
+                temp.setPosY(400.0);
             } else if (num == 5) {
-                temp.setPosY(500);
+                temp.setPosY(500.0);
             }
 
             temp = temp.getNext();
@@ -145,7 +145,7 @@ public class Fila {
 
     public void setX() {
         Dot temp = this.getHead();
-        int count = 0;
+        double count = 0;
 
         while (temp != null) { //Recorre la lista hasta llegar al ultimo Dot
             temp.setPosX(75 + 100*count);
