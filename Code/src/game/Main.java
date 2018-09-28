@@ -17,7 +17,7 @@ import org.json.JSONException;
 import plane.Dot;
 import plane.Lista;
 import plane.Segmento;
-import server.Cliente1;
+import server.Cliente;
 
 import java.io.IOException;
 
@@ -25,7 +25,7 @@ import java.io.IOException;
  * Main, tiene la interfaz del juego.
  *
  * @author Rubén Salas
- * @version 2.3
+ * @version 2.4
  * @since 09/11/18
  */
 public class Main extends Application {
@@ -40,6 +40,8 @@ public class Main extends Application {
     private int height = 625; //alto en pixeles
 
     private String[] args; //variable para iniciar el cliente
+
+    Cliente client;
 
     private static Stage stage;
 
@@ -101,8 +103,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException, JSONException {
 
-        Cliente1 client = new Cliente1();
-        //client.main(args); //Corre el cliente
+        client = new Cliente();
+        client.main(args); //Corre el cliente
         Jugador player = new Jugador(); //Objeto jugador
         player.setIngame(true); //Flag si está en cola o no
 
