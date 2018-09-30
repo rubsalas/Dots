@@ -1,22 +1,24 @@
-package progra;
+package server;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.ServerSocket;
 import java.net.Socket;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Cliente1 {
-
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
@@ -25,9 +27,8 @@ public class Cliente1 {
 		mimarco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
-
+	
 }
-
 class MarcoCliente extends JFrame {
 
 	public MarcoCliente() {
@@ -43,6 +44,7 @@ class MarcoCliente extends JFrame {
 	}
 
 }
+	
 
 class LaminaMarcoCliente extends JPanel implements Runnable {
 
@@ -81,101 +83,67 @@ class LaminaMarcoCliente extends JPanel implements Runnable {
 		mihilo.start();
 
 	}
-
+	
 	private class EnviaTexto implements ActionListener {
 
-		JSONObject json = new JSONObject();
-		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			try {
-
-				Socket misocket = new Socket("172.19.13.186", 9999);
-
+				Socket misocket = new Socket("192.168.0.20", 9999);
+				
 				PaqueteEnvio datos = new PaqueteEnvio();
-
+				
 				datos.setNick(nick.getText());
-
+				
 				datos.setIp(ip.getText());
 				
+
 				JSONObject json = new JSONObject();
 				
 				json.put("action", campo1.getText());
-
-				datos.setMensaje(campo1.getText());
 				
-			
-
-				// Flujo de salida
-
+				datos.setJson(json);
+				
 				ObjectOutputStream paquete_datos = new ObjectOutputStream(misocket.getOutputStream());
-
-				// Flujo esrcibe los datos
-				paquete_datos.writeObject(datos);
-
-				/*
-				 * DataOutputStream salida = new
-				 * DataOutputStream(misocket.getOutputStream());
-				 * salida.writeUTF(campo1.getText());;
-				 *
-				 * salida.close();
-				 */
-
+				
+				
+				paquete_datos.writeObject(json.toString());
+				
 				paquete_datos.close();
-
+				
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			
 			} catch (JSONException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
 		}
-
+		
 	}
-
+	
 	private JTextField campo1, nick, ip;
 
 	private JTextArea campochat;
 
 	private JButton miboton;
+	
+	
 
 	@Override
 	public void run() {
-
-		try {
-
-			ServerSocket servidorCliente = new ServerSocket(9002);
-
-			Socket cliente;
-
-			PaqueteEnvio Recibido;
-
-			while (true) {
-
-				cliente = servidorCliente.accept();
-
-				ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
-
-				Recibido = (PaqueteEnvio) entrada.readObject();
-
-				campochat.append("\n" + Recibido.getNick() + ": " + Recibido.getMensaje());
-
-			}
-
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-
+		// TODO Auto-generated method stub
+		
 	}
-
-}
-
-class PaqueteEnvio implements Serializable {
-
-	private String nick, ip, mensaje;
+	
+	
+class PaqueteEnvio implements Serializable{
+	
+	private String nick, ip;
+	
+	private JSONObject json;
 
 	public String getNick() {
 		return nick;
@@ -193,12 +161,14 @@ class PaqueteEnvio implements Serializable {
 		this.ip = ip;
 	}
 
-	public String getMensaje() {
-		return mensaje;
+	public JSONObject getJson() {
+		return json;
 	}
 
-	public void setMensaje(String mensaje) {
-		this.mensaje = mensaje;
+	public void setJson(JSONObject json) {
+		this.json = json;
 	}
-
+	
+}
+	
 }
