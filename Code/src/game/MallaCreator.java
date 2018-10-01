@@ -122,8 +122,8 @@ public class MallaCreator {
 
 
 
+    static Lista segmentosVerticales = new Lista("Verticlaes");
     static Lista segmentosHorizontales = new Lista("Horizontales");
-    static Lista segmentosVerticales = new Lista("Verticales");
     static Lista segmentosDiagIzqDer = new Lista("Diagonales de Izquierda a Derecha");
     static Lista segmentosDiagDerIzq = new Lista("Diagonales de Derecha a Izquierda");
 
@@ -132,7 +132,7 @@ public class MallaCreator {
 
     public void buildSegments(){
 
-        //Creación de los segmentos horizontales
+        //Creación de los segmentos verticales
         Segmento s11_21 = new Segmento(dot11, dot21);
         Segmento s21_31 = new Segmento(dot21, dot31);
         Segmento s31_41 = new Segmento(dot31, dot41);
@@ -158,7 +158,7 @@ public class MallaCreator {
         Segmento s35_45 = new Segmento(dot35, dot45);
         Segmento s45_55 = new Segmento(dot45, dot55);
 
-        //Creación de los segmentos verticales
+        //Creación de los segmentos horizontales
 
         Segmento s11_12 = new Segmento(dot11, dot12);
         Segmento s21_22 = new Segmento(dot21, dot22);
@@ -230,60 +230,60 @@ public class MallaCreator {
 
         //Adición de los segmentos horizontales
 
-        segmentosHorizontales.add(s11_21);
-        segmentosHorizontales.add(s21_31);
-        segmentosHorizontales.add(s31_41);
-        segmentosHorizontales.add(s41_51);
+        segmentosVerticales.add(s11_21);
+        segmentosVerticales.add(s21_31);
+        segmentosVerticales.add(s31_41);
+        segmentosVerticales.add(s41_51);
 
-        segmentosHorizontales.add(s12_22);
-        segmentosHorizontales.add(s22_32);
-        segmentosHorizontales.add(s32_42);
-        segmentosHorizontales.add(s42_52);
+        segmentosVerticales.add(s12_22);
+        segmentosVerticales.add(s22_32);
+        segmentosVerticales.add(s32_42);
+        segmentosVerticales.add(s42_52);
 
-        segmentosHorizontales.add(s13_23);
-        segmentosHorizontales.add(s23_33);
-        segmentosHorizontales.add(s33_43);
-        segmentosHorizontales.add(s43_53);
+        segmentosVerticales.add(s13_23);
+        segmentosVerticales.add(s23_33);
+        segmentosVerticales.add(s33_43);
+        segmentosVerticales.add(s43_53);
 
-        segmentosHorizontales.add(s14_24);
-        segmentosHorizontales.add(s24_34);
-        segmentosHorizontales.add(s34_44);
-        segmentosHorizontales.add(s44_54);
+        segmentosVerticales.add(s14_24);
+        segmentosVerticales.add(s24_34);
+        segmentosVerticales.add(s34_44);
+        segmentosVerticales.add(s44_54);
 
-        segmentosHorizontales.add(s15_25);
-        segmentosHorizontales.add(s25_35);
-        segmentosHorizontales.add(s35_45);
-        segmentosHorizontales.add(s45_55);
+        segmentosVerticales.add(s15_25);
+        segmentosVerticales.add(s25_35);
+        segmentosVerticales.add(s35_45);
+        segmentosVerticales.add(s45_55);
 
-        segmentosHorizontales.show();
+        segmentosVerticales.show();
 
         //Adición de los segmetos verticales
 
-        segmentosVerticales.add(s11_12);
-        segmentosVerticales.add(s21_22);
-        segmentosVerticales.add(s31_32);
-        segmentosVerticales.add(s41_42);
-        segmentosVerticales.add(s51_52);
+        segmentosHorizontales.add(s11_12);
+        segmentosHorizontales.add(s21_22);
+        segmentosHorizontales.add(s31_32);
+        segmentosHorizontales.add(s41_42);
+        segmentosHorizontales.add(s51_52);
 
-        segmentosVerticales.add(s12_13);
-        segmentosVerticales.add(s22_23);
-        segmentosVerticales.add(s32_33);
-        segmentosVerticales.add(s42_43);
-        segmentosVerticales.add(s52_53);
+        segmentosHorizontales.add(s12_13);
+        segmentosHorizontales.add(s22_23);
+        segmentosHorizontales.add(s32_33);
+        segmentosHorizontales.add(s42_43);
+        segmentosHorizontales.add(s52_53);
 
-        segmentosVerticales.add(s13_14);
-        segmentosVerticales.add(s23_24);
-        segmentosVerticales.add(s33_34);
-        segmentosVerticales.add(s43_44);
-        segmentosVerticales.add(s53_54);
+        segmentosHorizontales.add(s13_14);
+        segmentosHorizontales.add(s23_24);
+        segmentosHorizontales.add(s33_34);
+        segmentosHorizontales.add(s43_44);
+        segmentosHorizontales.add(s53_54);
 
-        segmentosVerticales.add(s14_15);
-        segmentosVerticales.add(s24_25);
-        segmentosVerticales.add(s34_35);
-        segmentosVerticales.add(s44_45);
-        segmentosVerticales.add(s54_55);
+        segmentosHorizontales.add(s14_15);
+        segmentosHorizontales.add(s24_25);
+        segmentosHorizontales.add(s34_35);
+        segmentosHorizontales.add(s44_45);
+        segmentosHorizontales.add(s54_55);
 
-        segmentosVerticales.show();
+        segmentosHorizontales.show();
 
         //Adición de los segmentos diagonales de izquierda a derecha
 
@@ -388,26 +388,26 @@ public class MallaCreator {
         triangulosLowerRight.show();
 
         //Creación de los triangulos lower left
-/*
-        Triangulo triLowLeftaa = new Triangulo(,,);
-        Triangulo triLowLeftab = new Triangulo(,,);
-        Triangulo triLowLeftac = new Triangulo(,,);
-        Triangulo triLowLeftad = new Triangulo(,,);
 
-        Triangulo triLowLeftba = new Triangulo(,,);
-        Triangulo triLowLeftbb = new Triangulo(,,);
-        Triangulo triLowLeftbc = new Triangulo(,,);
-        Triangulo triLowLeftbd = new Triangulo(,,);
+        Triangulo triLowLeftaa = new Triangulo(s11_22,s11_21,s21_22);
+        Triangulo triLowLeftab = new Triangulo(s12_23,s12_22,s22_23);
+        Triangulo triLowLeftac = new Triangulo(s13_24,s13_23,s23_24);
+        Triangulo triLowLeftad = new Triangulo(s14_25,s14_24,s24_25);
 
-        Triangulo triLowLeftca = new Triangulo(,,);
-        Triangulo triLowLeftcb = new Triangulo(,,);
-        Triangulo triLowLeftcc = new Triangulo(,,);
-        Triangulo triLowLeftcd = new Triangulo(,,);
+        Triangulo triLowLeftba = new Triangulo(s21_32,s21_31,s31_32);
+        Triangulo triLowLeftbb = new Triangulo(s22_33,s22_32,s32_33);
+        Triangulo triLowLeftbc = new Triangulo(s23_34,s23_33,s33_34);
+        Triangulo triLowLeftbd = new Triangulo(s24_35,s24_34,s34_35);
 
-        Triangulo triLowLeftda = new Triangulo(,,);
-        Triangulo triLowLeftdb = new Triangulo(,,);
-        Triangulo triLowLeftdc = new Triangulo(,,);
-        Triangulo triLowLeftdd = new Triangulo(,,);
+        Triangulo triLowLeftca = new Triangulo(s31_42,s31_41,s41_42);
+        Triangulo triLowLeftcb = new Triangulo(s32_43,s32_42,s42_43);
+        Triangulo triLowLeftcc = new Triangulo(s33_44,s33_43,s43_44);
+        Triangulo triLowLeftcd = new Triangulo(s34_45,s34_44,s44_45);
+
+        Triangulo triLowLeftda = new Triangulo(s41_52,s41_51,s51_52);
+        Triangulo triLowLeftdb = new Triangulo(s42_53,s42_52,s52_53);
+        Triangulo triLowLeftdc = new Triangulo(s43_54,s43_53,s53_54);
+        Triangulo triLowLeftdd = new Triangulo(s44_55,s44_54,s54_55);
 
         //Adición de los triangulos lower left
 
@@ -434,28 +434,28 @@ public class MallaCreator {
         triangulosLowerLeft.show();
 
 
-*/
+
         //Creación de los triangulos upper right
-/*
-        Triangulo triUpRightaa = new Triangulo(,,);
-        Triangulo triUpRightab = new Triangulo(,,);
-        Triangulo triUpRightac = new Triangulo(,,);
-        Triangulo triUpRightad = new Triangulo(,,);
 
-        Triangulo triUpRightba = new Triangulo(,,);
-        Triangulo triUpRightbb = new Triangulo(,,);
-        Triangulo triUpRightbc = new Triangulo(,,);
-        Triangulo triUpRightbd = new Triangulo(,,);
+        Triangulo triUpRightaa = new Triangulo(s11_22,s12_22,s11_12);
+        Triangulo triUpRightab = new Triangulo(s12_23,s13_23,s12_13);
+        Triangulo triUpRightac = new Triangulo(s13_24,s14_24,s13_14);
+        Triangulo triUpRightad = new Triangulo(s14_25,s15_25,s14_15);
 
-        Triangulo triUpRightca = new Triangulo(,,);
-        Triangulo triUpRightcb = new Triangulo(,,);
-        Triangulo triUpRightcc = new Triangulo(,,);
-        Triangulo triUpRightcd = new Triangulo(,,);
+        Triangulo triUpRightba = new Triangulo(s21_32,s22_32,s21_22);
+        Triangulo triUpRightbb = new Triangulo(s22_33,s23_33,s22_23);
+        Triangulo triUpRightbc = new Triangulo(s23_34,s24_34,s23_24);
+        Triangulo triUpRightbd = new Triangulo(s24_35,s25_35,s24_25);
 
-        Triangulo triUpRightda = new Triangulo(,,);
-        Triangulo triUpRightdb = new Triangulo(,,);
-        Triangulo triUpRightdc = new Triangulo(,,);
-        Triangulo triUpRightdd = new Triangulo(,,);
+        Triangulo triUpRightca = new Triangulo(s31_42,s32_42,s31_32);
+        Triangulo triUpRightcb = new Triangulo(s32_43,s33_43,s32_33);
+        Triangulo triUpRightcc = new Triangulo(s33_44,s34_44,s33_34);
+        Triangulo triUpRightcd = new Triangulo(s34_45,s35_45,s34_35);
+
+        Triangulo triUpRightda = new Triangulo(s41_52,s42_52,s41_42);
+        Triangulo triUpRightdb = new Triangulo(s42_53,s43_53,s42_43);
+        Triangulo triUpRightdc = new Triangulo(s43_54,s44_54,s43_44);
+        Triangulo triUpRightdd = new Triangulo(s44_55,s45_55,s44_45);
 
         //Adición de los triangulos upper right
 
@@ -482,28 +482,28 @@ public class MallaCreator {
         triangulosUpperRight.show();
 
 
-*/
+
         //Creación de los triangulos upper left
-/*
-        Triangulo triUpLeftaa = new Triangulo(,,);
-        Triangulo triUpLeftab = new Triangulo(,,);
-        Triangulo triUpLeftac = new Triangulo(,,);
-        Triangulo triUpLeftad = new Triangulo(,,);
 
-        Triangulo triUpLeftba = new Triangulo(,,);
-        Triangulo triUpLeftbb = new Triangulo(,,);
-        Triangulo triUpLeftbc = new Triangulo(,,);
-        Triangulo triUpLeftbd = new Triangulo(,,);
+        Triangulo triUpLeftaa = new Triangulo(s12_21,s11_21,s11_12);
+        Triangulo triUpLeftab = new Triangulo(s13_22,s12_22,s12_13);
+        Triangulo triUpLeftac = new Triangulo(s14_23,s13_23,s13_14);
+        Triangulo triUpLeftad = new Triangulo(s15_24,s14_24,s14_15);
 
-        Triangulo triUpLeftca = new Triangulo(,,);
-        Triangulo triUpLeftcb = new Triangulo(,,);
-        Triangulo triUpLeftcc = new Triangulo(,,);
-        Triangulo triUpLeftcd = new Triangulo(,,);
+        Triangulo triUpLeftba = new Triangulo(s22_31,s21_31,s21_22);
+        Triangulo triUpLeftbb = new Triangulo(s23_32,s22_32,s22_23);
+        Triangulo triUpLeftbc = new Triangulo(s24_33,s23_33,s23_24);
+        Triangulo triUpLeftbd = new Triangulo(s25_34,s24_34,s24_25);
 
-        Triangulo triUpLeftda = new Triangulo(,,);
-        Triangulo triUpLeftdb = new Triangulo(,,);
-        Triangulo triUpLeftdc = new Triangulo(,,);
-        Triangulo triUpLeftdd = new Triangulo(,,);
+        Triangulo triUpLeftca = new Triangulo(s32_41,s31_41,s31_32);
+        Triangulo triUpLeftcb = new Triangulo(s33_42,s32_42,s32_33);
+        Triangulo triUpLeftcc = new Triangulo(s34_43,s33_43,s33_34);
+        Triangulo triUpLeftcd = new Triangulo(s35_44,s34_44,s34_35);
+
+        Triangulo triUpLeftda = new Triangulo(s42_51,s41_51,s41_42);
+        Triangulo triUpLeftdb = new Triangulo(s43_52,s42_52,s42_43);
+        Triangulo triUpLeftdc = new Triangulo(s44_53,s43_53,s43_44);
+        Triangulo triUpLeftdd = new Triangulo(s45_54,s44_54,s44_45);
 
         //Adición de los triangulos upper left
 
@@ -528,7 +528,7 @@ public class MallaCreator {
         triangulosUpperLeft.add(triUpLeftdd);
 
         triangulosUpperLeft.show();
-*/
+
     }
 
 }

@@ -387,14 +387,29 @@ public class Main extends Application {
 
     }
 
-    public static void drawTrianguloTest(Triangulo triangulo){
+    public static void drawTrianguloTest(Triangulo triangulo, String name){
+        double x1=0.0;
+        double y1=0.0;
+        double x2=0.0;
+        double y2=0.0;
+        double x3=0.0;
+        double y3=0.0;
 
-        double x1 = triangulo.getHipotenusa().getFirst().getPosX() + 12.5;
-        double y1 = triangulo.getHipotenusa().getFirst().getPosY() + 12.5;
-        double x2 = triangulo.getVertical().getLast().getPosX() + 12.5;
-        double y2 = triangulo.getVertical().getLast().getPosY() + 12.5;
-        double x3 = triangulo.getHorizontal().getFirst().getPosX() + 12.5;
-        double y3 = triangulo.getHorizontal().getFirst().getPosY() + 12.5;
+        if (name.equals("TriangulosLowerRight") || name.equals("TriangulosUpperLeft")) {
+            x1 = triangulo.getHipotenusa().getFirst().getPosX() + 12.5;
+            y1 = triangulo.getHipotenusa().getFirst().getPosY() + 12.5;
+            x2 = triangulo.getVertical().getLast().getPosX() + 12.5;
+            y2 = triangulo.getVertical().getLast().getPosY() + 12.5;
+            x3 = triangulo.getHorizontal().getFirst().getPosX() + 12.5;
+            y3 = triangulo.getHorizontal().getFirst().getPosY() + 12.5;
+        } else if(name.equals("TriangulosLowerLeft") || name.equals("TriangulosUpperRight")) {
+            x1 = triangulo.getHipotenusa().getFirst().getPosX() + 12.5;
+            y1 = triangulo.getHipotenusa().getFirst().getPosY() + 12.5;
+            x2 = triangulo.getVertical().getLast().getPosX() + 12.5;
+            y2 = triangulo.getVertical().getLast().getPosY() + 12.5;
+            x3 = triangulo.getHorizontal().getLast().getPosX() + 12.5;
+            y3 = triangulo.getHorizontal().getLast().getPosY() + 12.5;
+        }
 
         Polygon triangle = new Polygon(
                 new double[]{
@@ -403,8 +418,8 @@ public class Main extends Application {
                         x3, y3 }
         );
 
-        triangle.setFill(Color.GRAY);
-        triangle.setStroke(Color.GRAY);
+        triangle.setFill(Color.WHITE);
+        triangle.setStroke(Color.WHITE);
         triangle.setStrokeWidth(1);
 
         paneGame.getChildren().add(triangle);
@@ -425,20 +440,25 @@ public class Main extends Application {
      */
     public static void drawFromSegment(Segmento segment){
 
-        //Agrega la linea al pane
+        if (segment.isAvailable()) {
 
-        paneGame.getChildren().add(segment.getLine());
+            //Agrega la linea al pane
 
-        //Pone los Dots al frente de la linea
-        segment.getFirst().getImage().toFront();
-        segment.getLast().getImage().toFront();
+            paneGame.getChildren().add(segment.getLine());
 
-        System.out.println("Segment Drawn");
-        dosPuntos = false;
+            //Pone los Dots al frente de la linea
+            segment.getFirst().getImage().toFront();
+            segment.getLast().getImage().toFront();
 
-        System.out.println(segment.getFirst().getName() + "'s segments: " + segment.getFirst().getActualSegments() + " from: " + segment.getFirst().getMaxSegments());
-        System.out.println(segment.getLast().getName() + "'s segments: " + segment.getLast().getActualSegments() + " from: " + segment.getLast().getMaxSegments());
+            System.out.println("Segment Drawn");
+            dosPuntos = false;
 
+            System.out.println(segment.getFirst().getName() + "'s segments: " + segment.getFirst().getActualSegments() + " from: " + segment.getFirst().getMaxSegments());
+            System.out.println(segment.getLast().getName() + "'s segments: " + segment.getLast().getActualSegments() + " from: " + segment.getLast().getMaxSegments());
+
+        } else {
+            System.out.println("Segmento no disponible");
+        }
     }
 
 
@@ -477,10 +497,10 @@ public class Main extends Application {
         //Verifica que tipo de segmento es
         if (x1 == x2){
             //Es un segmento horizontal al tener la misma coordenada x
-            return MallaCreator.segmentosHorizontales.search(dot1,dot2);
+            return MallaCreator.segmentosVerticales.search(dot1,dot2);
         } else if (y1 == y2) {
             //Es un segmento vertical al tener la misma coordenada y
-            return MallaCreator.segmentosVerticales.search(dot1,dot2);
+            return MallaCreator.segmentosHorizontales.search(dot1,dot2);
         } else {
             //Es un segmento diagonal: busca en ambas listas de segmentos
             Segmento diagIzqDer = MallaCreator.segmentosDiagIzqDer.search(dot1,dot2);

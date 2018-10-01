@@ -41,6 +41,14 @@ public class ListaTriangulos {
         this.size = size;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     /**
      * Consulta si la lista está vacía.
      *
@@ -85,7 +93,7 @@ public class ListaTriangulos {
 
         while (temp != null){
 
-            drawTrianguloTest(temp);
+            drawTrianguloTest(temp,this.getName());
 
             temp = temp.getNext();
         }

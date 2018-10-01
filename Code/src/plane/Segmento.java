@@ -11,6 +11,8 @@ public class Segmento {
     private Dot first;
     private Dot last;
     private Line line;
+    private boolean drawn;
+    private boolean available;
 
     public Segmento(Dot first, Dot last){
         this.next = null;
@@ -18,6 +20,9 @@ public class Segmento {
         this.first = first;
         this.last = last;
         this.setLine();
+        this.drawn = false;
+        this.available = true;
+
     }
 
     public Segmento getNext() {
@@ -54,6 +59,26 @@ public class Segmento {
 
     public Line getLine(){
         return this.line;
+    }
+
+   public void setLine(Line line) {
+        this.line = line;
+    }
+
+    public boolean isDrawn() {
+        return drawn;
+    }
+
+    public void setDrawn(boolean drawn) {
+        this.drawn = drawn;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     public void setLine(){
