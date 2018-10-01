@@ -1,111 +1,121 @@
 package server;
 
-import java.awt.BorderLayout;
+import javax.swing.*;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.awt.*;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
-import org.json.JSONObject;
-
-import server.LaminaMarcoCliente.PaqueteEnvio;
 
 
 
 public class Serv1 {
-	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		MarcoServidor mimarco = new MarcoServidor();
+		MarcoServidor1 mimarco1 = new MarcoServidor1();
 
-		mimarco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mimarco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
-} 
+}
 
-class MarcoServidor extends JFrame implements Runnable {
+class MarcoServidor1 extends JFrame implements Runnable {
 
-	public MarcoServidor() {
+	public MarcoServidor1(){
 
 		setBounds(1200, 300, 280, 350);
 
-		JPanel milamina = new JPanel();
+		JPanel milamina1 = new JPanel();
 
-		milamina.setLayout(new BorderLayout());
+		milamina1.setLayout(new BorderLayout());
 
-		areatexto = new JTextArea();
+		areatexto1 = new JTextArea();
 
-		milamina.add(areatexto, BorderLayout.CENTER);
+		milamina1.add(areatexto1, BorderLayout.CENTER);
 
-		add(milamina);
+		add(milamina1);
 
 		setVisible(true);
 
-		Thread hilo = new Thread(this);
+		Thread hilo1 = new Thread(this);
 
-		hilo.start();
+		hilo1.start();
 
 	}
-	
-	private JTextArea areatexto;
-	
+
+	private JTextArea areatexto1;
 
 	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
+	public void run(){
+
 		try {
-			ServerSocket servidor = new ServerSocket(9999);
-			
-			String nick, ip;
-			
-			JSONObject json;
-			
-			PaqueteEnvio recibido;
-			
-			while(true){
+			ServerSocket servidor1 = new ServerSocket(9999);
+
+			String nick1, ip1, mensaje1;
+
+			PaqueteEnvio recibido1;
+
+			while (true) {
+
+				Socket misocket1 = servidor1.accept();
+
+				ObjectInputStream paquete_datos1 = new ObjectInputStream(misocket1.getInputStream());
+
+				recibido1 = (PaqueteEnvio) paquete_datos1.readObject();
+
+				nick1 = recibido1.getNick();
+				ip1 = recibido1.getIp();
+				mensaje1 = recibido1.getMensaje();
 				
-				Socket misocket = servidor.accept();
+				JSONObject json = new JSONObject();
 				
-				ObjectInputStream paquete_datos = new ObjectInputStream(misocket.getInputStream());
-				
-				recibido = (PaqueteEnvio) paquete_datos.readObject();
-				
-				JSONObject json1 = new JSONObject(recibido);
-				
-				nick = recibido.getNick();
-				ip = recibido.getIp();
-				json = recibido.getJson();
-				
-				areatexto.append("\n" + nick + ": " + json + " para " + ip);
-				
-				
-				Socket destinatario = new Socket(ip,9002);
-				
-				ObjectOutputStream Reenvio = new ObjectOutputStream(destinatario.getOutputStream());
-					
-				Reenvio.writeObject(recibido);
-				
-				destinatario.close();
-				
-				misocket.close();
+				json.put("action", recibido1.getMensaje());
+
+				/*
+				 * DataInputStream entrada = new
+				 * DataInputStream(misocket.getInputStream()); String mensaje =
+				 * entrada.readUTF();
+				 * 
+				 * areatexto.append("\n" + mensaje);
+				 */
+
+				areatexto1.append("\n" + nick1 + ": " + json+ " para " + ip1);
+
+				// Socket para enviar a destinatario
+				Socket Destinatario1 = new Socket(ip1, 9002);
+
+				ObjectOutputStream Reenvio1 = new ObjectOutputStream(Destinatario1.getOutputStream());
+
+				Reenvio1.writeObject(recibido1);
+
+				Reenvio1.close();
+
+				Destinatario1.close();
+
+				misocket1.close();
+
 			}
-		
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-	
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+		// System.out.println("Hola");
 	}
-	
 }
