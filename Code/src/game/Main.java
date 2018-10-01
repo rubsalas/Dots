@@ -17,6 +17,7 @@ import org.json.JSONException;
 import plane.Dot;
 import plane.Lista;
 import plane.Segmento;
+import plane.Triangulo;
 import server.Cliente;
 
 import java.io.IOException;
@@ -104,7 +105,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException, JSONException {
 
         client = new Cliente();
-        client.main(args); //Corre el cliente
+        //client.main(args); //Corre el cliente
         Jugador player = new Jugador(); //Objeto jugador
         player.setIngame(true); //Flag si está en cola o no
 
@@ -209,6 +210,7 @@ public class Main extends Application {
         MallaCreator mallaCreator = new MallaCreator(); //Creador de la malla
         mallaCreator.buildPlane(); //Llama a su función para crear la malla
         mallaCreator.buildSegments(); //Llama a función para crear los segmentos horizontales
+        //mallaCreator.buildTriangles(); //Llama a función para crear los triangulos
 
         sceneGame = new Scene(paneGame, width, height); //Crea un scene para la ventana del juego
 
@@ -333,7 +335,8 @@ public class Main extends Application {
                     Line line = searchSegment(dot0,dot).getLine();
 
                     //Pinta la linea deseada
-                    line.setStroke(Color.BLACK);
+                    line.setStroke(Color.RED);
+                    line.toFront();
 
                     //Pone los Dots al frente de la linea
                     dot0.getImage().toFront();
@@ -377,6 +380,41 @@ public class Main extends Application {
             System.out.println("Dot has exceeded total drawn segments.");
             dosPuntos = false;
         }
+
+    }
+
+    public void drawTriangulo(){
+
+    }
+
+    public static void drawTrianguloTest(Triangulo triangulo){
+
+        double x1 = triangulo.getHipotenusa().getFirst().getPosX() + 12.5;
+        double y1 = triangulo.getHipotenusa().getFirst().getPosY() + 12.5;
+        double x2 = triangulo.getVertical().getLast().getPosX() + 12.5;
+        double y2 = triangulo.getVertical().getLast().getPosY() + 12.5;
+        double x3 = triangulo.getHorizontal().getFirst().getPosX() + 12.5;
+        double y3 = triangulo.getHorizontal().getFirst().getPosY() + 12.5;
+
+        Polygon triangle = new Polygon(
+                new double[]{
+                        x1, y1,
+                        x2, y2,
+                        x3, y3 }
+        );
+
+        triangle.setFill(Color.GRAY);
+        triangle.setStroke(Color.GRAY);
+        triangle.setStrokeWidth(1);
+
+        paneGame.getChildren().add(triangle);
+
+        triangulo.getHipotenusa().getFirst().getImage().toFront();
+        triangulo.getHipotenusa().getLast().getImage().toFront();
+        triangulo.getHorizontal().getFirst().getImage().toFront();
+        triangulo.getHorizontal().getLast().getImage().toFront();
+        triangulo.getVertical().getFirst().getImage().toFront();
+        triangulo.getVertical().getLast().getImage().toFront();
 
     }
 
