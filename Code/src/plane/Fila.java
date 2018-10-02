@@ -10,27 +10,25 @@ import static game.Main.draw;
  * Representación de una Fila
  *
  * @author Rubén Salas
- * @version 1.1
+ * @version 1.4
  * @since 09/11/18
  */
 public class Fila {
 
     private Dot head;
-    private Dot tail;
     private int size;
     private String name;
-
     private Fila next;
-    private Fila prev;
 
+    /**
+     * Constructor de Fila.
+     * @param name - Nombre de la Fila
+     */
     public Fila(String name) {
         this.head = null;
-        this. tail = null;
         this.size = 0;
         this.next = null;
-        this.prev = null;
         this.name = name;
-
     }
 
     public Dot getHead() {
@@ -39,14 +37,6 @@ public class Fila {
 
     public void setHead(Dot head) {
         this.head = head;
-    }
-
-    public Object getTail() {
-        return tail;
-    }
-
-    public void setTail(Dot tail) {
-        this.tail = tail;
     }
 
     public int getSize() {
@@ -69,14 +59,6 @@ public class Fila {
 
     public void setNext(Fila next) {
         this.next = next;
-    }
-
-    public Fila getPrev() {
-        return prev;
-    }
-
-    public void setPrev(Fila prev) {
-        this.prev = prev;
     }
 
     /**
@@ -107,7 +89,7 @@ public class Fila {
     }
 
     /**
-     * Imprime la Fila
+     * Imprime la Fila.
      */
     public void print(){
         Dot temp = getHead();
@@ -118,7 +100,7 @@ public class Fila {
     }
 
     /**
-     * Asigna su coordenada en y
+     * Asigna su coordenada en y.
      * @param num - numero de fila
      */
     public void setY(int num){
@@ -143,6 +125,9 @@ public class Fila {
         }
     }
 
+    /**
+     * Asigna su coordenada en x.
+     */
     public void setX() {
         Dot temp = this.getHead();
         double count = 0;
@@ -156,6 +141,9 @@ public class Fila {
 
     }
 
+    /**
+     * Muestra la Fila en la interfaz.
+     */
     public void show(){
         Dot temp = this.getHead();
 
@@ -173,6 +161,29 @@ public class Fila {
 
             temp = temp.getNext();
         }
+    }
+
+    /**
+     * Buscará a un Dot específico con sus coordenadas x y y dadas.
+     * @param x - coordenada x
+     * @param y - coordenada y
+     * @return Dot encontrado
+     */
+    public Dot search(double x, double y){
+        Dot temp = this.getHead();
+
+        while(temp != null){
+
+            if(temp.getPosX() == x || temp.getPosY() == x){
+                if (temp.getPosX() == y || temp.getPosY() == y){
+                    return temp;
+                }
+            }
+
+            temp = temp.getNext();
+
+        }
+        return null;
     }
 
 }

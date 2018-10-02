@@ -3,7 +3,6 @@ package game;
 import colas.Jugador;
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -14,19 +13,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import org.json.JSONException;
-import plane.Dot;
-import plane.Lista;
-import plane.Segmento;
-import plane.Triangulo;
+import plane.*;
 import server.Cliente;
-
 import java.io.IOException;
 
 /**
  * Main, tiene la interfaz del juego.
  *
  * @author Rubén Salas
- * @version 2.4
+ * @version 3.0
  * @since 09/11/18
  */
 public class Main extends Application {
@@ -51,6 +46,8 @@ public class Main extends Application {
 
     private Scene sceneConnection;
     private static Scene sceneGame;
+
+    private static Malla malla;
 
     private Image imageDot = new Image(getClass().getResourceAsStream("/images/dot1.png"));
 
@@ -87,9 +84,12 @@ public class Main extends Application {
     private static Pane paneGame;
     private static Button gameTestButton;
 
-    private static Lista listaSegmentos = new Lista("ListaSegmentos");
+    //private static Lista listaSegmentos = new Lista("ListaSegmentos");
 
     private BackgroundImage backgroundConnection;
+
+    //Punto inicial donde se creará el segmento
+    private static Dot dot0;
 
     //Coordenadas para dibujar los segmentos
     private static double point1X;
@@ -97,9 +97,9 @@ public class Main extends Application {
     private static double point2X;
     private static double point2Y;
 
-    private static boolean dosPuntos = false; //Flag que verifica si se han oprimido ambos puntos para dibujar la linea
+    //Flag que verifica si se han oprimido ambos puntos para dibujar la linea
+    private static boolean dosPuntos = false;
 
-    Group root = new Group();
     //Corre la interfaz
     @Override
     public void start(Stage primaryStage) throws IOException, JSONException {
@@ -137,10 +137,8 @@ public class Main extends Application {
             stage.close(); //Cierra la ventana de conección
         });
 
-
         Pane paneConnection = new Pane(); //Pane de la primera ventana
         paneConnection.getChildren().addAll(connectButton,portText,IPText); //Ingresa el botón, y los TextFields
-
 
         //Fondo paneConnection
         backgroundConnection = new BackgroundImage(new Image("/images/wallpaper.jpg"),
@@ -149,8 +147,6 @@ public class Main extends Application {
         paneConnection.setBackground(new Background(backgroundConnection)); //Agrega el background
 
         sceneConnection = new Scene(paneConnection, width, height); //Crea un scene para la  primera ventana (Conección)
-
-
 
         //Scene Game
 
@@ -162,8 +158,8 @@ public class Main extends Application {
 
         //Evento al oprimir el botón
         gameTestButton.setOnAction(event -> {
-            //stage.close(); //Cierra la ventana del juego
-            testDrawSegmentList();
+            stage.close(); //Cierra la ventana del juego
+            //testDrawSegmentList();
         });
 
         //Instancia los ImageViews de los Dots
@@ -198,7 +194,7 @@ public class Main extends Application {
         imageDot55 = new ImageView(imageDot);
 
         paneGame = new Pane(); //Crea un Pane para la ventana del juego
-        paneGame.getChildren().addAll(gameTestButton,
+        paneGame.getChildren().addAll(//gameTestButton,
                 imageDot11, imageDot12, imageDot13, imageDot14, imageDot15,
                 imageDot21, imageDot22, imageDot23, imageDot24, imageDot25,
                 imageDot31, imageDot32, imageDot33, imageDot34, imageDot35,
@@ -210,11 +206,9 @@ public class Main extends Application {
         MallaCreator mallaCreator = new MallaCreator(); //Creador de la malla
         mallaCreator.buildPlane(); //Llama a su función para crear la malla
         mallaCreator.buildSegments(); //Llama a función para crear los segmentos horizontales
-        //mallaCreator.buildTriangles(); //Llama a función para crear los triangulos
+        malla = mallaCreator.getMalla(); //Instancia la malla
 
         sceneGame = new Scene(paneGame, width, height); //Crea un scene para la ventana del juego
-
-
 
         //Al iniciar
 
@@ -233,21 +227,24 @@ public class Main extends Application {
     private void setStageInGame(){
         System.out.println("Ready to play");
 
+        //Crea un botón
         Button connectButton = new Button("Play");
         connectButton.setLayoutX(125);
         connectButton.setLayoutY(125);
 
+        //Acción del botón
         connectButton.setOnAction(event -> {
             stageInGame.close();
             stage.setScene(sceneGame);
             stage.show();
         });
 
-        Pane paneConnection = new Pane();
-        paneConnection.getChildren().addAll(connectButton);
-        paneConnection.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY))); //Fondo blanco
+        //Crea un pane
+        Pane paneInGame = new Pane();
+        paneInGame.getChildren().addAll(connectButton);
+        paneInGame.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY))); //Fondo blanco
 
-        Scene sceneConnection = new Scene(paneConnection, width, height);
+        Scene sceneConnection = new Scene(paneInGame, width, height);
 
         stageInGame.setScene(sceneConnection);
 
@@ -264,28 +261,30 @@ public class Main extends Application {
     private void setStageInQueue(){
         System.out.println("In Queue");
 
-
+        //Crea un botón
         Button connectButton = new Button("Play");
         connectButton.setMinSize(50,50);
         connectButton.setMaxSize(50,50);
         connectButton.setLayoutX(125);
         connectButton.setLayoutY(112);
 
+        //Acción del botón
         connectButton.setOnAction(event -> {
             stageInQueue.close();
             stage.setScene(sceneGame);
             stage.show();
         });
 
+        //Test Mouse
         connectButton.setOnMouseEntered(event ->
                 System.out.println("Mouse"));
 
-        Pane paneConnection = new Pane();
-        paneConnection.getChildren().addAll(connectButton);
-        paneConnection.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY))); //Fondo blanco
+        //Crea un pane
+        Pane paneQueue = new Pane();
+        paneQueue.getChildren().addAll(connectButton);
+        paneQueue.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY))); //Fondo blanco
 
-        Scene sceneConnection = new Scene(paneConnection, width, height);
-
+        Scene sceneConnection = new Scene(paneQueue, width, height);
 
         stageInQueue.setScene(sceneConnection);
 
@@ -296,105 +295,162 @@ public class Main extends Application {
         stageInQueue.show();
     }
 
-    private static Dot dot0;
 
     /**
-     * Dibuja la linea en la interfaz desde un par de puntos dados.
+     * Dibuja la linea en la interfaz desde un segmento dado al inicio ya predefinido.
+     * @param segment Segmento
+     */
+    public static void drawFromSegment(Segmento segment){
+
+        //Agrega la linea al pane
+        paneGame.getChildren().add(segment.getLine());
+
+        //Pone los Dots al frente de la linea
+        segment.getFirst().getImage().toFront();
+        segment.getLast().getImage().toFront();
+
+    }
+
+
+    /**
+     * Dibuja la linea en la interfaz desde un par de puntos dados por turno.
      * @param dot Dot
      */
-    public static void draw(Dot dot){
+    public static void draw(Dot dot){ //COMENTAR!!!
 
-        if(dot.available()) {
+        //Cuando no hay ningun Dot seleccionado
+        if (!dosPuntos) {
+            //Dot inicial es guardado en la variable
+            dot0 = dot;
+            //Guarda sus coordenadas
+            point1X = dot.getPosX();
+            point1Y = dot.getPosY();
 
+            //dot0.setActualSegments(dot.getActualSegments() + 1);
 
-            if (!dosPuntos) {
-                dot0 = dot;
-                point1X = dot.getPosX();
-                point1Y = dot.getPosY();
-                dot0.setActualSegments(dot.getActualSegments() + 1);
-                dosPuntos = true;
-                System.out.println(point1X + "  " + point1Y);
+            //Hace el flag verdadero para que el segundo Dot pueda escogerse
+            dosPuntos = true;
+            //Imprime la coordenada del Dot seleccionado
+            System.out.println("(" + point1X + "  " + point1Y + ")");
 
-            } else {
+        } else {
+            //El segundo segmento se queda en la variable entrante de la función
 
-                point2X = dot.getPosX();
-                point2Y = dot.getPosY();
+            //Guarda sus coordenadas
+            point2X = dot.getPosX();
+            point2Y = dot.getPosY();
 
-                System.out.println(point2X + "  " + point2Y);
+            //Imprime la coordenada del segundo Dot seleccionado
+            System.out.println("(" + point2X + "  " + point2Y + ")");
 
-                double x1 = point1X;
-                double y1 = point1Y;
-                double x2 = point2X;
-                double y2 = point2Y;
+            //Guarda las coordenadas de ambos Dots
+            double x1 = point1X;
+            double y1 = point1Y;
+            double x2 = point2X;
+            double y2 = point2Y;
 
-                double distance = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+            //Obtiene la distancia entre los Dots
+            double distance = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 
-                if (distance <= 150 && distance > 0) {
+            /*
+            La maxima distancia que se puede dibujar un segmento son 150 pixeles debido a que es la distancia entre Dots en diagonal.
+            Hay 100 pixeles entre Dots horizontales y entre Dots verticales también.
+            Solo tomará en cuenta cuando se escogen Dots en esa distancia ya que despues de eso ningun segmento debería ser dibujado.
+            */
+            if (distance <= 150 && distance > 0) {
 
-                    //Busca la linea con los dos puntos dados
-                    Line line = searchSegment(dot0,dot).getLine();
+                //Busca al segmento que esté formado por ambos Dots seleccionados
+                Segmento segment = searchSegment(dot0, dot);
 
-                    //Pinta la linea deseada
-                    line.setStroke(Color.RED);
-                    line.toFront();
+                //Verifica que el segmento esté disponible
+                if (segment.isAvailable()) {
+
+                    //Cuando el segmento no es diagonal
+                    if (!segment.isDiagonal()) {
+
+                        //Busca la linea con los dos Dots dados
+                        Line line = segment.getLine();
+
+                        //Pinta la linea deseada
+                        line.setStroke(Color.RED);
+                        line.toFront();
+
+                    }
+                    //Cuando el segmento es diagonal
+                    else {
+
+                        //Busca su diagonal contraria y la deshabilita
+                        Segmento antidiagonal = getAntiDiagonal(segment);
+                        antidiagonal.setAvailable(false);
+
+                        //Busca la linea con los dos Dots dados
+                        Line line = segment.getLine();
+
+                        //Pinta la linea deseada
+                        line.setStroke(Color.BLUE);
+                        line.toFront();
+
+                    }
+
+                    //Cambia los flags de cada segmento para llevar el control de las figuras
+                    segment.setDrawn(true);
+                    segment.setAvailable(false);
 
                     //Pone los Dots al frente de la linea
                     dot0.getImage().toFront();
                     dot.getImage().toFront();
 
-                    //Crea un nodo del segmento
-                    Segmento segmento = new Segmento(dot0, dot);
-
-                    //Agrega el segmento a la lista de lineas
-                    listaSegmentos.add(segmento);
-                    listaSegmentos.print();
-
                     System.out.println("Segment Drawn");
+                    //Hace el flag falso para que se vuelva a escoger el Dot inicial
                     dosPuntos = false;
 
-                    System.out.println(dot0.getName() + "'s segments: " + dot0.getActualSegments() + " from: " + dot0.getMaxSegments());
-                    System.out.println(dot.getName() + "'s segments: " + dot.getActualSegments() + " from : " + dot.getMaxSegments());
+                    //System.out.println(dot0.getName() + "'s segments: " + dot0.getActualSegments() + " from: " + dot0.getMaxSegments());
+                    //System.out.println(dot.getName() + "'s segments: " + dot.getActualSegments() + " from : " + dot.getMaxSegments());
 
-                    /*
-
-                    TERMINAR TURNO Y ENVIAR POR JSON
-                    EL SEGMENTO
-
-                     */
-
-
-
-                } else if (distance == 0) {
-                    dot0.setActualSegments(dot0.getActualSegments() - 1);
-                    System.out.println("Unselected");
-                    dosPuntos = false;
-
-                } else {
-                    dot0.setActualSegments(dot0.getActualSegments() - 1);
-                    System.out.println("Segment Not Drawn");
+                }
+                //Cuando no esté disponible el segmento
+                else {
+                    System.out.println("Not available");
+                    //Hace el flag falso para que se vuelva a escoger el Dot inicial
                     dosPuntos = false;
                 }
+
+
+            }
+            //Cuando la distancia es 0 signiifca que el mismo Dot ha sido seleccionado, por lo tanto se deseleccionará
+            else if (distance == 0) {
+                //dot0.setActualSegments(dot0.getActualSegments() - 1);
+                System.out.println("Unselected");
+                //Hace el flag falso para que se vuelva a escoger el Dot inicial
+                dosPuntos = false;
+
+            }
+            //Selección erronea de Dots
+            else {
+                //dot0.setActualSegments(dot0.getActualSegments() - 1);
+                System.out.println("Segment Not Drawn");
+                //Hace el flag falso para que se vuelva a escoger el Dot inicial
+                dosPuntos = false;
             }
 
-        } else {
-            System.out.println("Dot has exceeded total drawn segments.");
-            dosPuntos = false;
         }
 
     }
 
-    public void drawTriangulo(){
 
-    }
-
+    /**
+     * Dibuja un triangulo dependiendo de su posición en los cuadrantes.
+     * @param triangulo Triangulo
+     * @param name Posición
+     */
     public static void drawTrianguloTest(Triangulo triangulo, String name){
-        double x1=0.0;
-        double y1=0.0;
-        double x2=0.0;
-        double y2=0.0;
-        double x3=0.0;
-        double y3=0.0;
 
+        //Inicializa las varibales para las coordenadas del triangulo
+        double x1,y1,x2,y2,x3,y3;
+
+        //Dependiendo de la posición del triangulo en el cuadrante se tiene que usar coordenadas diferentes de sus puntos.
+
+        //Cuando es Lower Right o Upper Left
         if (name.equals("TriangulosLowerRight") || name.equals("TriangulosUpperLeft")) {
             x1 = triangulo.getHipotenusa().getFirst().getPosX() + 12.5;
             y1 = triangulo.getHipotenusa().getFirst().getPosY() + 12.5;
@@ -402,7 +458,10 @@ public class Main extends Application {
             y2 = triangulo.getVertical().getLast().getPosY() + 12.5;
             x3 = triangulo.getHorizontal().getFirst().getPosX() + 12.5;
             y3 = triangulo.getHorizontal().getFirst().getPosY() + 12.5;
-        } else if(name.equals("TriangulosLowerLeft") || name.equals("TriangulosUpperRight")) {
+        }
+
+        //Cuando es Lower Left o Upper Right
+        else {
             x1 = triangulo.getHipotenusa().getFirst().getPosX() + 12.5;
             y1 = triangulo.getHipotenusa().getFirst().getPosY() + 12.5;
             x2 = triangulo.getVertical().getLast().getPosX() + 12.5;
@@ -411,19 +470,18 @@ public class Main extends Application {
             y3 = triangulo.getHorizontal().getLast().getPosY() + 12.5;
         }
 
-        Polygon triangle = new Polygon(
-                new double[]{
-                        x1, y1,
-                        x2, y2,
-                        x3, y3 }
-        );
+        //Crea el triangulo con las coordenadas previamente indicadas
+        Polygon triangle = new Polygon(x1, y1, x2, y2, x3, y3);
 
+        //Ingresa el triangulo a la ventana de un color blanco
         triangle.setFill(Color.WHITE);
         triangle.setStroke(Color.WHITE);
         triangle.setStrokeWidth(1);
 
+        //Añade el triangulo al pane
         paneGame.getChildren().add(triangle);
 
+        //Lleva los puntos al frente de los triangulos
         triangulo.getHipotenusa().getFirst().getImage().toFront();
         triangulo.getHipotenusa().getLast().getImage().toFront();
         triangulo.getHorizontal().getFirst().getImage().toFront();
@@ -432,52 +490,6 @@ public class Main extends Application {
         triangulo.getVertical().getLast().getImage().toFront();
 
     }
-
-
-    /**
-     * Dibuja la linea en la interfaz desde un segmento dado.
-     * @param segment Segmento
-     */
-    public static void drawFromSegment(Segmento segment){
-
-        if (segment.isAvailable()) {
-
-            //Agrega la linea al pane
-
-            paneGame.getChildren().add(segment.getLine());
-
-            //Pone los Dots al frente de la linea
-            segment.getFirst().getImage().toFront();
-            segment.getLast().getImage().toFront();
-
-            System.out.println("Segment Drawn");
-            dosPuntos = false;
-
-            System.out.println(segment.getFirst().getName() + "'s segments: " + segment.getFirst().getActualSegments() + " from: " + segment.getFirst().getMaxSegments());
-            System.out.println(segment.getLast().getName() + "'s segments: " + segment.getLast().getActualSegments() + " from: " + segment.getLast().getMaxSegments());
-
-        } else {
-            System.out.println("Segmento no disponible");
-        }
-    }
-
-
-
-
-    public void drawFromSegmentList(Lista segmentList){
-        Segmento temp = segmentList.getHead(); //Crea una Fila temporal para referencia
-        while(temp != null){ //Recorre la lista hasta llegar a la ultima Fila
-            drawFromSegment(temp);
-            temp = temp.getNext();
-        }
-
-    }
-
-    public void testDrawSegmentList(){
-        drawFromSegmentList(listaSegmentos);
-    }
-
-
 
 
     /**
@@ -512,6 +524,51 @@ public class Main extends Application {
             } else {
                 return diagDerIzq;
             }
+        }
+
+    }
+
+
+    /**
+     * Busca el segmento diagonal contrario del segmento dado.
+     * @param segment - Segmento diagonal
+     * @return segmento diagonal contrario
+     */
+    public static Segmento getAntiDiagonal(Segmento segment){
+
+        //Verifica que el segmento sea diagonal
+        if (segment.isDiagonal()){
+
+            //Toma las coordenadas de sus puntos
+            double x1 = segment.getFirst().getPosX();
+            double y1 = segment.getFirst().getPosY();
+            double x2 = segment.getLast().getPosX();
+            double y2 = segment.getLast().getPosY();
+
+            Dot aDFirst;
+            Dot aDLast;
+
+            //Se verifica su dirección al comparar sus coordenadas
+
+            //Si el segmento diagonal va de Izquierda a Derecha
+            if(x1 < x2){
+                //Se buscan los puntos en la malla
+                aDFirst = malla.search(x1+100, y1);
+                aDLast = malla.search(x2-100, y2);
+
+            }
+            //Si el segmento diagonal va de Derecha a Izquierda
+            else {
+                //Se buscan los puntos en la malla
+                aDFirst = malla.search(x1-100, y1);
+                aDLast = malla.search(x2+100, y2);
+
+            }
+            //Busca el segmento con los puntos buscados y lo retorna
+            return searchSegment(aDFirst,aDLast);
+
+        } else {
+            return null;
         }
 
     }

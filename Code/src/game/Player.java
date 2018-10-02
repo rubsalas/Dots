@@ -1,5 +1,12 @@
 package game;
 
+/**
+ * Representa a un jugador.
+ *
+ * @author Rubén Salas
+ * @version 1.1
+ * @since 12/09/18
+ */
 public class Player {
 
     private String usuario;
@@ -7,10 +14,11 @@ public class Player {
     private int totalPuntos;
     private boolean ingame;
 
+    /**
+     * Constructor de Player.
+     */
     public Player(){
-
         this.ingame = false;
-
     }
 
     public String getUsuario() {

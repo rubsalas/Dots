@@ -1,48 +1,68 @@
 package game;
 
 import plane.*;
+
+/**
+ * Creador de la malla.
+ *
+ * @author Rubén Salas
+ * @version 2.1
+ * @since 13/09/18
+ */
 public class MallaCreator {
 
+    //Se define la malla
     Malla malla = new Malla();
 
+    //Se definen todas las filas con su respectivo nombre
     Fila fila1 = new Fila("fila1");
     Fila fila2 = new Fila("fila2");
     Fila fila3 = new Fila("fila3");
     Fila fila4 = new Fila("fila4");
     Fila fila5 = new Fila("fila5");
 
-    Dot dot11 = new Dot("dot11", Main.imageDot11, 3);
-    Dot dot12 = new Dot("dot12", Main.imageDot12, 5);
-    Dot dot13 = new Dot("dot13", Main.imageDot13, 5);
-    Dot dot14 = new Dot("dot14", Main.imageDot14, 5);
-    Dot dot15 = new Dot("dot15", Main.imageDot15, 3);
+    //Se definen todos los puntos con su respectivo nombre y su imagen
+    Dot dot11 = new Dot("dot11", Main.imageDot11);
+    Dot dot12 = new Dot("dot12", Main.imageDot12);
+    Dot dot13 = new Dot("dot13", Main.imageDot13);
+    Dot dot14 = new Dot("dot14", Main.imageDot14);
+    Dot dot15 = new Dot("dot15", Main.imageDot15);
 
-    Dot dot21 = new Dot("dot21", Main.imageDot21, 5);
-    Dot dot22 = new Dot("dot22", Main.imageDot22, 8);
-    Dot dot23 = new Dot("dot23", Main.imageDot23, 8);
-    Dot dot24 = new Dot("dot24", Main.imageDot24, 8);
-    Dot dot25 = new Dot("dot25", Main.imageDot25, 5);
+    Dot dot21 = new Dot("dot21", Main.imageDot21);
+    Dot dot22 = new Dot("dot22", Main.imageDot22);
+    Dot dot23 = new Dot("dot23", Main.imageDot23);
+    Dot dot24 = new Dot("dot24", Main.imageDot24);
+    Dot dot25 = new Dot("dot25", Main.imageDot25);
 
-    Dot dot31 = new Dot("dot31", Main.imageDot31, 5);
-    Dot dot32 = new Dot("dot32", Main.imageDot32, 8);
-    Dot dot33 = new Dot("dot33", Main.imageDot33, 8);
-    Dot dot34 = new Dot("dot34", Main.imageDot34, 8);
-    Dot dot35 = new Dot("dot35", Main.imageDot35, 5);
+    Dot dot31 = new Dot("dot31", Main.imageDot31);
+    Dot dot32 = new Dot("dot32", Main.imageDot32);
+    Dot dot33 = new Dot("dot33", Main.imageDot33);
+    Dot dot34 = new Dot("dot34", Main.imageDot34);
+    Dot dot35 = new Dot("dot35", Main.imageDot35);
 
-    Dot dot41 = new Dot("dot41", Main.imageDot41, 5);
-    Dot dot42 = new Dot("dot42", Main.imageDot42, 8);
-    Dot dot43 = new Dot("dot43", Main.imageDot43, 8);
-    Dot dot44 = new Dot("dot44", Main.imageDot44, 8);
-    Dot dot45 = new Dot("dot45", Main.imageDot45, 5);
+    Dot dot41 = new Dot("dot41", Main.imageDot41);
+    Dot dot42 = new Dot("dot42", Main.imageDot42);
+    Dot dot43 = new Dot("dot43", Main.imageDot43);
+    Dot dot44 = new Dot("dot44", Main.imageDot44);
+    Dot dot45 = new Dot("dot45", Main.imageDot45);
 
-    Dot dot51 = new Dot("dot51", Main.imageDot51, 3);
-    Dot dot52 = new Dot("dot52", Main.imageDot52, 5);
-    Dot dot53 = new Dot("dot53", Main.imageDot53, 5);
-    Dot dot54 = new Dot("dot54", Main.imageDot54, 5);
-    Dot dot55 = new Dot("dot55", Main.imageDot55, 3);
+    Dot dot51 = new Dot("dot51", Main.imageDot51);
+    Dot dot52 = new Dot("dot52", Main.imageDot52);
+    Dot dot53 = new Dot("dot53", Main.imageDot53);
+    Dot dot54 = new Dot("dot54", Main.imageDot54);
+    Dot dot55 = new Dot("dot55", Main.imageDot55);
 
+    /**
+     * Retorna la malla.
+     * @return malla
+     */
+    public Malla getMalla(){
+        return this.malla;
+    }
 
-
+    /**
+     * Construye la malla, con sus respectivas filas y puntos predefinidos.
+     */
     public void buildPlane(){
 
         //Ingresa las filas a la malla
@@ -51,7 +71,6 @@ public class MallaCreator {
         malla.add(fila3);
         malla.add(fila4);
         malla.add(fila5);
-
 
         //Ingresa puntos a la fila1
         fila1.add(dot11);
@@ -64,7 +83,6 @@ public class MallaCreator {
         fila1.setY(1);
         fila1.setX();
 
-
         //Ingresa puntos a la fila2
         fila2.add(dot21);
         fila2.add(dot22);
@@ -75,7 +93,6 @@ public class MallaCreator {
         //Establece las coordenadas de cada punto en específico de la fila2
         fila2.setY(2);
         fila2.setX();
-
 
         //Ingresa puntos a la fila3
         fila3.add(dot31);
@@ -88,7 +105,6 @@ public class MallaCreator {
         fila3.setY(3);
         fila3.setX();
 
-
         //Ingresa puntos a la fila4
         fila4.add(dot41);
         fila4.add(dot42);
@@ -99,7 +115,6 @@ public class MallaCreator {
         //Establece las coordenadas de cada punto en específico de la fila4
         fila4.setY(4);
         fila4.setX();
-
 
         //Ingresa puntos a la fila5
         fila5.add(dot51);
@@ -112,24 +127,21 @@ public class MallaCreator {
         fila5.setY(5);
         fila5.setX();
 
-
         //Muestra la malla en la interfaz
-        malla.print();
+        //malla.print();
         malla.show();
-
 
     }
 
-
-
+    //Se definen las listas de segmentos por su dirección
     static Lista segmentosVerticales = new Lista("Verticlaes");
     static Lista segmentosHorizontales = new Lista("Horizontales");
     static Lista segmentosDiagIzqDer = new Lista("Diagonales de Izquierda a Derecha");
     static Lista segmentosDiagDerIzq = new Lista("Diagonales de Derecha a Izquierda");
 
-
-
-
+    /**
+     * Define los segmentos para que queden listos de dibujar y sus respectivas figuras.
+     */
     public void buildSegments(){
 
         //Creación de los segmentos verticales
@@ -433,8 +445,6 @@ public class MallaCreator {
 
         triangulosLowerLeft.show();
 
-
-
         //Creación de los triangulos upper right
 
         Triangulo triUpRightaa = new Triangulo(s11_22,s12_22,s11_12);
@@ -480,8 +490,6 @@ public class MallaCreator {
         triangulosUpperRight.add(triUpRightdd);
 
         triangulosUpperRight.show();
-
-
 
         //Creación de los triangulos upper left
 

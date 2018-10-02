@@ -12,8 +12,6 @@ import static game.Main.drawFromSegment;
  * @since 11/09/18
  *
  */
-
-
 public class Lista {
 
     private Segmento head;

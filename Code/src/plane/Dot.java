@@ -6,29 +6,27 @@ import javafx.scene.image.ImageView;
  * Representación de un Dot
  *
  * @author Rubén Salas
- * @version 1.2
+ * @version 1.4
  * @since 09/11/18
  */
 public class Dot {
 
     private Dot next;
-    private Dot prev;
     private double posX; //posicion en X
     private double posY; //posicion en Y
     private String name;
     private ImageView image;
-    private int maxSegments;
-    private int actualSegments;
+    //private int maxSegments;
+   // private int actualSegments;
 
-    public Dot(String name, ImageView image, int max){
+    public Dot(String name, ImageView image){
         this.next = null;
-        this.prev = null;
         this.posX = 0;
         this.posY = 0;
         this.name = name;
         this.image = image;
-        this.maxSegments = max;
-        this.actualSegments = 0;
+        //this.maxSegments = max;
+        //this.actualSegments = 0;
     }
 
 
@@ -38,14 +36,6 @@ public class Dot {
 
     public void setNext(Dot next) {
         this.next = next;
-    }
-
-    public Dot getPrev() {
-        return prev;
-    }
-
-    public void setPrev(Dot prev) {
-        this.prev = prev;
     }
 
     public double getPosX() {
@@ -75,7 +65,7 @@ public class Dot {
     public void setImage(ImageView image) {
         this.image = image;
     }
-
+/*
     public int getMaxSegments() {
         return maxSegments;
     }
@@ -95,4 +85,5 @@ public class Dot {
     public boolean available(){
         return (this.maxSegments - this.actualSegments) > 0;
     }
+    */
 }

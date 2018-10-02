@@ -93,4 +93,17 @@ public class Segmento {
         this.line.setStrokeLineCap(StrokeLineCap.ROUND);
         this.line.setStrokeWidth(5);
     }
+
+    public boolean isDiagonal(){
+        if (this.getFirst().getPosX() == this.getLast().getPosX()){
+            return false;
+        } else if(this.getFirst().getPosY() == this.getLast().getPosY()){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+
 }

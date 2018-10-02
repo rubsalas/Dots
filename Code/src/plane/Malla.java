@@ -1,32 +1,23 @@
 package plane;
 
-
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Line2D;
-import java.util.ArrayList;
-
 /**
  * Representación de la Malla
  *
  * @author Rubén Salas
- * @version 1.0
+ * @version 1.2
  * @since 09/11/18
  */
 public class Malla {
 
     private Fila head;
-    private Fila tail;
     private int size;
-    private String name;
 
-
+    /**
+     * Constructor de Malla.
+     */
     public Malla(){
         this.head = null;
-        this.tail = null;
         this.size = 0;
-        this.name = "Malla";
     }
 
     public Fila getHead() {
@@ -35,14 +26,6 @@ public class Malla {
 
     public void setHead(Fila head) {
         this.head = head;
-    }
-
-    public Fila getTail() {
-        return tail;
-    }
-
-    public void setTail(Fila tail) {
-        this.tail = tail;
     }
 
     public int getSize() {
@@ -82,7 +65,7 @@ public class Malla {
     }
 
     /**
-     * Imprime la Malla
+     * Imprime la Malla.
      */
     public void print(){
         Fila temp = getHead();
@@ -94,16 +77,54 @@ public class Malla {
         }
     }
 
+    /**
+     * Muestra la malla en la interfaz.
+     */
     public void show(){
         Fila temp = getHead();
 
-        System.out.print("Showing Malla");
+        System.out.println("Showing Malla");
 
         while (temp != null){
 
             temp.show(); //Imprime la Fila
-            temp = temp.getNext();
+            temp = temp.getNext(); //Pasa a la siguiente Fila
         }
+    }
+
+    /**
+     * Buscará en todas sus filas a un Dot específico con sus coordenadas x y y dadas.
+     * @param x - coordenada x
+     * @param y - coordenada y
+     * @return Dot encontrado
+     */
+    public Dot search(double x, double y){
+        //Crea un temporal para las filas
+        Fila temp = getHead();
+
+        //Define un punto para guardar el encontrado
+        Dot found = null;
+
+        //Mientras recorre la malla (lista de Filas)
+        while (temp != null){
+
+            //Se guardará el resultado de la busqueda de cada fila
+            Dot aux = temp.search(x,y); //Busca en la Fila
+
+            //Si se encuentra el Dot
+            if (aux != null){
+                //Se guarda en la variable
+                found = aux;
+            }
+
+            //Pasa a la siguiente Fila
+            temp = temp.getNext();
+
+        }
+
+        //Retorna el Dot encontrado
+        return found;
+
     }
 
 }
