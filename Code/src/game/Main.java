@@ -1,3 +1,5 @@
+//192.168.56.1
+
 package game;
 
 import colas.Jugador;
@@ -51,6 +53,11 @@ public class Main extends Application {
     private static Scene sceneGame;
 
     private static Malla malla;
+    
+    //Modified
+    
+    static TextField user;
+    static TextField ip;
 
     private Image imageDot = new Image(getClass().getResourceAsStream("/images/dot1.png"));
 
@@ -108,7 +115,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException, JSONException {
 
         client = new Cliente();
-        client.main(args);
+        
         //client.main(args); //Corre el cliente
         Jugador player = new Jugador(); //Objeto jugador
         player.setIngame(true); //Flag si está en cola o no
@@ -116,33 +123,47 @@ public class Main extends Application {
         stage = primaryStage; //Redefine el primary stage
 
         //SceneConnection
+        
+      //Modified
 
-        TextField portText = new TextField(); //TextField para el IP
-        portText.setLayoutX(150);
-        portText.setLayoutY(350);
+        user = new TextField(); //TextField para el user
+        user.setLayoutX(150);
+        user.setLayoutY(350);
+        
+        ip = new TextField();
+        ip.setLayoutX(150);
+        ip.setLayoutY(400);
+        
+ 
 
-        TextField IPText = new TextField(); //TextField para el Puerto
-        IPText.setLayoutX(150);
-        IPText.setLayoutY(400);
 
         Button connectButton = new Button("Connect"); //Botón para probar conección
         connectButton.setMinSize(50,50);
-        connectButton.setMaxSize(50,50);
+        connectButton.setMaxSize(100,50);
         connectButton.setLayoutX(225);
         connectButton.setLayoutY(212);
 
         //Evento al oprimir el botón
         connectButton.setOnAction(event -> {
             if (player.isIngame()){ //Si el cliente está listo para jugar
+            	
+            	client.main(args);
+            	
+            	
                 setStageInGame(); //Crea la ventana de espera del juego
+                
+               System.out.println( user.getText() + " est� conectado a " + ip.getText());
+                
             } else{ //Si debe esperar en la cola
                 setStageInQueue(); //Crea ventana de espera en cola
             }
             stage.close(); //Cierra la ventana de conección
         });
-
+        
+      //Modified
+        
         Pane paneConnection = new Pane(); //Pane de la primera ventana
-        paneConnection.getChildren().addAll(connectButton,portText,IPText); //Ingresa el botón, y los TextFields
+        paneConnection.getChildren().addAll(connectButton,user,ip); //Ingresa el botón, y los TextFields
 
         //Fondo paneConnection
         backgroundConnection = new BackgroundImage(new Image("/images/wallpaper.jpg"),
@@ -162,8 +183,14 @@ public class Main extends Application {
 
         //Evento al oprimir el botón
         gameTestButton.setOnAction(event -> {
-            stage.close(); //Cierra la ventana del juego
+        	
+        	//*////
+        	
+            //stage.close(); //Cierra la ventana del juego
             //testDrawSegmentList();
+            
+            
+            
         });
 
         //Instancia los ImageViews de los Dots
@@ -198,7 +225,7 @@ public class Main extends Application {
         imageDot55 = new ImageView(imageDot);
 
         paneGame = new Pane(); //Crea un Pane para la ventana del juego
-        paneGame.getChildren().addAll(//gameTestButton,
+        paneGame.getChildren().addAll(gameTestButton,
                 imageDot11, imageDot12, imageDot13, imageDot14, imageDot15,
                 imageDot21, imageDot22, imageDot23, imageDot24, imageDot25,
                 imageDot31, imageDot32, imageDot33, imageDot34, imageDot35,
@@ -224,6 +251,18 @@ public class Main extends Application {
         stage.show(); //Muestra el stage
 
     }
+    
+    
+    
+    
+    static public String getUserText() {
+    	return user.getText();
+    }
+    
+    static public String getIPText() {
+    	return ip.getText();
+    }
+
 
     /**
      * Muestra la ventana de espera del juego.
@@ -457,19 +496,6 @@ public class Main extends Application {
         jsonSegment.put("x2",x2);
         jsonSegment.put("y2",y2);
     }
-
-    public static void getFromJSON(String json){
-        String hola = "12345";
-        char[] charArray = hola.toCharArray();
-        Character g = charArray[0];
-        int i = 0;
-        while(i <= charArray.length){
-            if(String.valueOf(charArray[0]) == ":"){
-
-            }
-        }
-    }
-
 
 
     /**
