@@ -1,5 +1,6 @@
 package game;
 
+import org.json.JSONException;
 import plane.*;
 
 /**
@@ -142,7 +143,7 @@ public class MallaCreator {
     /**
      * Define los segmentos para que queden listos de dibujar y sus respectivas figuras.
      */
-    public void buildSegments(){
+    public void buildSegments() throws JSONException {
 
         //Creación de los segmentos verticales
         Segmento s11_21 = new Segmento(dot11, dot21);

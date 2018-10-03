@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import org.json.JSONException;
+import org.json.JSONObject;
 import plane.*;
 import server.Cliente;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import java.io.IOException;
  * Main, tiene la interfaz del juego.
  *
  * @author Rubén Salas
- * @version 3.0
+ * @version 3.1
  * @since 09/11/18
  */
 public class Main extends Application {
@@ -37,9 +38,11 @@ public class Main extends Application {
 
     private String[] args; //variable para iniciar el cliente
 
-    Cliente client;
+    static Cliente client;
 
     private static Stage stage;
+
+    static JSONObject jsonSegment = new JSONObject();
 
     private Stage stageInGame = new Stage();
     private Stage stageInQueue = new Stage();
@@ -105,6 +108,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException, JSONException {
 
         client = new Cliente();
+        client.main(args);
         //client.main(args); //Corre el cliente
         Jugador player = new Jugador(); //Objeto jugador
         player.setIngame(true); //Flag si está en cola o no
@@ -316,7 +320,7 @@ public class Main extends Application {
      * Dibuja la linea en la interfaz desde un par de puntos dados por turno.
      * @param dot Dot
      */
-    public static void draw(Dot dot){ //COMENTAR!!!
+    public static void draw(Dot dot){
 
         //Cuando no hay ningun Dot seleccionado
         if (!dosPuntos) {
@@ -348,6 +352,10 @@ public class Main extends Application {
             double y1 = point1Y;
             double x2 = point2X;
             double y2 = point2Y;
+
+
+
+            //client.setJSON(jsonSegment);
 
             //Obtiene la distancia entre los Dots
             double distance = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
@@ -404,8 +412,14 @@ public class Main extends Application {
                     //Hace el flag falso para que se vuelva a escoger el Dot inicial
                     dosPuntos = false;
 
-                    //System.out.println(dot0.getName() + "'s segments: " + dot0.getActualSegments() + " from: " + dot0.getMaxSegments());
-                    //System.out.println(dot.getName() + "'s segments: " + dot.getActualSegments() + " from : " + dot.getMaxSegments());
+                    //Agrega las coordenadas al JSON
+                    try {
+                        jsonPut(x1,y1,x2,y2);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    client.setJSON(jsonSegment);
 
                 }
                 //Cuando no esté disponible el segmento
@@ -435,6 +449,13 @@ public class Main extends Application {
 
         }
 
+    }
+
+    public static void jsonPut(double x1, double y1, double x2, double y2) throws JSONException {
+        jsonSegment.put("x1",x1);
+        jsonSegment.put("y1",y1);
+        jsonSegment.put("x2",x2);
+        jsonSegment.put("y2",y2);
     }
 
 
@@ -570,6 +591,16 @@ public class Main extends Application {
         } else {
             return null;
         }
+
+    }
+
+    public void createSegmentFromJSON(double x1, double y1, double x2, double y2){
+        Dot dot1 = malla.search(x1,y1);
+        Dot dot2 = malla.search(x2,y2);
+        Segmento segment = searchSegment(dot1,dot2);
+        draw(segment.getFirst());
+        draw(segment.getLast());
+
 
     }
 

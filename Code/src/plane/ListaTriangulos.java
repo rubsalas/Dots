@@ -2,13 +2,23 @@ package plane;
 
 import static game.Main.drawTrianguloTest;
 
+/**
+ * Representa una Lista de Triangulos.
+ *
+ * @author Rubén Salas
+ * @version 1.1
+ * @since 30/09/18
+ */
 public class ListaTriangulos {
 
     private Triangulo head;
     private int size;
     private String name;
 
-
+    /**
+     * Constructor de ListaTriangulos
+     * @param name - Nombre
+     */
     public ListaTriangulos(String name){
         this.head = null;
         this.size = 0;

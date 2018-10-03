@@ -1,13 +1,25 @@
 package plane;
 
+/**
+ * Representa un triangulo.
+ *
+ * @author Rubén Salas
+ * @version 1.1
+ * @since 30/09/18
+ */
 public class Triangulo {
 
-    Triangulo next;
-    Triangulo prev;
-    Segmento hipotenusa;
-    Segmento horizontal;
-    Segmento vertical;
+    private Triangulo next;
+    private Segmento hipotenusa;
+    private Segmento horizontal;
+    private Segmento vertical;
 
+    /**
+     * Constructor de Triangulo.
+     * @param diag - Segmento Diagonal
+     * @param vert - Segmento Vertical
+     * @param hori - Segmento Horizontal
+     */
     public Triangulo(Segmento diag, Segmento vert, Segmento hori){
         this.hipotenusa = diag;
         this.horizontal = hori;
@@ -20,14 +32,6 @@ public class Triangulo {
 
     public void setNext(Triangulo next) {
         this.next = next;
-    }
-
-    public Triangulo getPrev() {
-        return prev;
-    }
-
-    public void setPrev(Triangulo prev) {
-        this.prev = prev;
     }
 
     public Segmento getHipotenusa() {
@@ -53,4 +57,5 @@ public class Triangulo {
     public void setVertical(Segmento vertical) {
         this.vertical = vertical;
     }
+
 }

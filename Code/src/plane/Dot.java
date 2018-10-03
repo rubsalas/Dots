@@ -16,19 +16,19 @@ public class Dot {
     private double posY; //posicion en Y
     private String name;
     private ImageView image;
-    //private int maxSegments;
-   // private int actualSegments;
 
+    /**
+     * Constructor de Dot.
+     * @param name - Nombre
+     * @param image - Imagen
+     */
     public Dot(String name, ImageView image){
         this.next = null;
         this.posX = 0;
         this.posY = 0;
         this.name = name;
         this.image = image;
-        //this.maxSegments = max;
-        //this.actualSegments = 0;
     }
-
 
     public Dot getNext() {
         return next;
@@ -65,25 +65,5 @@ public class Dot {
     public void setImage(ImageView image) {
         this.image = image;
     }
-/*
-    public int getMaxSegments() {
-        return maxSegments;
-    }
 
-    public void setMaxSegments(int maxSegments) {
-        this.maxSegments = maxSegments;
-    }
-
-    public int getActualSegments() {
-        return actualSegments;
-    }
-
-    public void setActualSegments(int actualSegments) {
-        this.actualSegments = actualSegments;
-    }
-
-    public boolean available(){
-        return (this.maxSegments - this.actualSegments) > 0;
-    }
-    */
 }

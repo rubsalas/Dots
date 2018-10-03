@@ -3,6 +3,7 @@ package plane;
 
 
 import javafx.scene.image.ImageView;
+import org.json.JSONException;
 
 import static game.Main.draw;
 
@@ -156,7 +157,9 @@ public class Fila {
             final Dot dot = temp;
 
             temp.getImage().setOnMousePressed(event ->{
+
                 draw(dot);
+
             });
 
             temp = temp.getNext();

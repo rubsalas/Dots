@@ -2,6 +2,8 @@
 
 package plane;
 
+import org.json.JSONException;
+
 import static game.Main.drawFromSegment;
 
 /**
@@ -19,7 +21,10 @@ public class Lista {
     private int size;
     private String name;
 
-
+    /**
+     * Constructor de Lista.
+     * @param name - Nombre
+     */
     public Lista(String name){
         this.head = null;
         this.tail = null;
@@ -53,7 +58,6 @@ public class Lista {
 
     /**
      * Consulta si la lista está vacía.
-     *
      * @return true si el primer Enemy (head), no apunta a otro Enemy.
      */
     public boolean itsEmpty(){
@@ -64,8 +68,6 @@ public class Lista {
      * Agrega una nueva Line al final de la lista.
      * @param newLine - nueva Line por ingresar en lista
      */
-
-
     public void add(Segmento newLine){
         if (this.itsEmpty()) { //Verifica que la lista esté vacia
             this.setHead(newLine); //Agrega como head a newFila
@@ -85,7 +87,6 @@ public class Lista {
     /**
      * Imprime la Malla
      */
-
     public void print(){
         Segmento temp = getHead();
         while (temp != null){
@@ -96,8 +97,10 @@ public class Lista {
     }
 
 
-
-    public void show(){
+    /**
+     * Muestra la lista en la interfaz.
+     */
+    public void show() throws JSONException {
         Segmento temp = this.getHead();
 
         while (temp != null){
@@ -108,8 +111,12 @@ public class Lista {
         }
     }
 
-
-
+    /**
+     * Busca un segmento con dos Dots dados.
+     * @param dot1 - Dot inicial
+     * @param dot2 - Dot final
+     * @return Segmento encontrado
+     */
     public Segmento search(Dot dot1, Dot dot2){
         Segmento temp = this.getHead();
 
@@ -125,7 +132,5 @@ public class Lista {
         }
         return null;
     }
-
-
 
 }
