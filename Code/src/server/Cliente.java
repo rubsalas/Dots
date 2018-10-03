@@ -13,6 +13,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import javax.swing.*;
 
+import static game.Main.getFromJSON;
+
 public class Cliente {
 
 	static MarcoCliente1 mimarco1;
@@ -168,6 +170,10 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 				ObjectInputStream entrada1 = new ObjectInputStream(cliente1.getInputStream());
 
 				Recibido1 = (PaqueteEnvio) entrada1.readObject();
+
+				getFromJSON(Recibido1.getMensaje());
+
+				System.out.println(Recibido1.getMensaje().getClass().getName());
 
 				campochat1.append("\n" + Recibido1.getNick() + ": " + Recibido1.getMensaje());
 

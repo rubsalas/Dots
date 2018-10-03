@@ -458,6 +458,19 @@ public class Main extends Application {
         jsonSegment.put("y2",y2);
     }
 
+    public static void getFromJSON(String json){
+        String hola = "12345";
+        char[] charArray = hola.toCharArray();
+        Character g = charArray[0];
+        int i = 0;
+        while(i <= charArray.length){
+            if(String.valueOf(charArray[0]) == ":"){
+
+            }
+        }
+    }
+
+
 
     /**
      * Dibuja un triangulo dependiendo de su posición en los cuadrantes.
