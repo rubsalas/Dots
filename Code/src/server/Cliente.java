@@ -12,8 +12,7 @@ import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import javax.swing.*;
-
-import static game.Main.getFromJSON;
+import static game.Main.*;
 
 public class Cliente {
 
@@ -62,17 +61,30 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 	JSONObject json;
 
 	public LaminaMarcoCliente1() {
+		
+		JLabel n_nick = new JLabel("   Nickname:");
+		
+		n_nick.setLocation(50, 50);;
+		
+		add(n_nick);
 
-		nick1 = new JTextField(5);
+		nick1 = new JLabel();
+		
+		nick1.setText(getUserText());
+		
 
 		add(nick1);
-
-		JLabel texto1 = new JLabel("CHAT");
-
-		add(texto1);
-
-		ip1 = new JTextField(8);
-
+		
+		JLabel i_ip = new JLabel("   IP:");
+		
+		add(i_ip);
+		
+		ip1 = new JLabel();
+		
+		ip1.setText(getIpText());
+		
+		ip1.setLocation(200, 20);
+		
 		add(ip1);
 
 		campochat1 = new JTextArea(12, 20);
@@ -109,11 +121,11 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			try {
-				Socket misocket1 = new Socket("192.168.137.1", 9999);
+				Socket misocket1 = new Socket("192.168.56.1", 9999);
 
 				PaqueteEnvio datos1 = new PaqueteEnvio();
 
-				datos1.setNick(nick1.getText());
+				datos1.setNick(getUserText());
 
 				datos1.setIp(ip1.getText());
 
@@ -146,7 +158,9 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 
 	}
 
-	private JTextField campo, nick1, ip1;
+	private JTextField campo;
+	
+	private JLabel nick1, ip1;
 
 	private JTextArea campochat1;
 
@@ -170,10 +184,6 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 				ObjectInputStream entrada1 = new ObjectInputStream(cliente1.getInputStream());
 
 				Recibido1 = (PaqueteEnvio) entrada1.readObject();
-
-				getFromJSON(Recibido1.getMensaje());
-
-				System.out.println(Recibido1.getMensaje().getClass().getName());
 
 				campochat1.append("\n" + Recibido1.getNick() + ": " + Recibido1.getMensaje());
 
