@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +32,9 @@ public class Main extends Application {
         launch(args);
     }
 
-    //Variables de interfaz
+
+    //Se definen las variables de la interfaz
+
 
     private int width = 575; //largo en pixeles
     private int height = 625; //alto en pixeles
@@ -53,8 +56,16 @@ public class Main extends Application {
     private static MallaCreator mallaCreator;
     private static Malla malla;
 
+    static int score1 = 0;
+    static int score2 = 0;
+
     static TextField userTextField;
     static TextField ipTextField;
+
+    static Text textPlayer1;
+    static Text textPlayer2;
+    static Text scorePlayer1;
+    static Text scorePlayer2;
 
     private Image imageDot = new Image(getClass().getResourceAsStream("/images/dot1.png"));
 
@@ -173,6 +184,25 @@ public class Main extends Application {
             //testDrawSegmentList();
         });
 
+        textPlayer1 = new Text("Player 1");
+        textPlayer1.setLayoutX(10);
+        textPlayer1.setLayoutY(20);
+
+        textPlayer2 = new Text("Player 2");
+        textPlayer2.setLayoutX(520);
+        textPlayer2.setLayoutY(20);
+
+        scorePlayer1 = new Text(String.valueOf(score1));
+        scorePlayer1.setLayoutX(10);
+        scorePlayer1.setLayoutY(50);
+
+        scorePlayer2 = new Text(String.valueOf(score2));
+        scorePlayer2.setLayoutX(520);
+        scorePlayer2.setLayoutY(50);
+
+
+
+
         //Instancia los ImageViews de los Dots
         imageDot11 = new ImageView(imageDot);
         imageDot12 = new ImageView(imageDot);
@@ -207,7 +237,8 @@ public class Main extends Application {
         //Define
 
         paneGame = new Pane(); //Crea un Pane para la ventana del juego
-        paneGame.getChildren().addAll(//gameTestButton,
+        paneGame.getChildren().addAll(
+                textPlayer1,textPlayer2,scorePlayer1,scorePlayer2,
                 imageDot11, imageDot12, imageDot13, imageDot14, imageDot15,
                 imageDot21, imageDot22, imageDot23, imageDot24, imageDot25,
                 imageDot31, imageDot32, imageDot33, imageDot34, imageDot35,
@@ -242,6 +273,20 @@ public class Main extends Application {
         return ipTextField.getText();
     }
 
+    public static void setTextPlayer2(String name){
+        textPlayer2.setText(name);
+    }
+
+    public static void setScorePlayer1(int score){
+        score1 += score;
+        scorePlayer1.setText(String.valueOf(score1));
+    }
+
+    public static void setScorePlayer2(int score){
+        score2 += score;
+        scorePlayer2.setText(String.valueOf(score2));
+    }
+
     /**
      * Muestra la ventana de espera del juego.
      */
@@ -256,6 +301,7 @@ public class Main extends Application {
         //Acción del botón
         connectButton.setOnAction(event -> {
             stageInGame.close();
+            textPlayer1.setText(getUserText());
             stage.setScene(sceneGame);
             stage.show();
         });
@@ -292,6 +338,7 @@ public class Main extends Application {
         //Acción del botón
         connectButton.setOnAction(event -> {
             stageInQueue.close();
+            textPlayer1.setText(getUserText());
             stage.setScene(sceneGame);
             stage.show();
         });
@@ -337,7 +384,7 @@ public class Main extends Application {
      * Dibuja la linea en la interfaz desde un par de puntos dados por turno.
      * @param dot Dot
      */
-    public static void draw(Dot dot){
+    public static void draw(Dot dot, int player){
 
         //Cuando no hay ningun Dot seleccionado
         if (!dosPuntos) {
@@ -425,7 +472,7 @@ public class Main extends Application {
 
                     System.out.println(segment.isDrawn());
 
-                    drawFigura(segment);
+                    drawFigura(segment, player);
 
                     //Pone los Dots al frente de la linea
                     dot0.getImage().toFront();
@@ -441,6 +488,8 @@ public class Main extends Application {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
+
 
                     client.setJSON(jsonSegment);
 
@@ -475,7 +524,11 @@ public class Main extends Application {
 
     }
 
-    public static void drawFigura(Segmento segment){
+    /**
+     *
+     * @param segment
+     */
+    public static void drawFigura(Segmento segment, int player){
 
         System.out.println("drawFigura");
 
@@ -484,26 +537,19 @@ public class Main extends Application {
         Triangulo temp3 = mallaCreator.getTriangulosUpperRight().getHead();
         Triangulo temp4 = mallaCreator.getTriangulosUpperLeft().getHead();
 
-        boolean temp1Check = false;
-        boolean temp2Check = false;
-        boolean temp3Check = false;
-        boolean temp4Check = false;
-
-
-
         while (temp1 != null){
             //System.out.println("LR");
             if(temp1.getHipotenusa() == segment){
                 System.out.println("Hip");
-                temp1.checkCerrado();
+                temp1.checkCerrado(player);
             }
             if(temp1.getVertical() == segment){
                 System.out.println("Ver");
-                temp1.checkCerrado();
+                temp1.checkCerrado(player);
             }
             if (temp1.getHorizontal() == segment){
                 System.out.println("Hor");
-                temp1.checkCerrado();
+                temp1.checkCerrado(player);
             }
 
             temp1 = temp1.getNext();
@@ -513,15 +559,15 @@ public class Main extends Application {
             //System.out.println("LR");
             if(temp2.getHipotenusa() == segment){
                 System.out.println("Hip");
-                temp2.checkCerrado();
+                temp2.checkCerrado(player);
             }
             if(temp2.getVertical() == segment){
                 System.out.println("Ver");
-                temp2.checkCerrado();
+                temp2.checkCerrado(player);
             }
             if (temp2.getHorizontal() == segment){
                 System.out.println("Hor");
-                temp2.checkCerrado();
+                temp2.checkCerrado(player);
             }
 
             temp2 = temp2.getNext();
@@ -531,15 +577,15 @@ public class Main extends Application {
             //System.out.println("LR");
             if(temp3.getHipotenusa() == segment){
                 System.out.println("Hip");
-                temp3.checkCerrado();
+                temp3.checkCerrado(player);
             }
             if(temp3.getVertical() == segment){
                 System.out.println("Ver");
-                temp3.checkCerrado();
+                temp3.checkCerrado(player);
             }
             if (temp3.getHorizontal() == segment){
                 System.out.println("Hor");
-                temp3.checkCerrado();
+                temp3.checkCerrado(player);
             }
 
             temp3 = temp3.getNext();
@@ -549,15 +595,15 @@ public class Main extends Application {
             //System.out.println("LR");
             if(temp4.getHipotenusa() == segment){
                 System.out.println("Hip");
-                temp4.checkCerrado();
+                temp4.checkCerrado(player);
             }
             if(temp4.getVertical() == segment){
                 System.out.println("Ver");
-                temp4.checkCerrado();
+                temp4.checkCerrado(player);
             }
             if (temp4.getHorizontal() == segment){
                 System.out.println("Hor");
-                temp4.checkCerrado();
+                temp4.checkCerrado(player);
             }
 
             temp4 = temp4.getNext();
@@ -717,7 +763,14 @@ public class Main extends Application {
 
     }
 
-
+    /**
+     *
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @throws JSONException
+     */
     public static void jsonPut(double x1, double y1, double x2, double y2) throws JSONException {
 
         String x1s = String.valueOf(x1);
@@ -741,8 +794,11 @@ public class Main extends Application {
     }
 
 
-
-    public static void getFromJSON(String json){
+    /**
+     *
+     * @param json
+     */
+    public static void getFromJSON(String json,int player){
 
         double x1 = Double.parseDouble(json.substring(17,22));
         double y1 = Double.parseDouble(json.substring(25,30));
@@ -759,22 +815,21 @@ public class Main extends Application {
 
         Segmento segment = searchSegment(dotInicial,dotFinal);
 
-        draw(dotInicial);
-        draw(dotFinal);
+        draw(dotInicial,player);
+        draw(dotFinal,player);
 
 
 
     }
 
-
+    /**
     public void createSegmentFromJSON(double x1, double y1, double x2, double y2){
         Dot dot1 = malla.search(x1,y1);
         Dot dot2 = malla.search(x2,y2);
         Segmento segment = searchSegment(dot1,dot2);
         draw(segment.getFirst());
         draw(segment.getLast());
-
-
     }
+     */
 
 }

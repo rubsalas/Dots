@@ -158,7 +158,7 @@ public class Fila {
 
             temp.getImage().setOnMousePressed(event ->{
 
-                draw(dot);
+                draw(dot,1);
 
             });
 

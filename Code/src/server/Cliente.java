@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -15,12 +14,17 @@ import java.net.Socket;
 import javax.swing.*;
 import static game.Main.*;
 
+/**
+ *
+ * @author
+ * @version
+ * @since
+ */
 public class Cliente {
 
 	static MarcoCliente1 mimarco1;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		mimarco1 = new MarcoCliente1();
 
@@ -181,9 +185,12 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 
 				PaqueteEnvio finalRecibido = Recibido1;
 
+				//PaqueteEnvio finalRecibido1 = Recibido1;
+
 				Platform.runLater(
 						() -> {
-							getFromJSON(finalRecibido.getMensaje());
+							setTextPlayer2(finalRecibido.getNick());
+							getFromJSON(finalRecibido.getMensaje(),2);
 						}
 				);
 

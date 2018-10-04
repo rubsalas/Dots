@@ -3,6 +3,9 @@ package plane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
+import static game.Main.setScorePlayer1;
+import static game.Main.setScorePlayer2;
+
 /**
  * Representa un triangulo.
  *
@@ -72,13 +75,19 @@ public class Triangulo {
 
 
 
-    public void checkCerrado(){
+    public void checkCerrado(int player){
         System.out.println("checkCerrado");
         if (this.hipotenusa.isDrawn() == true && this.vertical.isDrawn() == true && this.horizontal.isDrawn() == true){
             System.out.println("CERRADO");
             this.figura.setFill(Color.GRAY);
             this.figura.setStroke(Color.GRAY);
             this.figura.toFront();
+
+            if (player == 1){
+                setScorePlayer1(6);
+            } else {
+                setScorePlayer2(6);
+            }
 
             //Lleva los puntos al frente de los triangulos
             this.getHipotenusa().getFirst().getImage().toFront();
