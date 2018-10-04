@@ -71,8 +71,7 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 		nick1 = new JLabel();
 		
 		nick1.setText(getUserText());
-		
-
+	
 		add(nick1);
 		
 		JLabel i_ip = new JLabel("   IP:");
@@ -81,7 +80,7 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 		
 		ip1 = new JLabel();
 		
-		ip1.setText(getIpText());
+		ip1.setText(getIPText());
 		
 		ip1.setLocation(200, 20);
 		
@@ -127,7 +126,7 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 
 				datos1.setNick(getUserText());
 
-				datos1.setIp(ip1.getText());
+				datos1.setIp(getIPText());
 
 				datos1.setMensaje(json.toString());
 
@@ -139,13 +138,7 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 
 				paquete_datos1.writeObject(datos1);
 
-				/*
-				 * DataOutputStream salida1 = new
-				 * DataOutputStream(misocket1.getOutputStream());
-				 * salida.writeUTF(campo.getText());;
-				 *
-				 * salida1.close();
-				 */
+				
 
 				paquete_datos1.close();
 
