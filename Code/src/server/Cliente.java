@@ -90,7 +90,7 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 
 	public LaminaMarcoCliente1() {
 
-		JLabel n_nick = new JLabel("   Nickname:");
+		JLabel n_nick = new JLabel("   Player:");
 
 		n_nick.setLocation(50, 50);;
 
@@ -118,11 +118,7 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 
 		add(campochat1);
 
-		campo = new JTextField(20);
-
-		add(campo);
-
-		miboton = new JButton("Enviar");
+		miboton = new JButton("Finalizar Turno");
 
 		EnviaTexto1 mievento1 = new EnviaTexto1();
 

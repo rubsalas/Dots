@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.JSONException;
@@ -140,6 +141,18 @@ public class Main extends Application {
         title.setFitWidth(width - 50);
         title.setFitHeight(200);
 
+        Text textUser = new Text("User:");
+        textUser.setLayoutX(150);
+        textUser.setLayoutY(340);
+        textUser.setFill(Color.WHITE);
+        textUser.setFont(Font.font ("Verdana", 18));
+
+        Text textIP = new Text("IP:");
+        textIP.setLayoutX(360);
+        textIP.setLayoutY(340);
+        textIP.setFill(Color.WHITE);
+        textIP.setFont(Font.font ("Verdana", 18));
+
 
         userTextField = new TextField(); //TextField para el userTextField
         userTextField.setLayoutX(100);
@@ -166,7 +179,7 @@ public class Main extends Application {
         });
 
         Pane paneConnection = new Pane(); //Pane de la primera ventana
-        paneConnection.getChildren().addAll(title, connectButton, userTextField, ipTextField); //Ingresa el botón, y los TextFields
+        paneConnection.getChildren().addAll(title, connectButton, textUser, textIP, userTextField, ipTextField); //Ingresa el botón, y los TextFields
 
 
         //Fondo paneConnection
