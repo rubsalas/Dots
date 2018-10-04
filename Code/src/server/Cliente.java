@@ -118,9 +118,8 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			try {
-				Socket misocket1 = new Socket("192.168.137.1", 9999);
+				Socket misocket1 = new Socket("192.168.100.3", 9999);
 
 				PaqueteEnvio datos1 = new PaqueteEnvio();
 
@@ -138,12 +137,9 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 
 				paquete_datos1.writeObject(datos1);
 
-
-
 				paquete_datos1.close();
 
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -179,6 +175,12 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 				Recibido1 = (PaqueteEnvio) entrada1.readObject();
 
 				campochat1.append("\n" + Recibido1.getNick() + ": " + Recibido1.getMensaje());
+
+				System.out.println(Recibido1.getMensaje());
+
+				getFromJSON(Recibido1.getMensaje());
+
+				System.out.println(Recibido1.getMensaje());
 
 			}
 

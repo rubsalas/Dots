@@ -19,7 +19,6 @@ import java.net.Socket;
 public class Servidor {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		MarcoServidor1 mimarco1 = new MarcoServidor1();
 

@@ -204,6 +204,8 @@ public class Main extends Application {
         imageDot54 = new ImageView(imageDot);
         imageDot55 = new ImageView(imageDot);
 
+        //Define
+
         paneGame = new Pane(); //Crea un Pane para la ventana del juego
         paneGame.getChildren().addAll(//gameTestButton,
                 imageDot11, imageDot12, imageDot13, imageDot14, imageDot15,
@@ -716,24 +718,51 @@ public class Main extends Application {
 
 
     public static void jsonPut(double x1, double y1, double x2, double y2) throws JSONException {
-        jsonSegment.put("x1",x1);
-        jsonSegment.put("y1",y1);
-        jsonSegment.put("x2",x2);
-        jsonSegment.put("y2",y2);
+
+        String x1s = String.valueOf(x1);
+        String y1s = String.valueOf(y1);
+        String x2s = String.valueOf(x2);
+        String y2s = String.valueOf(y2);
+        if(x1 < 100){
+            x1s = "0" + String.valueOf(x1);
+        }
+        if(y1 < 100){
+            y1s = "0" + String.valueOf(y1);
+        }
+        if(x2 < 100){
+            x2s = "0" + String.valueOf(x2);
+        }
+        if(y2 < 100){
+            y2s = "0" + String.valueOf(y2);
+        }
+
+        jsonSegment.put("coordenadas","|" + x1s+ "| |" + y1s + "| |" + x2s + "| |" + y2s + "|");
     }
 
 
 
     public static void getFromJSON(String json){
-        String hola = "12345";
-        char[] charArray = hola.toCharArray();
-        Character g = charArray[0];
-        int i = 0;
-        while(i <= charArray.length){
-            if(String.valueOf(charArray[0]) == ":"){
 
-            }
-        }
+        double x1 = Double.parseDouble(json.substring(17,22));
+        double y1 = Double.parseDouble(json.substring(25,30));
+        double x2 = Double.parseDouble(json.substring(33,38));
+        double y2 = Double.parseDouble(json.substring(41,46));
+
+        System.out.println(x1);
+        System.out.println(y1);
+        System.out.println(x2);
+        System.out.println(y2);
+
+        Dot dotInicial = malla.search(x1,y1);
+        Dot dotFinal = malla.search(x2,y2);
+
+        Segmento segment = searchSegment(dotInicial,dotFinal);
+
+        draw(dotInicial);
+        draw(dotFinal);
+
+
+
     }
 
 
