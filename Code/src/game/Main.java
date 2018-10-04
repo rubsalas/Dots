@@ -444,6 +444,7 @@ public class Main extends Application {
 
                     client.setJSON(jsonSegment);
 
+
                 }
                 //Cuando no esté disponible el segmento
                 else {

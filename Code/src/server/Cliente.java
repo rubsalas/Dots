@@ -1,5 +1,6 @@
 package server;
 
+import javafx.application.Platform;
 import org.json.JSONObject;
 
 import java.awt.event.ActionEvent;
@@ -178,7 +179,15 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 
 				System.out.println(Recibido1.getMensaje());
 
-				getFromJSON(Recibido1.getMensaje());
+				PaqueteEnvio finalRecibido = Recibido1;
+
+				Platform.runLater(
+						() -> {
+							getFromJSON(finalRecibido.getMensaje());
+						}
+				);
+
+
 
 				System.out.println(Recibido1.getMensaje());
 
