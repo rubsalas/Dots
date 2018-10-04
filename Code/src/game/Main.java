@@ -1,5 +1,3 @@
-//192.168.56.1
-
 package game;
 
 import colas.Jugador;
@@ -52,12 +50,11 @@ public class Main extends Application {
     private Scene sceneConnection;
     private static Scene sceneGame;
 
+    private static MallaCreator mallaCreator;
     private static Malla malla;
-    
-    //Modified
-    
-    static TextField user;
-    static TextField ip;
+
+    static TextField userTextField;
+    static TextField ipTextField;
 
     private Image imageDot = new Image(getClass().getResourceAsStream("/images/dot1.png"));
 
@@ -115,7 +112,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException, JSONException {
 
         client = new Cliente();
-        
+
         //client.main(args); //Corre el cliente
         Jugador player = new Jugador(); //Objeto jugador
         player.setIngame(true); //Flag si está en cola o no
@@ -123,47 +120,36 @@ public class Main extends Application {
         stage = primaryStage; //Redefine el primary stage
 
         //SceneConnection
-        
-      //Modified
 
-        user = new TextField(); //TextField para el user
-        user.setLayoutX(150);
-        user.setLayoutY(350);
-        
-        ip = new TextField();
-        ip.setLayoutX(150);
-        ip.setLayoutY(400);
-        
- 
+        userTextField = new TextField(); //TextField para el userTextField
+        userTextField.setLayoutX(150);
+        userTextField.setLayoutY(350);
 
+        ipTextField = new TextField();
+        ipTextField.setLayoutX(150);
+        ipTextField.setLayoutY(400);
 
         Button connectButton = new Button("Connect"); //Botón para probar conección
         connectButton.setMinSize(50,50);
-        connectButton.setMaxSize(100,50);
+        connectButton.setMaxSize(50,50);
         connectButton.setLayoutX(225);
         connectButton.setLayoutY(212);
 
         //Evento al oprimir el botón
         connectButton.setOnAction(event -> {
             if (player.isIngame()){ //Si el cliente está listo para jugar
-            	
-            	client.main(args);
-            	
-            	
+
+                client.main(args);
                 setStageInGame(); //Crea la ventana de espera del juego
-                
-               System.out.println( user.getText() + " est� conectado a " + ip.getText());
-                
+
             } else{ //Si debe esperar en la cola
                 setStageInQueue(); //Crea ventana de espera en cola
             }
             stage.close(); //Cierra la ventana de conección
         });
-        
-      //Modified
-        
+
         Pane paneConnection = new Pane(); //Pane de la primera ventana
-        paneConnection.getChildren().addAll(connectButton,user,ip); //Ingresa el botón, y los TextFields
+        paneConnection.getChildren().addAll(connectButton, userTextField, ipTextField); //Ingresa el botón, y los TextFields
 
         //Fondo paneConnection
         backgroundConnection = new BackgroundImage(new Image("/images/wallpaper.jpg"),
@@ -183,14 +169,8 @@ public class Main extends Application {
 
         //Evento al oprimir el botón
         gameTestButton.setOnAction(event -> {
-        	
-        	//*////
-        	
-            //stage.close(); //Cierra la ventana del juego
+            stage.close(); //Cierra la ventana del juego
             //testDrawSegmentList();
-            
-            
-            
         });
 
         //Instancia los ImageViews de los Dots
@@ -225,7 +205,7 @@ public class Main extends Application {
         imageDot55 = new ImageView(imageDot);
 
         paneGame = new Pane(); //Crea un Pane para la ventana del juego
-        paneGame.getChildren().addAll(gameTestButton,
+        paneGame.getChildren().addAll(//gameTestButton,
                 imageDot11, imageDot12, imageDot13, imageDot14, imageDot15,
                 imageDot21, imageDot22, imageDot23, imageDot24, imageDot25,
                 imageDot31, imageDot32, imageDot33, imageDot34, imageDot35,
@@ -234,7 +214,7 @@ public class Main extends Application {
         paneGame.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY))); //Fondo blanco
 
 
-        MallaCreator mallaCreator = new MallaCreator(); //Creador de la malla
+        mallaCreator = new MallaCreator(); //Creador de la malla
         mallaCreator.buildPlane(); //Llama a su función para crear la malla
         mallaCreator.buildSegments(); //Llama a función para crear los segmentos horizontales
         malla = mallaCreator.getMalla(); //Instancia la malla
@@ -251,18 +231,14 @@ public class Main extends Application {
         stage.show(); //Muestra el stage
 
     }
-    
-    
-    
-    
+
     static public String getUserText() {
-    	return user.getText();
-    }
-    
-    static public String getIPText() {
-    	return ip.getText();
+        return userTextField.getText();
     }
 
+    static public String getIPText() {
+        return ipTextField.getText();
+    }
 
     /**
      * Muestra la ventana de espera del juego.
@@ -419,7 +395,7 @@ public class Main extends Application {
                         Line line = segment.getLine();
 
                         //Pinta la linea deseada
-                        line.setStroke(Color.RED);
+                        line.setStroke(Color.BLACK);
                         line.toFront();
 
                     }
@@ -434,14 +410,20 @@ public class Main extends Application {
                         Line line = segment.getLine();
 
                         //Pinta la linea deseada
-                        line.setStroke(Color.BLUE);
+                        line.setStroke(Color.BLACK);
                         line.toFront();
 
                     }
 
+                    System.out.println(segment.isDrawn());
+
                     //Cambia los flags de cada segmento para llevar el control de las figuras
                     segment.setDrawn(true);
                     segment.setAvailable(false);
+
+                    System.out.println(segment.isDrawn());
+
+                    drawFigura(segment);
 
                     //Pone los Dots al frente de la linea
                     dot0.getImage().toFront();
@@ -490,11 +472,102 @@ public class Main extends Application {
 
     }
 
-    public static void jsonPut(double x1, double y1, double x2, double y2) throws JSONException {
-        jsonSegment.put("x1",x1);
-        jsonSegment.put("y1",y1);
-        jsonSegment.put("x2",x2);
-        jsonSegment.put("y2",y2);
+    public static void drawFigura(Segmento segment){
+
+        System.out.println("drawFigura");
+
+        Triangulo temp1 = mallaCreator.getTriangulosLowerRight().getHead();
+        Triangulo temp2 = mallaCreator.getTriangulosLowerLeft().getHead();
+        Triangulo temp3 = mallaCreator.getTriangulosUpperRight().getHead();
+        Triangulo temp4 = mallaCreator.getTriangulosUpperLeft().getHead();
+
+        boolean temp1Check = false;
+        boolean temp2Check = false;
+        boolean temp3Check = false;
+        boolean temp4Check = false;
+
+
+
+        while (temp1 != null){
+            //System.out.println("LR");
+            if(temp1.getHipotenusa() == segment){
+                System.out.println("Hip");
+                temp1.checkCerrado();
+            }
+            if(temp1.getVertical() == segment){
+                System.out.println("Ver");
+                temp1.checkCerrado();
+            }
+            if (temp1.getHorizontal() == segment){
+                System.out.println("Hor");
+                temp1.checkCerrado();
+            }
+
+            temp1 = temp1.getNext();
+        }
+
+        while (temp2 != null){
+            //System.out.println("LR");
+            if(temp2.getHipotenusa() == segment){
+                System.out.println("Hip");
+                temp2.checkCerrado();
+            }
+            if(temp2.getVertical() == segment){
+                System.out.println("Ver");
+                temp2.checkCerrado();
+            }
+            if (temp2.getHorizontal() == segment){
+                System.out.println("Hor");
+                temp2.checkCerrado();
+            }
+
+            temp2 = temp2.getNext();
+        }
+
+        while (temp3 != null){
+            //System.out.println("LR");
+            if(temp3.getHipotenusa() == segment){
+                System.out.println("Hip");
+                temp3.checkCerrado();
+            }
+            if(temp3.getVertical() == segment){
+                System.out.println("Ver");
+                temp3.checkCerrado();
+            }
+            if (temp3.getHorizontal() == segment){
+                System.out.println("Hor");
+                temp3.checkCerrado();
+            }
+
+            temp3 = temp3.getNext();
+        }
+
+        while (temp4 != null){
+            //System.out.println("LR");
+            if(temp4.getHipotenusa() == segment){
+                System.out.println("Hip");
+                temp4.checkCerrado();
+            }
+            if(temp4.getVertical() == segment){
+                System.out.println("Ver");
+                temp4.checkCerrado();
+            }
+            if (temp4.getHorizontal() == segment){
+                System.out.println("Hor");
+                temp4.checkCerrado();
+            }
+
+            temp4 = temp4.getNext();
+        }
+
+        int i = 1;
+
+        //while(temp != null){
+
+
+
+
+        //}
     }
 
 
@@ -530,16 +603,24 @@ public class Main extends Application {
             y3 = triangulo.getHorizontal().getLast().getPosY() + 12.5;
         }
 
+        //Polygon a = triangulo.getFigura();
+
         //Crea el triangulo con las coordenadas previamente indicadas
-        Polygon triangle = new Polygon(x1, y1, x2, y2, x3, y3);
+        Polygon figura = new Polygon(x1, y1, x2, y2, x3, y3);
+        //a = new Polygon(x1, y1, x2, y2, x3, y3);
+
+        triangulo.setFigura(figura);
+
+        //figura = triangulo.getFigura();
 
         //Ingresa el triangulo a la ventana de un color blanco
-        triangle.setFill(Color.WHITE);
-        triangle.setStroke(Color.WHITE);
-        triangle.setStrokeWidth(1);
+        triangulo.getFigura().setFill(Color.WHITE);
+        triangulo.getFigura().setStroke(Color.WHITE);
+        triangulo.getFigura().setStrokeWidth(1);
+
 
         //Añade el triangulo al pane
-        paneGame.getChildren().add(triangle);
+        paneGame.getChildren().add(triangulo.getFigura());
 
         //Lleva los puntos al frente de los triangulos
         triangulo.getHipotenusa().getFirst().getImage().toFront();
@@ -632,6 +713,29 @@ public class Main extends Application {
         }
 
     }
+
+
+    public static void jsonPut(double x1, double y1, double x2, double y2) throws JSONException {
+        jsonSegment.put("x1",x1);
+        jsonSegment.put("y1",y1);
+        jsonSegment.put("x2",x2);
+        jsonSegment.put("y2",y2);
+    }
+
+
+
+    public static void getFromJSON(String json){
+        String hola = "12345";
+        char[] charArray = hola.toCharArray();
+        Character g = charArray[0];
+        int i = 0;
+        while(i <= charArray.length){
+            if(String.valueOf(charArray[0]) == ":"){
+
+            }
+        }
+    }
+
 
     public void createSegmentFromJSON(double x1, double y1, double x2, double y2){
         Dot dot1 = malla.search(x1,y1);

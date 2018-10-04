@@ -53,6 +53,11 @@ public class MallaCreator {
     Dot dot54 = new Dot("dot54", Main.imageDot54);
     Dot dot55 = new Dot("dot55", Main.imageDot55);
 
+    ListaTriangulos triangulosLowerRight;
+    ListaTriangulos triangulosLowerLeft;
+    ListaTriangulos triangulosUpperRight;
+    ListaTriangulos triangulosUpperLeft;
+
     /**
      * Retorna la malla.
      * @return malla
@@ -349,10 +354,10 @@ public class MallaCreator {
 
         //Listas de triangulos
 
-        ListaTriangulos triangulosLowerRight = new ListaTriangulos("TriangulosLowerRight");
-        ListaTriangulos triangulosLowerLeft = new ListaTriangulos("TriangulosLowerLeft");
-        ListaTriangulos triangulosUpperRight = new ListaTriangulos("TriangulosUpperRight");
-        ListaTriangulos triangulosUpperLeft = new ListaTriangulos("TriangulosUpperLeft");
+        triangulosLowerRight = new ListaTriangulos("TriangulosLowerRight");
+        triangulosLowerLeft = new ListaTriangulos("TriangulosLowerLeft");
+        triangulosUpperRight = new ListaTriangulos("TriangulosUpperRight");
+        triangulosUpperLeft = new ListaTriangulos("TriangulosUpperLeft");
 
         //Creación de los triangulos lower right
 
@@ -538,6 +543,70 @@ public class MallaCreator {
 
         triangulosUpperLeft.show();
 
+
     }
 
+    public ListaTriangulos getTriangulosLowerRight() {
+        return triangulosLowerRight;
+    }
+
+    public void setTriangulosLowerRight(ListaTriangulos triangulosLowerRight) {
+        this.triangulosLowerRight = triangulosLowerRight;
+    }
+
+    public ListaTriangulos getTriangulosLowerLeft() {
+        return triangulosLowerLeft;
+    }
+
+    public void setTriangulosLowerLeft(ListaTriangulos triangulosLowerLeft) {
+        this.triangulosLowerLeft = triangulosLowerLeft;
+    }
+
+    public ListaTriangulos getTriangulosUpperRight() {
+        return triangulosUpperRight;
+    }
+
+    public void setTriangulosUpperRight(ListaTriangulos triangulosUpperRight) {
+        this.triangulosUpperRight = triangulosUpperRight;
+    }
+
+    public ListaTriangulos getTriangulosUpperLeft() {
+        return triangulosUpperLeft;
+    }
+
+    public void setTriangulosUpperLeft(ListaTriangulos triangulosUpperLeft) {
+        this.triangulosUpperLeft = triangulosUpperLeft;
+    }
+
+    public static Lista getSegmentosVerticales() {
+        return segmentosVerticales;
+    }
+
+    public static void setSegmentosVerticales(Lista segmentosVerticales) {
+        MallaCreator.segmentosVerticales = segmentosVerticales;
+    }
+
+    public static Lista getSegmentosHorizontales() {
+        return segmentosHorizontales;
+    }
+
+    public static void setSegmentosHorizontales(Lista segmentosHorizontales) {
+        MallaCreator.segmentosHorizontales = segmentosHorizontales;
+    }
+
+    public static Lista getSegmentosDiagIzqDer() {
+        return segmentosDiagIzqDer;
+    }
+
+    public static void setSegmentosDiagIzqDer(Lista segmentosDiagIzqDer) {
+        MallaCreator.segmentosDiagIzqDer = segmentosDiagIzqDer;
+    }
+
+    public static Lista getSegmentosDiagDerIzq() {
+        return segmentosDiagDerIzq;
+    }
+
+    public static void setSegmentosDiagDerIzq(Lista segmentosDiagDerIzq) {
+        MallaCreator.segmentosDiagDerIzq = segmentosDiagDerIzq;
+    }
 }

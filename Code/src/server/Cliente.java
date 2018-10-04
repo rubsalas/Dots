@@ -61,29 +61,29 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 	JSONObject json;
 
 	public LaminaMarcoCliente1() {
-		
+
 		JLabel n_nick = new JLabel("   Nickname:");
-		
+
 		n_nick.setLocation(50, 50);;
-		
+
 		add(n_nick);
 
 		nick1 = new JLabel();
-		
+
 		nick1.setText(getUserText());
-	
+
 		add(nick1);
-		
+
 		JLabel i_ip = new JLabel("   IP:");
-		
+
 		add(i_ip);
-		
+
 		ip1 = new JLabel();
-		
+
 		ip1.setText(getIPText());
-		
+
 		ip1.setLocation(200, 20);
-		
+
 		add(ip1);
 
 		campochat1 = new JTextArea(12, 20);
@@ -120,7 +120,7 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			try {
-				Socket misocket1 = new Socket("192.168.56.1", 9999);
+				Socket misocket1 = new Socket("192.168.137.1", 9999);
 
 				PaqueteEnvio datos1 = new PaqueteEnvio();
 
@@ -138,7 +138,7 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 
 				paquete_datos1.writeObject(datos1);
 
-				
+
 
 				paquete_datos1.close();
 
@@ -152,7 +152,7 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 	}
 
 	private JTextField campo;
-	
+
 	private JLabel nick1, ip1;
 
 	private JTextArea campochat1;

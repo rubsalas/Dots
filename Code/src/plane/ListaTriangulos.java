@@ -89,4 +89,15 @@ public class ListaTriangulos {
         }
     }
 
+   /* public Triangulo cycle(){
+        Triangulo temp = this.getHead();
+
+        while (temp != null){
+
+            getHead();
+
+            temp = temp.getNext();
+        }
+    }*/
+
 }

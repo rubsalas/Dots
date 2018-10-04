@@ -61,7 +61,7 @@ public class Segmento {
         return this.line;
     }
 
-   public void setLine(Line line) {
+    public void setLine(Line line) {
         this.line = line;
     }
 

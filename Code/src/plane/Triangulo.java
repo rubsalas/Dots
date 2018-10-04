@@ -1,5 +1,8 @@
 package plane;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+
 /**
  * Representa un triangulo.
  *
@@ -13,6 +16,7 @@ public class Triangulo {
     private Segmento hipotenusa;
     private Segmento horizontal;
     private Segmento vertical;
+    private Polygon figura;
 
     /**
      * Constructor de Triangulo.
@@ -56,6 +60,34 @@ public class Triangulo {
 
     public void setVertical(Segmento vertical) {
         this.vertical = vertical;
+    }
+
+    public Polygon getFigura() {
+        return figura;
+    }
+
+    public void setFigura(Polygon figura) {
+        this.figura = figura;
+    }
+
+
+
+    public void checkCerrado(){
+        System.out.println("checkCerrado");
+        if (this.hipotenusa.isDrawn() == true && this.vertical.isDrawn() == true && this.horizontal.isDrawn() == true){
+            System.out.println("CERRADO");
+            this.figura.setFill(Color.GRAY);
+            this.figura.setStroke(Color.GRAY);
+            this.figura.toFront();
+
+            //Lleva los puntos al frente de los triangulos
+            this.getHipotenusa().getFirst().getImage().toFront();
+            this.getHipotenusa().getLast().getImage().toFront();
+            this.getHorizontal().getFirst().getImage().toFront();
+            this.getHorizontal().getLast().getImage().toFront();
+            this.getVertical().getFirst().getImage().toFront();
+            this.getVertical().getLast().getImage().toFront();
+        }
     }
 
 }
