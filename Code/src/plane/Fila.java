@@ -1,10 +1,5 @@
 package plane;
 
-
-
-import javafx.scene.image.ImageView;
-import org.json.JSONException;
-
 import static game.Main.draw;
 
 /**
@@ -31,6 +26,8 @@ public class Fila {
         this.next = null;
         this.name = name;
     }
+
+    //Métodos setters y getters
 
     public Dot getHead() {
         return head;
@@ -64,7 +61,6 @@ public class Fila {
 
     /**
      * Consulta si la lista está vacía.
-     *
      * @return true si el primer Enemy (head), no apunta a otro Enemy.
      */
     public boolean itsEmpty(){
@@ -90,24 +86,14 @@ public class Fila {
     }
 
     /**
-     * Imprime la Fila.
-     */
-    public void print(){
-        Dot temp = getHead();
-        while (temp != null){
-            System.out.print(temp.getName() + ":(" + temp.getPosX() + "," + temp.getPosY() + ")" + "   ");
-            temp = temp.getNext();
-        }
-    }
-
-    /**
      * Asigna su coordenada en y.
      * @param num - numero de fila
      */
     public void setY(int num){
         Dot temp = this.getHead();
 
-        while(temp != null) { //Recorre la lista hasta llegar al ultimo Dot
+        //Recorre la lista hasta llegar al ultimo Dot
+        while(temp != null) {
 
             if (num == 1){
                 temp.setPosY(100.0);

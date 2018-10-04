@@ -32,9 +32,7 @@ public class Main extends Application {
         launch(args);
     }
 
-
     //Se definen las variables de la interfaz
-
 
     private int width = 575; //largo en pixeles
     private int height = 625; //alto en pixeles
@@ -66,6 +64,10 @@ public class Main extends Application {
     static Text textPlayer2;
     static Text scorePlayer1;
     static Text scorePlayer2;
+
+    private Image imageTitle = new Image(getClass().getResourceAsStream("/images/Title.png"));
+
+    ImageView title;
 
     private Image imageDot = new Image(getClass().getResourceAsStream("/images/dot1.png"));
 
@@ -122,9 +124,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException, JSONException {
 
+        //Instancia el cliente
         client = new Cliente();
 
-        //client.main(args); //Corre el cliente
         Jugador player = new Jugador(); //Objeto jugador
         player.setIngame(true); //Flag si está en cola o no
 
@@ -132,35 +134,40 @@ public class Main extends Application {
 
         //SceneConnection
 
+        title = new ImageView(imageTitle);
+        title.setLayoutX(25);
+        title.setLayoutY(55);
+        title.setFitWidth(width - 50);
+        title.setFitHeight(200);
+
+
         userTextField = new TextField(); //TextField para el userTextField
-        userTextField.setLayoutX(150);
+        userTextField.setLayoutX(100);
         userTextField.setLayoutY(350);
 
         ipTextField = new TextField();
-        ipTextField.setLayoutX(150);
-        ipTextField.setLayoutY(400);
+        ipTextField.setLayoutX(300);
+        ipTextField.setLayoutY(350);
 
         Button connectButton = new Button("Connect"); //Botón para probar conección
-        connectButton.setMinSize(50,50);
-        connectButton.setMaxSize(50,50);
-        connectButton.setLayoutX(225);
-        connectButton.setLayoutY(212);
+        connectButton.setLayoutX(243);
+        connectButton.setLayoutY(450);
 
         //Evento al oprimir el botón
         connectButton.setOnAction(event -> {
-            if (player.isIngame()){ //Si el cliente está listo para jugar
 
-                client.main(args);
-                setStageInGame(); //Crea la ventana de espera del juego
+            //Corre el cliente
+            client.main(args);
 
-            } else{ //Si debe esperar en la cola
-                setStageInQueue(); //Crea ventana de espera en cola
-            }
-            stage.close(); //Cierra la ventana de conección
+            textPlayer1.setText(getUserText());
+            stage.setScene(sceneGame);
+
+
         });
 
         Pane paneConnection = new Pane(); //Pane de la primera ventana
-        paneConnection.getChildren().addAll(connectButton, userTextField, ipTextField); //Ingresa el botón, y los TextFields
+        paneConnection.getChildren().addAll(title, connectButton, userTextField, ipTextField); //Ingresa el botón, y los TextFields
+
 
         //Fondo paneConnection
         backgroundConnection = new BackgroundImage(new Image("/images/wallpaper.jpg"),
@@ -170,19 +177,10 @@ public class Main extends Application {
 
         sceneConnection = new Scene(paneConnection, width, height); //Crea un scene para la  primera ventana (Conección)
 
+
         //Scene Game
 
-        gameTestButton = new Button("Close"); //Botón de prueba para cerrar el programa en la ventana del juego.
-        connectButton.setMinSize(50,50);
-        connectButton.setMaxSize(50,50);
-        connectButton.setLayoutX(225);
-        connectButton.setLayoutY(212);
-
-        //Evento al oprimir el botón
-        gameTestButton.setOnAction(event -> {
-            stage.close(); //Cierra la ventana del juego
-            //testDrawSegmentList();
-        });
+        //Textos de los Nombres y su puntaje
 
         textPlayer1 = new Text("Player 1");
         textPlayer1.setLayoutX(10);
@@ -200,7 +198,7 @@ public class Main extends Application {
         scorePlayer2.setLayoutX(520);
         scorePlayer2.setLayoutY(50);
 
-
+        title = new ImageView(imageTitle);
 
 
         //Instancia los ImageViews de los Dots
@@ -234,16 +232,16 @@ public class Main extends Application {
         imageDot54 = new ImageView(imageDot);
         imageDot55 = new ImageView(imageDot);
 
-        //Define
 
-        paneGame = new Pane(); //Crea un Pane para la ventana del juego
+        //Crea un Pane para la ventana del juego
+        paneGame = new Pane();
         paneGame.getChildren().addAll(
                 textPlayer1,textPlayer2,scorePlayer1,scorePlayer2,
                 imageDot11, imageDot12, imageDot13, imageDot14, imageDot15,
                 imageDot21, imageDot22, imageDot23, imageDot24, imageDot25,
                 imageDot31, imageDot32, imageDot33, imageDot34, imageDot35,
                 imageDot41, imageDot42, imageDot43, imageDot44, imageDot45,
-                imageDot51, imageDot52, imageDot53, imageDot54, imageDot55); //Ingresa el botón
+                imageDot51, imageDot52, imageDot53, imageDot54, imageDot55);
         paneGame.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY))); //Fondo blanco
 
 
@@ -253,6 +251,7 @@ public class Main extends Application {
         malla = mallaCreator.getMalla(); //Instancia la malla
 
         sceneGame = new Scene(paneGame, width, height); //Crea un scene para la ventana del juego
+
 
         //Al iniciar
 
@@ -265,23 +264,43 @@ public class Main extends Application {
 
     }
 
+    /**
+     * Retorna el texto en el TextField para el usuario.
+     * @return String usuario
+     */
     static public String getUserText() {
         return userTextField.getText();
     }
 
+    /**
+     * Retorna el texto en el TextField para el ip.
+     * @return ip
+     */
     static public String getIPText() {
         return ipTextField.getText();
     }
 
+    /**
+     * Redefine el nombre del jugador 2
+     * @param name - nombre
+     */
     public static void setTextPlayer2(String name){
         textPlayer2.setText(name);
     }
 
+    /**
+     * Redefine el puntaje del jugador 1.
+     * @param score - puntaje
+     */
     public static void setScorePlayer1(int score){
         score1 += score;
         scorePlayer1.setText(String.valueOf(score1));
     }
 
+    /**
+     * Redefine el puntaje del jugador 2.
+     * @param score - puntaje
+     */
     public static void setScorePlayer2(int score){
         score2 += score;
         scorePlayer2.setText(String.valueOf(score2));
@@ -289,7 +308,7 @@ public class Main extends Application {
 
     /**
      * Muestra la ventana de espera del juego.
-     */
+     *//*
     private void setStageInGame(){
         System.out.println("Ready to play");
 
@@ -320,11 +339,11 @@ public class Main extends Application {
         stageInGame.setWidth(300);
         stageInGame.setResizable(false);
         stageInGame.show();
-    }
+    }*/
 
     /**
      * Muestra la ventana de espera al estar en cola.
-     */
+     *//*
     private void setStageInQueue(){
         System.out.println("In Queue");
 
@@ -361,12 +380,12 @@ public class Main extends Application {
         stageInQueue.setWidth(300);
         stageInQueue.setResizable(false);
         stageInQueue.show();
-    }
+    }*/
 
 
     /**
      * Dibuja la linea en la interfaz desde un segmento dado al inicio ya predefinido.
-     * @param segment Segmento
+     * @param segment - Segmento
      */
     public static void drawFromSegment(Segmento segment){
 
@@ -382,7 +401,8 @@ public class Main extends Application {
 
     /**
      * Dibuja la linea en la interfaz desde un par de puntos dados por turno.
-     * @param dot Dot
+     * @param dot - Dot
+     * @param player - player
      */
     public static void draw(Dot dot, int player){
 
@@ -464,23 +484,25 @@ public class Main extends Application {
 
                     }
 
-                    System.out.println(segment.isDrawn());
 
                     //Cambia los flags de cada segmento para llevar el control de las figuras
                     segment.setDrawn(true);
                     segment.setAvailable(false);
 
-                    System.out.println(segment.isDrawn());
-
+                    //Verifica si se puede dibujar una figura al dibujar este segmento.
                     drawFigura(segment, player);
 
                     //Pone los Dots al frente de la linea
                     dot0.getImage().toFront();
                     dot.getImage().toFront();
 
-                    System.out.println("Segment Drawn");
+                    //System.out.println("Segment Drawn");
+
                     //Hace el flag falso para que se vuelva a escoger el Dot inicial
                     dosPuntos = false;
+
+                    //Verifica si se ha completado la partida
+                    checkCompleted();
 
                     //Agrega las coordenadas al JSON
                     try {
@@ -489,9 +511,11 @@ public class Main extends Application {
                         e.printStackTrace();
                     }
 
-
-
+                    //Manda el JSON al cliente
                     client.setJSON(jsonSegment);
+
+                    //Verifica si se ha completado la partida
+                    checkCompleted();
 
 
                 }
@@ -525,12 +549,13 @@ public class Main extends Application {
     }
 
     /**
-     *
-     * @param segment
+     * Verifica que las posibles figuras tengan dibujadas sus respectivos segmentos para ser dibujadas.
+     * @param segment - segmento
+     * @param player - player
      */
     public static void drawFigura(Segmento segment, int player){
 
-        System.out.println("drawFigura");
+        //System.out.println("drawFigura");
 
         Triangulo temp1 = mallaCreator.getTriangulosLowerRight().getHead();
         Triangulo temp2 = mallaCreator.getTriangulosLowerLeft().getHead();
@@ -609,23 +634,15 @@ public class Main extends Application {
             temp4 = temp4.getNext();
         }
 
-        int i = 1;
-
-        //while(temp != null){
-
-
-
-
-        //}
     }
 
 
     /**
      * Dibuja un triangulo dependiendo de su posición en los cuadrantes.
-     * @param triangulo Triangulo
-     * @param name Posición
+     * @param triangulo - Triangulo
+     * @param name - Posición
      */
-    public static void drawTrianguloTest(Triangulo triangulo, String name){
+    public static void drawTriangle(Triangulo triangulo, String name){
 
         //Inicializa las varibales para las coordenadas del triangulo
         double x1,y1,x2,y2,x3,y3;
@@ -656,17 +673,14 @@ public class Main extends Application {
 
         //Crea el triangulo con las coordenadas previamente indicadas
         Polygon figura = new Polygon(x1, y1, x2, y2, x3, y3);
-        //a = new Polygon(x1, y1, x2, y2, x3, y3);
 
+        //Se guarda la figura en su respectivo objeto triangulo
         triangulo.setFigura(figura);
-
-        //figura = triangulo.getFigura();
 
         //Ingresa el triangulo a la ventana de un color blanco
         triangulo.getFigura().setFill(Color.WHITE);
         triangulo.getFigura().setStroke(Color.WHITE);
         triangulo.getFigura().setStrokeWidth(1);
-
 
         //Añade el triangulo al pane
         paneGame.getChildren().add(triangulo.getFigura());
@@ -764,11 +778,11 @@ public class Main extends Application {
     }
 
     /**
-     *
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
+     * Agrega las coordenadas de los puntos del segmento que se dibujaron.
+     * @param x1 - coordenada x1
+     * @param y1 - coordenada y1
+     * @param x2 - coordenada x2
+     * @param y2 - coordenada y2
      * @throws JSONException
      */
     public static void jsonPut(double x1, double y1, double x2, double y2) throws JSONException {
@@ -795,41 +809,103 @@ public class Main extends Application {
 
 
     /**
-     *
-     * @param json
+     * Lee el JSON que es enviado a través del servidor.
+     * @param json - JSON
+     * @param player - player
      */
     public static void getFromJSON(String json,int player){
 
+        //Del JSON toma las cuatro coordenadas de los dos puntos
         double x1 = Double.parseDouble(json.substring(17,22));
         double y1 = Double.parseDouble(json.substring(25,30));
         double x2 = Double.parseDouble(json.substring(33,38));
         double y2 = Double.parseDouble(json.substring(41,46));
 
-        System.out.println(x1);
+       /* System.out.println(x1);
         System.out.println(y1);
         System.out.println(x2);
-        System.out.println(y2);
+        System.out.println(y2);*/
 
+       //Busca los dos Dots que están formados por esas coordenadas.
         Dot dotInicial = malla.search(x1,y1);
         Dot dotFinal = malla.search(x2,y2);
 
-        Segmento segment = searchSegment(dotInicial,dotFinal);
-
+        //Se creará el segmento en la interfaz por medio del doble llamado a la función draw() con los Dots
         draw(dotInicial,player);
         draw(dotFinal,player);
-
-
 
     }
 
     /**
-    public void createSegmentFromJSON(double x1, double y1, double x2, double y2){
-        Dot dot1 = malla.search(x1,y1);
-        Dot dot2 = malla.search(x2,y2);
-        Segmento segment = searchSegment(dot1,dot2);
-        draw(segment.getFirst());
-        draw(segment.getLast());
-    }
+     * Verifica que la malla se halla completado y dará el ganador.
      */
+    public static void checkCompleted(){
+
+        //System.out.println("checkCompleted");
+
+        //Toma el primer segmento de cada lista y lo hace un temporal
+        Segmento temp1 = mallaCreator.getSegmentosHorizontales().getHead();
+        Segmento temp2 = mallaCreator.getSegmentosVerticales().getHead();
+        Segmento temp3 = mallaCreator.getSegmentosDiagDerIzq().getHead();
+        Segmento temp4 = mallaCreator.getSegmentosDiagIzqDer().getHead();
+
+        //Booleanos para verificar
+        boolean check1 = true;
+        boolean check2 = true;
+        boolean check3 = true;
+        boolean check4 = true;
+
+        //Buscará en cada lista de segmentos si queda algun Dot sin haberse dibujado, si sí quedan
+        //se continua jugando, si no, si ya todos están intocables se da el ganador del juego con
+        //más puntos.
+
+        while (temp1 != null){
+            if(temp1.isAvailable()){
+               check1 = false;
+            }
+            temp1 = temp1.getNext();
+        }
+
+        while (temp2 != null){
+            if(temp2.isAvailable()){
+                check2 = false;
+            }
+            temp2 = temp2.getNext();
+        }
+
+        while (temp3 != null){
+            if(temp3.isAvailable()){
+                check3 = false;
+            }
+            temp3 = temp3.getNext();
+        }
+
+        while (temp4 != null){
+            if(temp4.isAvailable()){
+                check4 = false;
+            }
+            temp4 = temp4.getNext();
+        }
+
+        //Guardará el nombre del ganador
+        String winner;
+
+        //Cuando todos estén en true no quedará otro segmento que dibujar, por lo tanto se termina.
+        if (check1 == true && check2 == true && check3 == true && check4 == true){
+            if (score1 > score2){
+                winner = textPlayer1.getText();
+            } else if (score2 > score1){
+                winner = textPlayer2.getText();
+            } else {
+                winner = "Both, its a tie.";
+            }
+
+
+            System.out.print("Winner: " + winner);
+
+
+        }
+
+    }
 
 }

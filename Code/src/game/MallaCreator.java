@@ -7,7 +7,7 @@ import plane.*;
  * Creador de la malla.
  *
  * @author Rubén Salas
- * @version 2.1
+ * @version 2.2
  * @since 13/09/18
  */
 public class MallaCreator {
@@ -144,6 +144,7 @@ public class MallaCreator {
     static Lista segmentosHorizontales = new Lista("Horizontales");
     static Lista segmentosDiagIzqDer = new Lista("Diagonales de Izquierda a Derecha");
     static Lista segmentosDiagDerIzq = new Lista("Diagonales de Derecha a Izquierda");
+
 
     /**
      * Define los segmentos para que queden listos de dibujar y sus respectivas figuras.
@@ -543,8 +544,9 @@ public class MallaCreator {
 
         triangulosUpperLeft.show();
 
-
     }
+
+    //Métodos setters y getters
 
     public ListaTriangulos getTriangulosLowerRight() {
         return triangulosLowerRight;

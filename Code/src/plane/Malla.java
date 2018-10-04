@@ -20,6 +20,8 @@ public class Malla {
         this.size = 0;
     }
 
+    //Métodos setters y getters
+
     public Fila getHead() {
         return head;
     }
@@ -38,7 +40,6 @@ public class Malla {
 
     /**
      * Consulta si la lista está vacía.
-     *
      * @return true si el primer Enemy (head), no apunta a otro Enemy.
      */
     public boolean itsEmpty(){
@@ -62,19 +63,6 @@ public class Malla {
         }
         this.setSize(this.getSize()+1);
         //System.out.println("Added: " + newFila.getName());
-    }
-
-    /**
-     * Imprime la Malla.
-     */
-    public void print(){
-        Fila temp = getHead();
-        while (temp != null){
-            System.out.print(temp.getName() + ":   ");
-            temp.print(); //Imprime la Fila
-            System.out.println("");
-            temp = temp.getNext();
-        }
     }
 
     /**

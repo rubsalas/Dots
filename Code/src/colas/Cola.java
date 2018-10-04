@@ -1,5 +1,10 @@
 package colas;
 
+/**
+ * Representa una cola.
+ *
+ * @author Gabriel Gonzales
+ */
 public class Cola {
 	
 	private NodoCola inicio;

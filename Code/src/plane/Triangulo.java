@@ -2,7 +2,6 @@ package plane;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-
 import static game.Main.setScorePlayer1;
 import static game.Main.setScorePlayer2;
 
@@ -10,7 +9,7 @@ import static game.Main.setScorePlayer2;
  * Representa un triangulo.
  *
  * @author Rubén Salas
- * @version 1.1
+ * @version 1.3
  * @since 30/09/18
  */
 public class Triangulo {
@@ -32,6 +31,8 @@ public class Triangulo {
         this.horizontal = hori;
         this.vertical = vert;
     }
+
+    //Métodos setters y getters
 
     public Triangulo getNext() {
         return next;
@@ -73,16 +74,19 @@ public class Triangulo {
         this.figura = figura;
     }
 
-
-
+    /**
+     * Verifica si una figura ha sido formada cuando se cierran los segmentos.
+     * @param player - jugador
+     */
     public void checkCerrado(int player){
         System.out.println("checkCerrado");
-        if (this.hipotenusa.isDrawn() == true && this.vertical.isDrawn() == true && this.horizontal.isDrawn() == true){
+        if (this.hipotenusa.isDrawn() && this.vertical.isDrawn() && this.horizontal.isDrawn()){
             System.out.println("CERRADO");
             this.figura.setFill(Color.GRAY);
             this.figura.setStroke(Color.GRAY);
             this.figura.toFront();
 
+            //Modifica el score de cada jugador dependiendo de cual haya completado la figura.
             if (player == 1){
                 setScorePlayer1(6);
             } else {
@@ -98,5 +102,4 @@ public class Triangulo {
             this.getVertical().getLast().getImage().toFront();
         }
     }
-
 }

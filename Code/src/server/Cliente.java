@@ -1,13 +1,11 @@
 package server;
 
 /**
-Se descargan las librerias a utilizar para la implementacion del proyecto
-**/
-
+ Se descargan las librerias a utilizar para la implementacion del proyecto
+ **/
 
 import javafx.application.Platform;
 import org.json.JSONObject;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -20,7 +18,7 @@ import javax.swing.*;
 import static game.Main.*;
 
 /**
- * Creacion de la clase Cliente 
+ * Creacion de la clase Cliente
  * @author Gabriel Gonzalez
  * Se crea el main de la clase para poder correrlo
  * Se instancia el MarcoCliente y se llama a este
@@ -36,13 +34,13 @@ public class Cliente {
 		mimarco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
-/**
-*
-* @param json
-* se crea el metodo setJSON, en el cual se crea el json que sera pasado de el cliente al servidor
-* 
-**/
 
+	/**
+	 *
+	 * @param json
+	 * se crea el metodo setJSON, en el cual se crea el json que sera pasado de el cliente al servidor
+	 *
+	 **/
 	public void setJSON(JSONObject json){
 		mimarco1.setJSON(json);
 	}
@@ -50,11 +48,10 @@ public class Cliente {
 }
 
 /**
-* @author Gabriel Gonzalez
-* Se crea la clase MarcoCliente, el cual es un JFrame que contendra la lamina para escribir los json
-*
-**/
-
+ * @author Gabriel Gonzalez
+ * Se crea la clase MarcoCliente, el cual es un JFrame que contendra la lamina para escribir los json
+ *
+ **/
 class MarcoCliente1 extends JFrame {
 
 	LaminaMarcoCliente1 milamina1;
@@ -70,24 +67,23 @@ class MarcoCliente1 extends JFrame {
 		setVisible(true);
 
 	}
-/**
-* Metodo setJSON  de la lamina que crea el JSON que sera pasado como mensaje
-**/
+	/**
+	 * Metodo setJSON  de la lamina que crea el JSON que sera pasado como mensaje
+	 **/
 	public void setJSON(JSONObject json){
 		milamina1.setJSON(json);
 	}
 
-
 }
 
 /**
-* @author Gabriel Gonzalez
-* se crea la lamina implementando Runnable
-* Se define el json 
-* Se da la utilizacion de todos los elementos de la interfaz principal del cliente
-* Tambien se obtienen los nombres de usuario y el ip mediante sus respectivos gets
-* Se crea el hilo que permitira que la comunicacion entre cliente y servidor se haga las veces que sea necesario
-**/
+ * @author Gabriel Gonzalez
+ * se crea la lamina implementando Runnable
+ * Se define el json
+ * Se da la utilizacion de todos los elementos de la interfaz principal del cliente
+ * Tambien se obtienen los nombres de usuario y el ip mediante sus respectivos gets
+ * Se crea el hilo que permitira que la comunicacion entre cliente y servidor se haga las veces que sea necesario
+ **/
 class LaminaMarcoCliente1 extends JPanel implements Runnable {
 
 	JSONObject json;
@@ -141,31 +137,31 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 
 
 	}
-/**
-*
-* @param json
-* se crea el metodo setJSON, en el cual se crea el json que sera pasado de el cliente al servidor
-* 
-**/
-
+	/**
+	 *
+	 * @param json
+	 * se crea el metodo setJSON, en el cual se crea el json que sera pasado de el cliente al servidor
+	 *
+	 **/
 	public void setJSON(JSONObject json){
 		this.json = json;
 	}
-/**
-* Se crea la clase envia texto implementando ActionListener
-* Esta clase ayuda a que el boton cumpla su funcion de realizar la comunicacion
-* Se define datos1 como un paquete de envio que debera ser entregado al servidor
-* Mediante getters y setters se acceden a las variables posteriormente definidas
-* Se convierte el JSON a string para mandarlo al servidor
-* Se crea el flujo de salida de datos mediante el ObjectOutputStream
-* Se escribe el paquete de datos enviado y se cierra la conexion del paquete de datos
-*/
+
+	/**
+	 * Se crea la clase envia texto implementando ActionListener
+	 * Esta clase ayuda a que el boton cumpla su funcion de realizar la comunicacion
+	 * Se define datos1 como un paquete de envio que debera ser entregado al servidor
+	 * Mediante getters y setters se acceden a las variables posteriormente definidas
+	 * Se convierte el JSON a string para mandarlo al servidor
+	 * Se crea el flujo de salida de datos mediante el ObjectOutputStream
+	 * Se escribe el paquete de datos enviado y se cierra la conexion del paquete de datos
+	 */
 	private class EnviaTexto1 implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				Socket misocket1 = new Socket("192.168.100.3", 9999);
+				Socket misocket1 = new Socket("172.20.10.4", 9999);
 
 				PaqueteEnvio datos1 = new PaqueteEnvio();
 
@@ -192,10 +188,10 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 		}
 
 	}
-	
-/**
-* se definen las variables de la interfaz utlizadas en la clase LaminaMarcoCliente
-**/
+
+	/**
+	 * se definen las variables de la interfaz utlizadas en la clase LaminaMarcoCliente
+	 **/
 
 	private JTextField campo;
 
@@ -204,16 +200,15 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 	private JTextArea campochat1;
 
 	private JButton miboton;
-	
-/**
-* se crea el metodo run
-* Cunado este sea llamado, se creara un socket que recibira los datos del servidor
-* Se define un paquete de datos recibido 
-* Mientras el try sea verdadero, se aceptara la conexion con el servidor
-* se creara el flujo de datos recibidos mediante el ObjectInputStream
-* El Platform.runLater permite actualizar la interfaz por fuera del main y permite que se actualice la malla
-**/
 
+	/**
+	 * se crea el metodo run
+	 * Cunado este sea llamado, se creara un socket que recibira los datos del servidor
+	 * Se define un paquete de datos recibido
+	 * Mientras el try sea verdadero, se aceptara la conexion con el servidor
+	 * se creara el flujo de datos recibidos mediante el ObjectInputStream
+	 * El Platform.runLater permite actualizar la interfaz por fuera del main y permite que se actualice la malla
+	 **/
 	@Override
 	public void run() {
 
@@ -262,15 +257,12 @@ class LaminaMarcoCliente1 extends JPanel implements Runnable {
 
 }
 
-/** 
-* @author Gabriel Gonzalez
-* Se crea la clase paquete envio
-* Se definen las variables a utliziran privadaspara no permitir su acceso directo
-* Se accede a estas mediante los getters y setters respectivos
-**/
-
-
-
+/**
+ * @author Gabriel Gonzalez
+ * Se crea la clase paquete envio
+ * Se definen las variables a utliziran privadaspara no permitir su acceso directo
+ * Se accede a estas mediante los getters y setters respectivos
+ **/
 class PaqueteEnvio implements Serializable {
 
 	private String nick1, ip1, mensaje1;

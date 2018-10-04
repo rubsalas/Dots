@@ -10,7 +10,7 @@ import static game.Main.drawFromSegment;
  * Representacion de una Lista
  *
  * @author Rubén Salas
- * @version 1.1
+ * @version 1.4
  * @since 11/09/18
  *
  */
@@ -31,6 +31,8 @@ public class Lista {
         this.size = 0;
         this.name = name;
     }
+
+    //Métodos setters y getters
 
     public Segmento getHead() {
         return head;
@@ -80,22 +82,7 @@ public class Lista {
             temp.setNext(newLine); //Agrega a newLine al final de la lista
         }
         this.setSize(this.getSize()+1);
-        //System.out.println("Added: " + newLine.getName());
     }
-
-
-    /**
-     * Imprime la Malla
-     */
-    public void print(){
-        Segmento temp = getHead();
-        while (temp != null){
-            System.out.print("Starts: "+ temp.getFirst().getName() + ". Ends: " + temp.getLast().getName());
-            System.out.println("");
-            temp = temp.getNext();
-        }
-    }
-
 
     /**
      * Muestra la lista en la interfaz.

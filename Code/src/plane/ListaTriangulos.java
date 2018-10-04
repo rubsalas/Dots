@@ -1,6 +1,6 @@
 package plane;
 
-import static game.Main.drawTrianguloTest;
+import static game.Main.drawTriangle;
 
 /**
  * Representa una Lista de Triangulos.
@@ -24,6 +24,8 @@ public class ListaTriangulos {
         this.size = 0;
         this.name = name;
     }
+
+    //Métodos setters y getters
 
     public Triangulo getHead() {
         return head;
@@ -83,21 +85,10 @@ public class ListaTriangulos {
 
         while (temp != null){
 
-            drawTrianguloTest(temp,this.getName());
+            drawTriangle(temp,this.getName());
 
             temp = temp.getNext();
         }
     }
-
-   /* public Triangulo cycle(){
-        Triangulo temp = this.getHead();
-
-        while (temp != null){
-
-            getHead();
-
-            temp = temp.getNext();
-        }
-    }*/
 
 }

@@ -14,6 +14,11 @@ public class Segmento {
     private boolean drawn;
     private boolean available;
 
+    /**
+     * Constructor de Segmento
+     * @param first - Dot inicial
+     * @param last - Dot final
+     */
     public Segmento(Dot first, Dot last){
         this.next = null;
         this.prev = null;
@@ -24,6 +29,8 @@ public class Segmento {
         this.available = true;
 
     }
+
+    //Métodos setters y getters
 
     public Segmento getNext() {
         return next;
@@ -81,6 +88,9 @@ public class Segmento {
         this.available = available;
     }
 
+    /**
+     * Agrega la linea en la interfaz dependiendo de sus Dots iniciales y finales.
+     */
     public void setLine(){
         double x1 = this.getFirst().getPosX();
         double y1 = this.getFirst().getPosY();
@@ -94,16 +104,23 @@ public class Segmento {
         this.line.setStrokeWidth(5);
     }
 
+    /**
+     * Retorna un boolean diciendo si es o no diagonal.
+     * @return boolean
+     */
     public boolean isDiagonal(){
+        //Si es Vertical
         if (this.getFirst().getPosX() == this.getLast().getPosX()){
             return false;
-        } else if(this.getFirst().getPosY() == this.getLast().getPosY()){
+        }
+        //Si es Horizontal
+        else if(this.getFirst().getPosY() == this.getLast().getPosY()){
             return false;
-        } else {
+        }
+        //Si es diagonal
+        else {
             return true;
         }
     }
-
-
 
 }

@@ -12,8 +12,8 @@ import javafx.scene.image.ImageView;
 public class Dot {
 
     private Dot next;
-    private double posX; //posicion en X
-    private double posY; //posicion en Y
+    private double posX;
+    private double posY;
     private String name;
     private ImageView image;
 
@@ -29,6 +29,8 @@ public class Dot {
         this.name = name;
         this.image = image;
     }
+
+    //Métodos setters y getters
 
     public Dot getNext() {
         return next;

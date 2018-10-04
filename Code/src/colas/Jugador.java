@@ -1,12 +1,20 @@
 package colas;
 
+/**
+ * Representa un Jugador.
+ *
+ * @author Gabriel Gonzales
+ */
 public class Jugador {
 	
 	private String usuario;
 	private int cantidadFiguras;
 	private int totalPuntos;
 	private boolean ingame;
-	
+
+	/**
+	 * Constructor de Jugador.
+	 */
 	public Jugador(){
 
 		this.usuario = usuario;
@@ -15,6 +23,8 @@ public class Jugador {
 		this.ingame = false;
 		
 	}
+
+	//Métodos Getters y Setters.
 
 	public String getUsuario() {
 		return usuario;
