@@ -1,5 +1,10 @@
 package server;
 
+/**
+Se descargan las librerias a utilizar para la implementacion del proyecto
+**/
+
+
 import javafx.application.Platform;
 import org.json.JSONObject;
 
@@ -15,10 +20,10 @@ import javax.swing.*;
 import static game.Main.*;
 
 /**
- *
- * @author
- * @version
- * @since
+ * Creacion de la clase Cliente 
+ * @author Gabriel Gonzalez
+ * Se crea el main de la clase para poder correrlo
+ * Se instancia el MarcoCliente y se llama a este
  */
 public class Cliente {
 
@@ -31,6 +36,12 @@ public class Cliente {
 		mimarco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
+/**
+*
+* @param
+* se crea el metodo setJSON, en el cual se crea el json que sera pasado
+* 
+**/
 
 	public void setJSON(JSONObject json){
 		mimarco1.setJSON(json);
