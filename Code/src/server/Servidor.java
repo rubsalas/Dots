@@ -1,5 +1,8 @@
 package server;
-//*
+/**
+* Se importan las librerias necasarias para la implementacion
+**/
+
 import javax.swing.*;
 
 import org.json.JSONException;
@@ -13,8 +16,10 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-
-
+/**
+* @author Gabriel Gonzalez
+* Se crea la clase Servidor con su respectivo main
+**/
 
 public class Servidor {
 
@@ -26,6 +31,13 @@ public class Servidor {
 
 	}
 }
+
+/**
+* @author gabriel Gonzalez
+* se crea la clase MarcoServidor que implementa Runnable para correrlo
+* El marcoServidor es un Jfram con los elementos necesarios para la intefaz del servidor
+* Se crea el hilo para correrlo las veces que sea necesario
+**/
 
 class MarcoServidor1 extends JFrame implements Runnable {
 
@@ -50,6 +62,18 @@ class MarcoServidor1 extends JFrame implements Runnable {
 		hilo1.start();
 
 	}
+	
+/**
+* se define el JTextArea donde se agregaran los mensajes del ciente
+* Se crea el metodo run, el cual cada vez que se corra crea un socket con el puerto 9999
+* Mientras el try sea verdadero, se aceptara la conexion del socket del cliente
+* se creara un flujo de entrada de datos para recibir por parte del cliente
+* Se creara de nuevo el JSONObject recibido y se agregaran los datos al area de texto
+* Luego se creara un socket nuevo para enviar los datos recibidos al otro cliente conectado
+* se abrira un puerto de salida con ObjectOutputStream y se escribiran los datos.
+* Por utimo se cerrara la conexion de los sockets para no permitir la comunicacion
+**/
+
 
 	private JTextArea areatexto1;
 
@@ -79,17 +103,9 @@ class MarcoServidor1 extends JFrame implements Runnable {
 
 				json.put("action", recibido1.getMensaje());
 
-				/*
-				 * DataInputStream entrada = new
-				 * DataInputStream(misocket.getInputStream()); String mensaje =
-				 * entrada.readUTF();
-				 *
-				 * areatexto.append("\n" + mensaje);
-				 */
-
 				areatexto1.append("\n" + nick1 + ": " + json+ " para " + ip1);
 
-				// Socket para enviar a destinatario
+				
 				Socket Destinatario1 = new Socket(ip1, 9002);
 
 				ObjectOutputStream Reenvio1 = new ObjectOutputStream(Destinatario1.getOutputStream());
@@ -115,6 +131,6 @@ class MarcoServidor1 extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 
-		// System.out.println("Hola");
+		
 	}
 }
